@@ -155,9 +155,9 @@
 
 \title[Machine Learning]{Machine learning and physical modelling-1}
 \author[J. Brajard]{julien.brajard@nersc.no}
-\institute[NERSC/SU]{NERSC/Sorbonne University\\
-\url{https://github.com/brajard/Geilo-Winter-school}}
-\date{21-25 January 2018}
+\institute[NERSC]{NERSC\\
+\url{https://github.com/brajard/MAT330}}
+\date{October 2019}
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%% SLIDES DE TITRE
@@ -165,36 +165,65 @@
 \titlepage
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Overview of the next lectures}
+    \begin{enumerate}
+        \item Lecture 1 (Tuesday 15 Oct.): Generalities and  principles of Machine Learning
+        \item Lecture 2 (Thursday 17 Oct.): Machine learning process, neural networks, deep learning
+        \item Practical Work (Tuesday 22 Oct.): \alert{In the lecture room}
+        \item Lecture 3 (Thursday 24 Oct.): How to train a machine learning algorithm?
+    \end{enumerate}
+    \vspace{2em}
+    \begin{center}
+    \href{mailto://julien.brajard@nersc.no}{julien.brajard@nersc.no}
+    \end{center}
+    
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{References}
+    \bibliographystyle{alpha}
+    \nocite{Goodfellow-et-al-2016,VanderPlas-2016}
+\bibliography{myref.bib}
+\end{frame}
+
 \begin{frame}{Table of contents}
   \setbeamertemplate{section in toc}[sections numbered]
   \tableofcontents[hideallsubsections]
 \end{frame}
 
+
+
+
 \section{Introduction}
 
 %%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Scope of the lectures}
-\centering
-  \begin{tikzpicture}[scale=0.9]
-    \draw<3-> {(0,0) ellipse (2 and 1)};
-    \draw<2-> {(0.3,0.3) ellipse (2.5 and 1.5)};
-    \draw<1-> {(0.6,0.6) ellipse (3.1 and 2.1)};
-    \draw<5->[line width = 0.5mm]  {(0.3,0.3) ellipse (2.5 and 1.5)};
-     \node<3-> at (0,0) {Deep Learning};
-  \node<2-> at (.3,1.2) {\alert<5->{Machine Learning}};
-  \node<1-> at (0.7,2) {Artificial intelligence};
-  \end{tikzpicture}  
+\begin{frame}{Scope of the lectures: Machine Learning}
+%\centering
+%  \begin{tikzpicture}[scale=0.9]
+%    \draw<3-> {(0,0) ellipse (2 and 1)};
+%    \draw<2-> {(0.3,0.3) ellipse (2.5 and 1.5)};
+%    \draw<1-> {(0.6,0.6) ellipse (3.1 and 2.1)};
+%    \draw<5->[line width = 0.5mm]  {(0.3,0.3) ellipse (2.5 and 1.5)};
+%     \node<3-> at (0,0) {Deep Learning};
+ % \node<2-> at (.3,1.2) {\alert<5->{Machine Learning}};
+ % \node<1-> at (0.7,2) {Artificial intelligence};
+ % \end{tikzpicture}  
+ \begin{center}
+     \includegraphics[width=\textwidth]{fig/L1/Deep_Learning_Icons_R5_PNG.png}
+ \end{center}
+ \rref[Source: NVidia]
+ \end{frame}
+ \begin{frame}{A (very) active field}
 \begin{columns}
 \column{.5\textwidth}
- \pause[4]
 \begin{figure}
-\includegraphics[width=.95\textwidth]{fig/L1/progress-papers.png}
+\includegraphics[width=\textwidth]{fig/L1/progress-papers.png}
 \end{figure}
- \pause[5]
 \column{.5\textwidth}
 
 \begin{figure}
-\includegraphics[width=.95\textwidth]{fig/L1/progress-ml.png}
+\includegraphics[width=\textwidth]{fig/L1/progress-ml.png}
 \end{figure}
   \end{columns}
   \rref[Shoham et al., AI Index 2018 Annual Report]
@@ -258,7 +287,7 @@ Deep learning architectures were based on Convolutional Neural Networks (CNN).
 
 %%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Machine Translation}
+\frametitle{Example 2: Machine Translation}
 Objective : translate a text from a language to another.
 \begin{figure}
 \includegraphics[width=.8\textwidth]{./fig/L1/google-trad.png}
@@ -274,7 +303,7 @@ Objective : translate a text from a language to another.
 
 %%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Playing Games}
+\frametitle{Example 3: Playing Games}
 \begin{columns}
 \column{.5\textwidth}
 \begin{itemize}
@@ -292,13 +321,27 @@ Objective : translate a text from a language to another.
 
 %%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Predicting sport results?}
-\framesubtitle{FIFA World Cup 2018}
+Rugby World Cup 2019
    \begin{figure}
-\includegraphics[trim={1cm 2cm 1cm 4cm},clip,width=\textwidth]{./fig/L1/fifa2018.jpg}
+\includegraphics[width=.9\textwidth]{fig/L1/predicting-rugby.png} 
 \end{figure}
-Prediction based on Random Forest.
-   \rref[Groll et al., June 2018]
+Prediction based on XGBoost.
+\begin{scriptsize}
+   \url{https://towardsdatascience.com/predicting-the-winner-of-the-rugby-world-cup-2019-89a27d3f5b8e}
+\end{scriptsize}
+
 \end{frame}
+
+\begin{frame}{AI Art?}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\textwidth]{fig/L3/478px-Edmond_de_Belamy.png}
+        \caption*{\textit{Edmond de Bellamy} by Obvious(collective)}
+    \end{figure}
+    Generated using a Generative Adversarial Network.\\
+    Selling prince (Oct. 2018): \$432,000
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[t]{Reasons for these recent achievements?}
@@ -362,13 +405,13 @@ Prediction based on Random Forest.
     \caption*{NASDAQ Composite sock market index over the last 10 years}
     \includegraphics[width=\textwidth]{fig/L1/nasdaq-composite-index-10-year-daily-chart-2019-01-09-macrotrends.png}
 \end{figure}
-\visible<2->{\alert{Mostly unknown dynamic processes}}
+\visible<2->{\alert{Mostly unknown dynamical processes}}
 
 \column{.5\textwidth}
 \begin{figure}
     \includegraphics[width=\textwidth]{fig/L1/evolution-temperature.png}
 \end{figure}
-\visible<2->{\alert{Mostly known dynamic processes (based on physical principles)}}
+\visible<2->{\alert{Mostly known dynamical processes (based on physical principles)}}
 
 \end{columns}
     
@@ -509,6 +552,24 @@ What are \alert{the ingredients}?
 \end{columns}
 
 \end{frame}
+%%%%%%%%%%%%%%%%%%
+\begin{frame}{Multidimensional data}
+Generally, we have multidimensional data $X$ and a one-dimensional target $y$.
+\begin{figure}
+\begin{tikzpicture}
+\draw [fill=blue!20](0,0) rectangle (2,3);
+\draw [fill=blue!20](2.5,0) rectangle (3.5,3);
+
+\node [text centered] at (1,3.3) {features};
+\node[text centered, rotate=90] at (-0.3,1.5) {samples};
+\node [text centered] at (1,1.5) {\Large $X$};
+\node [text centered] at (3,1.5) {\Large $y$};
+
+  %\draw [fill=blue:20,black] (0.,0.) rectangle (1,2) ; 
+\end{tikzpicture}
+ \end{figure}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%
 \begin{frame}{An illustration}
 \begin{columns}
@@ -547,8 +608,6 @@ What are \alert{the ingredients}?
 %%%%%%%%%%%%%%%%%%%%
 \section{Model selection/validation}
 
-
-TODO: More details !!!
 \begin{frame}{Choice of the model}
 \begin{block}{Polynomial regression}
 $y=\theta_0 + \theta_1 x + \theta_2 x^2 + \cdots + \theta_d x^d = \sum_{i=0}^d \theta_i X^i$
@@ -563,8 +622,8 @@ $y=\theta_0 + \theta_1 x + \theta_2 x^2 + \cdots + \theta_d x^d = \sum_{i=0}^d \
 \column{.33\textwidth}
 \pause
     \begin{figure}
-    \caption*{degree = 2 }
-    \includegraphics[width=\textwidth]{fig/L1/interp-pol-2.png}
+    \caption*{degree = 3 }
+    \includegraphics[width=\textwidth]{fig/L1/interp-pol-3.png}
     \end{figure}
 \column{.33\textwidth}
 \pause
@@ -582,7 +641,7 @@ $y=\theta_0 + \theta_1 x + \theta_2 x^2 + \cdots + \theta_d x^d = \sum_{i=0}^d \
 
 
 %%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Validation Dataset}
+\begin{frame}{Train/Validation split}
 \begin{block}{The idea}
 Evaluate a score on a independent dataset
 \end{block}
@@ -590,8 +649,7 @@ Evaluate a score on a independent dataset
 In our example we can randomly divide $(X,y)$ in two datasets:
 \begin{itemize}
     \item The training dataset $X_{train},y_{train}$ used to fit the  model.
-    \item The validation dataset $X_{val},y_{val}$ used to compute the score.
-    e.g. core= correlation$(y_{val},\hat{y})$
+    \item The validation dataset $X_{val},y_{val}$ used to compute the score (e.g., correlation, mean-squared error)
 \end{itemize}
 
     \begin{figure}
@@ -609,25 +667,26 @@ In our example we can randomly divide $(X,y)$ in two datasets:
     \includegraphics[width=\textwidth]{fig/L1/modelchoice.png}
     \end{figure}
 \column{.5\textwidth}
-
+Score: Mean Square Error (MSE)
 \begin{table}
     \centering
     \begin{tabular}{c|c|c}
         Deg. & Train Score & Val. Score \\
         \hline
-        1 & 0.60 & 0.68\\
-        2 & 0.94 & 0.86\\
-        30 & 0.99 & 0.19 \\
+        1 & 0.17 & 0.23\\
+        3 & 0.045 & 0.062\\
+        30 & 0.035 & 0.27  \\
     \end{tabular}
     \end{table}
+    %deg 1 ,score: val= 0.2283939842150192  , train= 0.167306864804612  , cv= 0.2768505679342689
+%deg 3 ,score: val= 0.062492089527889656  , train= 0.04486320473714161  , cv= 0.05378120725339085
+%deg 30 ,score: val= 0.27582336720042394  , train= 0.03473760406327127  , cv= 105306.65534552556
 \end{columns}
 \pause
-\begin{block}{Drawbacks}
-\begin{itemize}
-    \item drastically reduce the number of samples which can be used for learning the model
-    \item Results  can depend on a particular random choice for the pair of (train, validation) sets.
-\end{itemize}
-\end{block}
+   \begin{figure}
+    \includegraphics[width=.45\textwidth]{fig/L1/RMSE-deg-2scores.png}
+    \end{figure}
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%
@@ -645,8 +704,8 @@ $y=\theta_0 + \theta_1 x + \theta_2 x^2 + \cdots + \theta_d x^d = \sum_{i=0}^d \
     \end{figure}
 \column{.33\textwidth}
     \begin{figure}
-    \caption*{degree = 2 }
-    \includegraphics[width=\textwidth]{fig/L1/interp-pol-2.png}\\
+    \caption*{degree = 3 }
+    \includegraphics[width=\textwidth]{fig/L1/interp-pol-3.png}\\
         good fit
 
     \end{figure}
@@ -664,7 +723,15 @@ $y=\theta_0 + \theta_1 x + \theta_2 x^2 + \cdots + \theta_d x^d = \sum_{i=0}^d \
 
 
 %%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Train/Validation split}
+     \begin{block}{Drawbacks}
+\begin{itemize}
+    \item drastically reduce the number of samples which can be used for learning the model
+    \item Results  can depend on a particular random choice for the pair of (train, validation) sets.
+\end{itemize}
+\end{block}
 
+\end{frame}
 %%%%%%%%%%%%%%%%%%
 \begin{frame}{More Robust: cross validation}
     \begin{block}{The idea}
@@ -680,33 +747,156 @@ $y=\theta_0 + \theta_1 x + \theta_2 x^2 + \cdots + \theta_d x^d = \sum_{i=0}^d \
 
 \end{frame}
 
-TODO: add Test set to explain
-TODO: equivalence with Neural networks, RF, etc.
-TODO: Data leakage
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Cross-Validation}
+\begin{columns}
 
-%%%%%%%%%%%%%%%%%%
-\begin{frame}{Multidimensional data}
-Generally, we have multidimensional data $X$ and a one-dimensional target $y$.
-\begin{figure}
-\begin{tikzpicture}
-\draw [fill=blue!20](0,0) rectangle (2,3);
-\draw [fill=blue!20](2.5,0) rectangle (3.5,3);
+\column{.3\textwidth}
+\begin{table}
+\footnotesize
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+{\bf Fold} & {\bf MSE} \\
+\hline
+1 & 0.052 \\
+2 & 0.043 \\
+3 & 0.137 \\
+4 & 0.025 \\
+5 & 0.048 \\
+6 & 0.144 \\
+7 & 0.011 \\
+8 & 0.025 \\
+9 & 0.010 \\
+10 & 0.028 \\
+\hline
+{\bf Mean} & {\bf 0.05} \\
+        \hline
 
-\node [text centered] at (1,3.3) {features};
-\node[text centered, rotate=90] at (-0.3,1.5) {samples};
-\node [text centered] at (1,1.5) {\Large $X$};
-\node [text centered] at (3,1.5) {\Large $y$};
 
-  %\draw [fill=blue:20,black] (0.,0.) rectangle (1,2) ; 
-\end{tikzpicture}
- \end{figure}
+    \end{tabular}
+    \end{table}
+    
+    \column{.7\textwidth}
+   \begin{figure}
+    \includegraphics[width=\textwidth]{fig/L1/RMSE-deg-3scores.png}
+    \end{figure}
+
+\end{columns}
+
 \end{frame}
+%%%%%%%%%%%%%%%%
+\begin{frame}{Wrapping up}
+\begin{enumerate}[<+->]
+    \item When applying machine learning techniques there are \alert{hyperparameters} to be determined (e.g., degree of the polynomial in polynomial regression).
+    \item These \alert{hyperparameters}  can be determined by splitting the data into training/validation or by cross-validation.
+    \item But then... the validation set was used to determine the best machine learning process
+    \item To evaluate independanly the performance of our model, we should compute the score on a \alert{third independant dataset: The test dataset}.
+    
+\end{enumerate}
+\pause
+More on that in next lecture...
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%
+\begin{frame}{Data Leakage}
+
+\begin{alertblock}{What is it?}
+\alert{Data Leakage} is when information from outside the training dataset is used to create the model.
+\end{alertblock}
+\pause
+Consequence: it can lead to overly optimistic models with no practical predictive skills.\\
+\vspace{1em}
+\pause
+Example:
+\begin{itemize}
+    \item Using the future to make a forecast.
+    \item Splitting between validation/training is not done properly
+    \item Non-relevant features that can be related to the expected results (e.g. name/date of the files in a training dataset)
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%
+\begin{frame}{Example of time series}
+\begin{columns}
+
+\column{.4\textwidth}
+    \begin{figure}
+    \includegraphics[width=\textwidth]{fig/L1/nasdaq-composite-index-10-year-daily-chart-2019-01-09-macrotrends.png}
+    \end{figure}
+\column{.6\textwidth}
+\alert{Data:} $x_t$: NASDAQ index at the date $t$.\\
+\alert{Objective:} predict $x_t$ given the index in the past ($x_0, \cdots , x_{t-1})$\\
+\alert{A correct model:} $\hat{x}_t = \mathcal{M}(x_0, \cdots , x_{t-1},\theta)$\\
+We can construct a incorrect model: $\hat{x}_t = \textcolor{red}{\mathcal{M^{\rm leak}}}(x_0, \cdots , x_{t-1},\textcolor{red}{x_t},\theta)$\\
+$\textcolor{red}{\mathcal{M^{\rm leak}}}$ is perfect on the training set but is completely useless in practice.
+
+
+\end{columns}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%
+\begin{frame}{More subtle example: contamination of the validation dataset}
+\begin{columns}
+\column{.6\textwidth}
+\begin{center}
+  \begin{tikzpicture}
+    \node<1> (img1) {\includegraphics[width=\textwidth]{fig/L1/leakage-data.png}};
+    \node<2-3> (img2) {\includegraphics[width=\textwidth]{fig/L1/leakage-interp.png}};
+    \node<4-> (img3) {\includegraphics[width=\textwidth]{fig/L1/leakage-fit.png}};
+  \end{tikzpicture}
+\end{center}
+\column{.4\textwidth}
+\begin{figure}
+    \centering
+    \includegraphics<3->[width=\textwidth]{fig/L1/leakage-cv.png}
+
+\end{figure}
+\end{columns}
+
+\begin{itemize}
+    \item<1-> True polynom: $12x^3 - 48x^2 + 62x - 18$
+    \item<5-> regular fit: $12x^3 - 49x^2 + 38x - 9$
+    \item<5-> interpolated fit: $1143x^6 - 4803x^5 + 8242x^4 - 7446x^3 + 3736x^2 - 986x + 107 $
+    
+\end{itemize}
+% raw:   array([-12.13896748,  49.07141924, -38.75248129,   9.86640163])
+% interp: array([[-1143.54181925,  4803.98261307, -8242.31560901,  7446.33939621, -3735.92838024,   986.45002635,  -106.9868713 ]])
+
+        
+\end{frame}
+
+
 %%%%%%%%%%%%%%%%%%
 \begin{frame}{An example using scikit-learn}
     \begin{figure}
     \caption*{Boston House Prices}
     \includegraphics[width=.9\textwidth]{fig/L1/boston-rent.jpg}
     \end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Questions addressed in this lecture}
+    \begin{itemize}
+        \item What are the more common area of application of machine learning? \cite[1]{Goodfellow-et-al-2016}
+        \item What are the different class of ML problems? \cite[5.1]{VanderPlas-2016}
+        \item What are the different types of learning (supervised, ...)?  \cite[5.1]{VanderPlas-2016}
+        \item How to validate/select a model? \cite[5.3]{VanderPlas-2016}
+        \item What is the cross-validation? \cite[5.3]{VanderPlas-2016}
+        \item What is data leakage?
+        {\footnotesize
+        \href{https://machinelearningmastery.com/data-leakage-machine-learning/}{https://machinelearningmastery.com/data-leakage-machine-learning/}
+        \href{https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/discussion/4865\#25839}{https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/discussion/4865\#25839}}
+    \end{itemize}
+
+\begin{footnotesize}
+\begin{block}{Refs}
+\cite[$n$]{VanderPlas-2016}: Jake VanderPlas, \textit{Python Data Science Handbook}, section $n$\\
+\cite[$n$]{Goodfellow-et-al-2016}: Goodfellow etal., Deep Learning, chapter $n$
+\end{block}
+\end{footnotesize}
 \end{frame}
 
 
@@ -725,7 +915,7 @@ Generally, we have multidimensional data $X$ and a one-dimensional target $y$.
 
 
 \begin{frame}
-\frametitle{Example of a non-linear relashonship}
+\frametitle{Example of a non-linear relationship}
 \begin{figure}
 \includegraphics[height=0.55\textheight]{./fig/L1/scatter.png}
 \end{figure}

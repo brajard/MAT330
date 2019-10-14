@@ -10,8 +10,6 @@
 \usepackage{hyperref}
 \usepackage{multirow}
 \usepackage{listings}
-\usepackage{rotating}
-
 \usepackage{fancyvrb}
 \usepackage{tikz}
 \usepackage{framed}
@@ -29,10 +27,6 @@
 \usepackage{hhline}
 \usepackage{pgfplots}
 \usepackage{caption}
-\usepackage{natbib}
-\def\bibfont{\footnotesize}
-\def\bibname{}
-
 
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{positioning}
@@ -40,7 +34,6 @@
 \usetikzlibrary{arrows,calc}
 \usetikzlibrary{shapes.multipart}
 \usetikzlibrary{matrix}
-\usetikzlibrary{fit}
 
 \usepackage{array}
 %\usetheme{Boadilla}
@@ -55,11 +48,6 @@
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\Var}{\text{Var}}
 \newcommand{\Cov}{\text{Cov}}
-
-\newcommand{\btheta}{\mathbf{\theta}}
-\newcommand{\M}{\mathcal{M}}
-
-
 \ifdefined\ishandout
 \pgfpagesuselayout{3 on 1 with notes}[a4paper,border shrink=5mm]
 \usecolortheme{dove}
@@ -161,17 +149,18 @@
 
 %%Fin des commandes pour les listes/arbres.
 
-\bibliographystyle{apalike}
+
 
 %%% Paramètres du cours (à régler)
 %Numéro du cours
 \newcommand{\nb}{1}
 
-\title[Machine Learning]{Machine learning and physical modelling-3}
+\title[Machine Learning]{Machine learning and physical modelling-2}
 \author[J. Brajard]{julien.brajard@nersc.no}
 \institute[NERSC/SU]{NERSC/Sorbonne University\\
 \url{https://github.com/brajard/Geilo-Winter-school}}
 \date{21-25 January 2018}
+
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%% SLIDES DE TITRE
 \begin{frame}
@@ -180,624 +169,446 @@
 %\url{http://australe.upmc.fr} (onglet EPU-C5-IGE Info Gen)}
 \end{frame}
 
-\begin{frame}{AI Art?}
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.5\textwidth]{fig/L3/478px-Edmond_de_Belamy.png}
-        \caption*{\textit{Edmond de Bellamy} by Obvious(collective)}
-    \end{figure}
-    Generated using a Generative Adversarial Network.\\
-    Selling prince (Oct. 2018): \$432,000
-\end{frame}
-
 \begin{frame}{Table of contents}
   \setbeamertemplate{section in toc}[sections numbered]
   \tableofcontents[hideallsubsections]
 \end{frame}
 
-\section{Machine learning to reveal complex connexions}
-\begin{frame}{Altimeter data}
+\section{L1/L2 regularization}
+
+\begin{frame}
+\frametitle{Example of a non-linear relashonship}
+\begin{figure}
+\includegraphics[height=0.55\textheight]{./fig/L1/scatter.png}
+\end{figure}
+\begin{block}{An idea}
+We could take an polynomial hypothesis model:
+$$
+h_{\bm{\theta}}(x) = \theta_0 x^0 + \theta_1 x^1 + \ldots + \theta_p x^p
+$$
+\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Example}
+$\{(x_1,y_1),\ldots,(x_n,y_n)\}$ is the learning dataset.
+
+For a given polynomial degree $p$, parameters $\bm{\theta}$ are determined minimizing the 
+least-mean square cost function:
+$$
+J(\bm{\theta}) = \frac{1}{n} \sum (y_i - h_{\bm{\theta}}(x_i))^2
+$$
+with $h_{\bm{\theta}}(x) = \theta_0 x^0 + \theta_1 x^1 + \ldots + \theta_p x^p$
+\begin{itemize}[<+->]
+\item It can be determined using a gradient descent method
+\item If the degree of the polynomial $p=1$, it is a simple linear regression
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{A first result}
+\vspace{-2em}
 \begin{columns}[t]
 \column{.5\textwidth}
-    \begin{figure}
-        \centering
-        \caption*{Satellite altimeter}
-         \includegraphics[width=.6\textwidth]{fig/L3/TOPEX-Poseidon.png}
-    \end{figure}
-    
-
-\column{.5\textwidth}
-    \begin{figure}
-        \centering
-        \caption*{Sea surface height anomaly}
-         \includegraphics[width=.9\textwidth]{fig/L3/eddies.png}
-    \end{figure}
-
-    \end{columns}
-    \begin{block}{Structure detection}
-    Can we detect and charaterize eddies?
-    \end{block}
-\end{frame}
-
-\begin{frame}[t]{Eddy detection}
-\rref[\cite{Lguensat2017}]
-    \begin{columns}
-    \column{.65\textwidth}
-     \begin{figure}
-        \centering
-         \includegraphics[width=\textwidth]{fig/L3/eddynet.png}
-    \end{figure}
-
-    \pause
-    \column{.35\textwidth}
-         \begin{figure}
-        \centering
-         \includegraphics[width=.7\textwidth]{fig/L3/eddynet-result.png}
-    \end{figure}
-    \end{columns}
-\end{frame}
-
-\begin{frame}{Observations of sea velocity}
-    %From Sea Surface Height (SSH) it is also possible to derive (partially) the surface currents.
-    \begin{columns}
-    \column{.4\textwidth}
-          \begin{figure}
-        \centering
-        \caption*{ARGO floats are deployed in the oceans}
-         \includegraphics[width=.7\textwidth]{fig/L3/argo-float.jpg}\\
-         \end{figure}
-         \pause
-              \column{.6\textwidth}
 \begin{figure}
-         \caption*{It measures several \textit{in-situ}  oceanic parameters}
-         \includegraphics[width=\textwidth]{fig/L3/argo-status.png}
-    \end{figure}
-
-    \end{columns}
-    
-    \begin{columns}
-   \pause
-    \column{.6\textwidth}
-    Matching between:
-    \begin{itemize}
-        \item Sparse \textit{in-situ} velocity at 1000m
-        \item global surface velocity from satellite Sea-Surface heights (SSH).
-    \end{itemize}
-    \column{.4\textwidth} 
-    \begin{figure}
-         \includegraphics[width=\textwidth]{fig/L3/Surface_Currents_Kerguelen_Intro_resized_v2.pdf}
-    \end{figure}
-    
-    \end{columns}
-    \end{frame}
-    
-    \begin{frame}{Inference of unknown parameters}
-        \begin{columns}
-        \column{.6\textwidth}
-                \rref[\cite{Chapman2017ReconstructionMaps}]
-
-         \begin{figure}
-         \includegraphics[width=\textwidth]{fig/L3/Method_Schematic_Modified.pdf}
-    \end{figure}
-    \pause
-        \column{.4\textwidth}
-         \begin{figure}
-         \includegraphics[width=\textwidth]{fig/L3/Deep_Mean_2009_Recon_resized_crop.png}\\
-          \includegraphics[width=\textwidth]{fig/L3/Scatter_uv_obs_vs_predict_resize.pdf}
-    \end{figure}
-        \end{columns}
-    \end{frame}
-
-\section{Machine learning and differential equations}
-\begin{frame}{phyical system and differential equations}
-    For example, Motion fluid can be represented using Navier-Stokes equations (PDE):
-    
-    $$ {\partial{\bf u}\over{\partial t}} = -  ({\bf u} \cdot \nabla) {\bf u} - {1\over\rho} \nabla p + \gamma\nabla^2{\bf u} + {1\over\rho}{\bf F} 
-    $$
-    \pause
-    After spatial discretization, can be represented as an ODE:
-    $$
-    \frac{d\mathbf{x}}{dt} = f(\mathbf{x(t))}
-    $$
-\end{frame}
-
-\begin{frame}{ResNET and ODE}
-\begin{columns}
-\column{.5\textwidth}
-Euler discretization scheme:
-$$
- x(t+\Delta t) = x + \Delta t.f(x(t)) 
-$$
-\pause
-\column{.5\textwidth}
-    \begin{figure}
-    \centering
-    \includegraphics[width=.9\textwidth]{fig/L2/res_block.png}
-
-    \end{figure}
-    input: $x(t)$~\\ output:$x(t+\Delta t)$
-    $$
-    x(t+\Delta t) = x(t) + \Delta t.\mathcal{F}(x(t)) 
-    $$
-    
-    \end{columns}
-    \pause
-    \alert{Training a ResNet is equivalent to training the underlying model in a Euler discretization scheme}
-\end{frame}
-\begin{frame}{Other schemes?}
-\begin{columns}
-\column{.5\textwidth}
-\rref[\cite{Fablet2017}]
-
-Runge-Kutta (order 4) integration scheme:
-$$
-x(t+\Delta t) = x(t) + \sum_{i=1}^4 \alpha_i k_i
-$$
-where $k_i = f(x(t+\beta_i k_{i-1}\Delta t))$\\
-$k_0=0$, 
-$\alpha_1=\alpha_4=1/6$,
-$\alpha_2=\alpha_3=2/6$,
-$\beta_1=\beta_4=1$ 
-and  $\beta_2=\beta_3=1/2$.
-\pause
-\column{.5\textwidth}
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{fig/L3/rk-resnet.png}\\
-    \pause
-      \caption*{Example on data simulated with a Lorenz 63 system}
-     \includegraphics[width=\textwidth]{fig/L3/result-resnet.png}\\
-   
+$p=1$ (linear regression)\\
+\includegraphics[width=0.99\textwidth]{./fig/L1/linreg_pow1.png}
 \end{figure}
+\column{.5\textwidth}
+\begin{figure}
+residuals\\
+\includegraphics[width=0.99\textwidth]{./fig/L1/residuals.png}
+\end{figure}
+
+\end{columns}
+\begin{block}{Prediction error}
+$$
+\text{err} = \frac{1}{n}\sum \text{res}^2 = 5.46e-2
+$$
+\end{block}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Increasing the polynomial degree ?}
+\begin{columns}
+\column{.5\textwidth}
+\begin{figure}
+$p=3$ (cubic regression)\\
+\includegraphics[width=0.99\textwidth]{./fig/L1/linreg_pow3.png}
+\end{figure}
+\column{.5\textwidth}
+\begin{block}{Prediction error}
+$$
+\text{err} = \frac{1}{n}\sum \text{res}^2 = 1.80e-2
+$$
+\end{block}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Toward general framework: Neural ODE}
-    \rref[\cite{Chen2018NeuralEquations}: Best paper award NeurIPS, Dec. 2018]
-    $$
-    \mathbf{z}(t_1) = \mathbf{z}(t_0)  + \int_{t_0}^{t_1} f(\mathbf{z}(t),\theta) dt = \textrm{ODESolve}(\mathbf{z}(t_0),f,t_0,t_1,\theta)
-    $$
-    \begin{columns}
-    \column{.5\textwidth}
-    \begin{figure}
-        \centering
-        \includegraphics[width=\textwidth]{fig/L3/resVsODE.png}
-    \end{figure}
-    \column{.5\textwidth}
-        \begin{figure}
-        \centering
-        \includegraphics[width=\textwidth,trim={0 5.4cm 0 0},clip]{fig/L3/ODEscheme.png}
-    \end{figure}
-    \end{columns}
-\end{frame}
 
-\begin{frame}{Gradient backpropagation}
-\begin{block}{Objective}
-Computing $\partial L/ \partial \theta$
-\end{block}
- \begin{columns}
-   
-    \column{.4\textwidth}
-        \begin{figure}
-        \centering
-        \includegraphics[width=\textwidth]{fig/L3/ODEscheme.png}
-    \end{figure}
-    \column{.6\textwidth}
-    $\mathbf{z}(t_1) = \mathbf{z}(t_0)  + \int_{t_0}^{t_1} f(\mathbf{z}(t),\theta) dt$\\
-    Define the adjoint:\\
-    $\mathbf{a}(t)=\partial L / d\mathbf{z}(t)$\\
-    $$\mathbf{a}(t_0)=\mathbf{a}(t_1) -\int_{t_1}^{t_0} a(t)^T \frac{\partial d f(\mathbf{z(t)},\theta)}{\partial \mathbf{z}}dt$$
-      $$\frac{d L}{d\theta}=-\int_{t_1}^{t_0} a(t)^T \frac{\partial d f(\mathbf{z(t)},\theta)}{\partial \theta}dt$$
-    
-    $a(t)$ and $\frac{d L}{d\theta}=$ can be computed using the Same ODE solver backward in time.
-    \end{columns}
-\end{frame}
-
-\section{Merge approaches: between physics and machine learning}
+%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{What is this about?}
-\begin{tikzpicture}[%
-  % common options for blocks:
-  block/.style = {draw, fill=blue!30, align=center, anchor=west,
-              minimum height=0.65cm, inner sep=0},
-  % common options for the circles:
-  ball/.style = {circle, draw, align=center, anchor=north, inner sep=0, text width=2cm,  minimum height=0.5cm},
-  node distance=3.cm]]
-  \node<1->[ball,fill=blue!30,] (pl) {Physical laws};
-  \node<1->[ball,fill=blue!30, right of=pl] (nm) {Numerical models};
-   \node<2->[ball,fill=red!30, right of=nm] (ml) {Machine Learning};
-  \node<2->[ball,fill=red!30, right of=ml] (d) {Data};
-  \draw<1->[->,very thick,draw=blue!50] (pl.east) -- (nm.west);
-  \draw<2->[->,very thick,draw=red!50] (d.west) -- (ml.east);
-  \draw<3->[<->,very thick] (nm.east) -- (ml.west) node[midway, above]{?} ;
-  \end{tikzpicture}
-\end{frame}
-
-\begin{frame}{SST dynamic}
-    \rref[\cite{DeBezenac2017TowardsModeling}]
-    \begin{block}{Objective}
-    Given $SST(t-h),\cdots,SST(t)$, predict $SST(t+\tau)$
-    \end{block}
-    \begin{columns}
-    \column{.5\textwidth}
-    \begin{figure}
-        \centering
-        \includegraphics[width=\textwidth]{fig/L3/sst-map.png}
-    \end{figure}
-    \pause
-    \column{.5\textwidth}
-   \begin{figure}
-        \centering
-        \includegraphics[width=\textwidth]{fig/L3/sst-nn-scheme.png}
-    \end{figure}
-        \end{columns}
-
-\end{frame}
-
-\begin{frame}{Illustration}
-\begin{figure}
-\begin{tikzpicture}
-\begin{scope}[text width=8em,anchor=east, align=right]
-\node (line2) {Deep learning forecast};
-\node [above of = line2,node distance = 1.2cm] (line1) {Reanalysis (truth)};
-\node [below of = line2,node distance = 2cm] (line3) {Motion estimate};
-\end{scope}
-\node [right of = line2, anchor=west, node distance = 1.8cm] (im) {\includegraphics[height=5cm]{fig/L3/sst-predict.png}};
-\end{tikzpicture}
-\end{figure}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Other problem}
-Using a numerical model $\M$, we can simulate
- the evolution in time of a state vector $\x(t)$:
-
-\begin{equation*}
-\frac{d\x}{dt} = \M_0(\x(t))
-\end{equation*}
-Some processes cannot be exactly resolved using only physical
-principles, because of:
-\begin{itemize}
-\item Imperfect physical knowledge
-\item Numerical schemes
-\item Discretization errors
-\item Unknown factors
-\end{itemize}
-In practice, the unresolved/unknown processes can be represented by a 
-%JS j'ai remplace an par a 
-$\btheta$:
-\begin{equation*}
-\frac{d\x}{dt} = \M(\x(t),\btheta)
-\end{equation*}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Determination of $\btheta$}
-\begin{equation*}
-\frac{d\x}{dt} = \M(\x(t),\btheta(t))
-\end{equation*}
-    $\theta$ must be determined to produce a fair simulation.
-\pause[2]
-\alert{Method:}    $\btheta$ is determined using a data-driven approach.\\
-\vspace{1em}
-\pause[3]
-Two approaches:
-\begin{itemize}
-\item <3-> {\color<5>{gray}$\theta$ is estimated directly by fitting some observations (Data assimilation)}
-\item <4->\alert<5>{ $\theta$ is calculated by using an empirical model $f$  :
-%JS j'ai ajoute using; ajouter numerical apres empirical ?
-\begin{equation*}
-\btheta(t) = f(\x(t))
-\end{equation*}}
-\end{itemize}
-\pause[5]
-\begin{alertblock}{Question:}
-Can $f(\x(t))$ be represented by a neural network ?
+\frametitle{Is it different from the linear regression ?}
+Let's consider :
+$$
+\bm{x} = 
+\begin{pmatrix}
+1 \\
+x^1 \\
+x^2 \\
+\vdots \\
+x^p
+\end{pmatrix}
+$$
+then
+$$
+h_{\bm{\theta}}(x) = \theta_0  + \theta_1 x^1 + \ldots + \theta_p x^p = \bm{\theta}^T \bm{x}
+$$
+\begin{alertblock}{}
+By extending a scalar predictor to a vector,
+polynomial regression is equivalent to linear regression.
 \end{alertblock}
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Proof of concept using a shallow-water model}
-%As a proof of concept, we used a shallow-water model:
-\vspace{-1.5em}
-\begin{eqnarray}
-\partial_tu & = &
-+ (f + \zeta ).v  - \partial_x (\frac{u^2+v^2}{2} + g^*.h) + \textcolor{red}{\btheta_u}\nonumber \\
-\partial_tv & = &
--  (f + \zeta ).u  - \partial_y (\frac{u^2+v^2}{2} + g^*.h) + \textcolor{red}{\btheta_v}\nonumber \\
-\partial_th & = &
-- \partial_x(u(H+h)) - \partial_y(v(H+h)) \nonumber
-\end{eqnarray}
+\frametitle{Increasing the degree ?}
+\begin{columns}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$p=1$
+\includegraphics[width=0.99\textwidth]{./fig/L1/linreg_pow1.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$p=9$
+\includegraphics[width=0.99\textwidth]{./fig/L1/linreg_pow9.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$p=3$
+\includegraphics[width=0.99\textwidth]{./fig/L1/linreg_pow3.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$p=12$
+\includegraphics[width=0.99\textwidth]{./fig/L1/linreg_pow12.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$p=4$
+\includegraphics[width=0.99\textwidth]{./fig/L1/linreg_pow4.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$p=15$
+\includegraphics[width=0.99\textwidth]{./fig/L1/linreg_pow15.png}
+\end{figure}
+\end{columns}
+\end{frame}
 
-%\footnotesize
-\vspace{.5em}
-\pause
-\begin{block}{Validation of the approach}
-To validate our approach, we use reference synthetic data produced by a
-fully-specified shallow-water model :
-\begin{eqnarray*}
-\btheta_u& =  f_u(u,h,\tau_x)  = & \frac{\tau_x}{\rho_0(H+h)} - \gamma . u + \nu\Delta u\\
-\btheta_v &=  f_v(v,h,\tau_y)  = & \frac{\tau_y}{\rho_0(H+h)} - \gamma . v + \nu\Delta v 
-\end{eqnarray*}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Overfitting}
+\begin{block}{}
+When there is to many paramaters to fit, the model can reproduce 
+a random noise, it is called \alert{overfitting}
 \end{block}
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Diagnostic quantities of the reference simulation}
-\framesubtitle{15 years of simulation after a 10 years spinup}
-\begin{columns}
-\column{.4\textwidth}
-\centering
-{\footnotesize mean $h$ }\\
-\includegraphics[width=\textwidth]{./fig/L3/mean-hphy0.png}\\
-\includegraphics[width=\textwidth]{./fig/L3/evol-0--PV.png}
-
-\column{.4\textwidth}
-\includegraphics[width=\textwidth]{./fig/L3/evol-0--EC.png}\\
-\includegraphics[width=\textwidth]{./fig/L3/evol-0--EP.png}
-\end{columns}
-
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Training dataset}
-After a simulation of the reference model 
-$\M_T$, we have a set of $\sim 300$ examples of mapping between 
-$\x = (u,v,h)$ and $\btheta$ :
-
-\begin{table}
-\begin{tabular}{|ccc|c|}
-\hline
-\multicolumn{3}{|c|}{Input} & Output \\
-\hline
-$u$ &  $h$ & $\tau_x$ & $\theta_u $ \\
-\includegraphics[width=.22\textwidth]{./fig/L3/trainset-u.png} &
-\includegraphics[width=.22\textwidth]{./fig/L3/trainset-h.png} &
-\includegraphics[width=.22\textwidth]{./fig/L3/trainset-tau.png} &
-\includegraphics[width=.22\textwidth]{./fig/L3/trainset-uparam.png}\\
-\hline
-$v$ &  $h$ & $\tau_y$ & $\theta_v $ \\
-\hline
-\end{tabular}
-\end{table}
-
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Description of the neural networks}
-\def\layersep{2.5cm}
-\begin{tikzpicture}[shorten >=1pt,->,draw=black!50, node distance=\layersep]
-    \tikzstyle{every pin edge}=[<-,shorten <=1pt]
-    \tikzstyle{neuron}=[circle,fill=black!25,minimum size=17pt,inner sep=0pt]
-    \tikzstyle{input neuron}=[draw=black,minimum size=17pt,inner sep=2pt];
-    \tikzstyle{output neuron}=[neuron, fill=red!50];
-    \tikzstyle{hidden neuron}=[neuron, fill=blue!50];
-    \tikzstyle{missing neuron}=[]
-    \tikzstyle{annot} = [text width=5em, text centered]
-
-    % Draw the input layer nodes
-    \node[input neuron, pin=left:$u$] (I-1) at(0,-1.5)
-    {\includegraphics[width=.1\textwidth]{./fig/L3/trainset-u.png}};
-    
-    \node[input neuron, pin=left:$h$] (I-2) at(0,-3)
-    {\includegraphics[width=.1\textwidth]{./fig/L3/trainset-h.png}};
-    
-    \node[input neuron, pin=left:$\tau_x$] (I-3) at(0,-4.5)
-    {\includegraphics[width=.1\textwidth]{./fig/L3/trainset-tau.png}};
-    
-    % Draw the first hidden layer
-    \node[hidden neuron] (H-1) at (\layersep,-1) {};
-    \node[hidden neuron] (H-2) at (\layersep,-2) {};
-    \node[] (H-3) at (\layersep,-3) {$\vdots$};
-    \node[hidden neuron] (H-4) at (\layersep,-4) {};
-    \node[hidden neuron] (H-5) at (\layersep,-5) {};
-    
-    % Draw the second hidden layer
-        
-    \node[hidden neuron] (HH-1) at (2*\layersep,-1) {};
-    \node[hidden neuron] (HH-2) at (2*\layersep,-2) {};
-    \node[] (HH-3) at (2*\layersep,-3) {$\vdots$};
-    \node[hidden neuron] (HH-4) at (2*\layersep,-4) {};
-    \node[hidden neuron] (HH-5) at (2*\layersep,-5) {};
-   
-   	% Draw the output layer
-    \node[input neuron, pin={[pin edge={->}]right:$\theta_u$}] (O) at (3*\layersep,-3) 
-    {\includegraphics[width=.1\textwidth]{./fig/L3/trainset-uparam.png}};
-   
-   % Draw connections
-   \foreach \source in {1,...,3}
-        \foreach \dest in {1,2,4,5}
-            \path (I-\source) edge (H-\dest);
-    \foreach \source in {1,2,4,5}
-        \foreach \dest in {1,2,4,5}
-            \path (H-\source) edge (HH-\dest);
-	\foreach \source in {1,2,4,5}
-    		\path (HH-\source) edge (O) ;
-    % Annotate the layers
-  \node[annot,above of=H-1, node distance=1cm] (hl) {{\footnotesize
-      Conv. layer\\ $3\times3$\\32 filters}};
-    \node[annot,above of=HH-1, node distance=1cm] (hhl)
-    {{\footnotesize Conv. layer\\ $1\times1$\\16 filters}};
-    \node[annot,left of=hl] {Input layer};
-    \node[annot,right of=hhl] {Output layer};
-\end{tikzpicture}
-Number of weights to optimize in the neural network : $\sim 1700$
-\end{frame}
-
-\begin{frame}
-\frametitle{Spinup/Training/Validation}
-\centering
-\begin{tikzpicture}[%
-]
-%\filldraw[color=lightgray] (0,0) rectangle (2,2) node[pos=.5] {Test};        
-\node[draw, fill=gray!20, fit={(0,0) (3,1.5)}, inner sep=0pt, label=center:Spinup] (A) {};
-\node[draw, fill=blue!20, fit={(3,0) (8,1.5)}, inner sep=0pt, label=center:Training] (B) {};
-\node[draw, fill=red!20, fit={(8,0) (11,1.5)}, inner sep=0pt, label=center:Test] (B) {};
-%\draw [->,thick] (0,-0.5) -- (11.2,-0.5);
-\draw [|-|,thick] (0,-0.5) -- (3, -.5) node[midway, below]{10 years};
-\draw [-|,thick] (3,-0.5) -- (8, -.5) node[midway, below]{15 years};
-\draw [->,thick] (8,-0.5) -- (11.1, -.5) node[midway, below]{10 years};
-\end{tikzpicture}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Performance of the neural net}
-\begin{columns}[t]
-\column{.05\textwidth}
-\begin{turn}{90}
-Neural Netwotk output
-\end{turn}
-\column{.44\textwidth}
-\centering
-\includegraphics[width=\textwidth]{./fig/L3/scat_upar.png}\\
-True $\theta_u$
-
-\column{.44\textwidth}
-\centering
-\includegraphics[width=\textwidth]{./fig/L3/scat_vpar.png}\\
-True $\theta_v$
-\end{columns}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Description of the neural net simulation}
-Neural nets 
-%$\theta_u = f_u(u,h,\tau_x)$ and $\theta_v = f_u(v,h,\tau_y)$ 
-are inserted into the shallow-water model: 
-\begin{eqnarray}
-\partial_tu & = &
-+ (f + \zeta ).v  - \partial_x (\frac{u^2+v^2}{2} + g^*.h) + \textcolor{red}{f_u(h,u,\tau_x)}\nonumber \\
-\partial_tv & = &
--  (f + \zeta ).u  - \partial_y (\frac{u^2+v^2}{2} + g^*.h) + \textcolor{red}{f_v(h,v,\tau_y)}\nonumber \\
-\partial_th & = &
-- \partial_x(u(H+h)) - \partial_y(v(H+h)) \nonumber
-\end{eqnarray}
-
-$\textcolor{red}{f_u(h,u,\tau_x)}$ and $\textcolor{red}{f_v(h,v,\tau_y)}$ are the neural nets used to estimate $\btheta_u$ and $\btheta_v$
-at each time step.
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{A first simulation}
-\begin{columns}
-\column{.3\textwidth}
-\centering
-{\footnotesize mean $h$ for true model}\\
-\includegraphics[width=\textwidth]{./fig/L3/meannw-hphy0.png}
-\column{.3\textwidth}
-\centering
-{\footnotesize mean $h$ for nn model}\\
-\includegraphics[width=\textwidth]{./fig/L3/meannw-hphy1.png}
-\column{.3\textwidth}
-\includegraphics[width=\textwidth]{./fig/L3/evolnw-EC.png}\\
-\includegraphics[width=\textwidth]{./fig/L3/evolnw-EP.png}
-\end{columns}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Are the boundary conditions was correctly represented ?}
-\begin{columns}
-\column{.5\textwidth}
-Has the neural net learned $u=0$ velocity at the East boundary ?
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{./fig/L3/u_veloocity_east.png}\\
-histogram of $u$ values near the Eastearn boundary (RMS = $9.9e-10$)
-\end{figure}
 \pause
-\column{.5\textwidth}
-\begin{itemize}
-\item Consequence : The NN model is not conservative : 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{./fig/L3/evolnw-h}\\
-Evolution of mean depth
-\end{figure}
-\item The boundary conditions have to be imposed.
-\end{itemize}
-\end{columns}
+\begin{table}
+\resizebox{\textwidth}{!}{%
+\input{./coeflin}}
+\end{table}
 \end{frame}
 
-
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Simulation with imposed boundary conditions}
-\begin{columns}
-
-\column{.3\textwidth}
-\centering
-{\footnotesize mean $h$ for true model}\\
-\includegraphics[width=\textwidth]{./fig/L3/mean-hphy0.png}\\
-\includegraphics[width=\textwidth]{./fig/L3/evol-h.png}
-\column{.3\textwidth}
-\centering
-{\footnotesize mean $h$ for nn model}\\
-\includegraphics[width=\textwidth]{./fig/L3/mean-hphy1.png}\\
-\includegraphics[width=\textwidth]{./fig/L3/evol-PV.png}
-\column{.3\textwidth}
-\includegraphics[width=\textwidth]{./fig/L3/evol-EC.png}\\
-\includegraphics[width=\textwidth]{./fig/L3/evol-EP.png}
-\end{columns}
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Generalization skills}
-\frametitle{Simulation with a different wind forcing}
-\begin{alertblock}{Objective}
-Has the neural net learned systematic features or can it simulate something (relatively) new ?
-\end{alertblock}
-\pause
-Idea : Try a neural net simulation with a new wind forcing.
+\frametitle{High parameters values}
 \begin{figure}
-\includegraphics[width=.6\textwidth]{./fig/L3/wind_forcing.png}
+Value of the parameters $|\theta_1|$ with respect with the degree of the polynomial
+regression\\
+\includegraphics[height=0.75\textheight]{./fig/L1/coefs_th1.png}
+\end{figure}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Regularization}
+\begin{block}{The idea}
+The idea of regularization is to perform a regression minimizing a cost function
+that includes a term to penalize "big" values for the parameters:
+$$
+J(\bm{\theta}) = \frac{1}{n} \sum (y_i - h_{\bm{\theta}}(x_i))^2 + \alpha P(\bm{\theta})
+$$
+\end{block}
+\pause
+We consider two penalty terms:
+\begin{itemize}[<+->]
+\item \alert{Ridge Regularization (L2):} $P(\bm{\theta}) = \sum_{i=0}^p \theta_i^2$
+\item \alert{Lasso Regularization (L1):} $P(\bm{\theta}) = \sum_{i=0}^p |\theta_i|$
+\item Elastic Net combines both regularization
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Ridge regression (L2)}
+\begin{block}{}
+Ridge regression is a linear regression with a Ridge regularization:
+$$
+J(\bm{\theta}) = \frac{1}{n} \sum (y_i - h_{\bm{\theta}}(x_i))^2 + \alpha \sum_{i=0}^p \theta_i^2
+$$
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Results for $p=15$ and varying $\alpha$}
+\begin{columns}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=0$
+\includegraphics[width=0.99\textwidth]{./fig/L1/ridge_alpha0.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-3$
+\includegraphics[width=0.99\textwidth]{./fig/L1/ridge_alpha1e-3.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-15$
+\includegraphics[width=0.99\textwidth]{./fig/L1/ridge_alpha1e-15.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-2$
+\includegraphics[width=0.99\textwidth]{./fig/L1/ridge_alpha1e-2.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-4$
+\includegraphics[width=0.99\textwidth]{./fig/L1/ridge_alpha1e-4.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=5$
+\includegraphics[width=0.99\textwidth]{./fig/L1/ridge_alpha5.png}
+\end{figure}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Values of coefficients}
+\vspace{-2em}
+\begin{table}
+\resizebox{\textwidth}{!}{%
+\input{./coefridge}}
+\end{table}
+\begin{figure}
+\includegraphics[height=0.4\textheight]{./fig/L1/coefs_th5_ridge.png}\\
+Value of $\theta_5$
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Determination of the parameters in the ridge regression}
+Considering the cost function J:
+$$
+J(\bm{\theta}) =J_{lms}(\bm{\theta}) + \alpha \sum_{i=0}^p \theta_i^2
+$$
+In a gradient algorithm, update of the parameters:
+
+$\theta^{k+1}_i = \theta^k_i - \nu.(\frac{\partial J_{lms}}{D\theta_i} - 2\alpha\theta^k_i)$
+
+So the update rule is:
+$$
+\theta^{k+1}_i = \theta^k_i(1-2 \nu \alpha) - \Delta_{lms}
+$$
+where
+$\Delta_{lms}$ is the update in case of non-regularized regression
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Lasso regression (L1)}
+\begin{block}{}
+Lasso regression is a linear regression with a Lasso regularization:
+$$
+J(\bm{\theta}) = \frac{1}{n} \sum (y_i - h_{\bm{\theta}}(x_i))^2 + \alpha \sum_{i=0}^p |\theta_i
+$$
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Results for $p=15$ and varying $\alpha$}
+\begin{columns}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=0$
+\includegraphics[width=0.99\textwidth]{./fig/L1/lasso_alpha0.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-3$
+\includegraphics[width=0.99\textwidth]{./fig/L1/lasso_alpha1e-3.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-15$
+\includegraphics[width=0.99\textwidth]{./fig/L1/lasso_alpha1e-15.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-2$
+\includegraphics[width=0.99\textwidth]{./fig/L1/lasso_alpha1e-2.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-4$
+\includegraphics[width=0.99\textwidth]{./fig/L1/lasso_alpha1e-4.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=5$
+\includegraphics[width=0.99\textwidth]{./fig/L1/lasso_alpha5.png}
+\end{figure}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Values of coefficients}
+\vspace{-2em}
+\begin{table}
+\resizebox{\textwidth}{!}{%
+\input{./coeflasso}}
+\end{table}
+\begin{figure}
+\includegraphics[height=0.4\textheight]{./fig/L1/coefs_th5_lasso.png}\\
+Value of $\theta_5$
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Determination of the parameters in the lasso regression}
+Considering the cost function J:
+$$
+J(\bm{\theta}) =J_{lms}(\bm{\theta}) + \alpha \sum_{i=0}^p |\theta_i|
+$$
+In a gradient algorithm, update of the parameters would be:
+
+J is not differentiable.
+If we consider $\theta_{lms} = \theta_i^k -\nu.\frac{\partial J_{lms}}{D\theta_i} $
+
+The update rule is:
+\begin{itemize}
+\item $\theta_i^{k+1} = \theta_{lms} + \alpha \nu$  if $\theta_{lms} < -\alpha \nu$
+\item $\theta_i^k = 0$ if $-\alpha \nu < \theta_{lms} < \alpha \nu$
+\item $\theta_i^{k+1} = \theta_{lms} - \alpha \nu$  if $\theta_{lms} > \alpha \nu$
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Summary of parameters updates}
+\begin{figure}
+\includegraphics[height=0.8\textheight]{./fig/L1/updates.png}
 \end{figure}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Simulation with a different wind-forcing}
-~\\
-\begin{columns}
-\column{.5\textwidth}
-\centering
-With the original wind-forcing
-\includegraphics[width=\textwidth]{./fig/L3/Ep_std.png}\\
-\column{.5\textwidth}
-\centering
-With the low wind-forcing
-\includegraphics[width=\textwidth]{./fig/L3/Ep_windlow.png}\\
-\end{columns}
+\frametitle{Comparison Ridge/Lasso}
+\begin{exampleblock}{Ridge (L2)}
+\begin{itemize}
+\item Prevents the overfitting
+\item includes all the features (dimensions) of the predictor, 
+so it can be useless for high dimensional predictors
+\end{itemize}
+\end{exampleblock}
 \pause
-\begin{table}
-\footnotesize
-\begin{tabular}{|r|c|c|c|c|}
-\hline
-& \multicolumn{2}{c|}{ref wind} & \multicolumn{2}{c|}{low wind} \\
-\hline
-P. E.  &$ 2545 \pm 2$ & $2545 \pm3$  &  $ 2517 \pm 1$ & $2518 \pm1$\\
-K. E. & $25 \pm 1$& $25 \pm 1$ &$11.8 \pm 0.3$ & $12.0 \pm 0.4$\\
-P. V. & $7.332 \pm 0.01$   & $7.339 \pm 0.02$ & $7.159 \pm 0.004 $ & $7.165 \pm 0.005 $ \\
-\hline
-\end{tabular}
-\end{table}
+\begin{alertblock}{Lasso (L1)}
+\begin{itemize}
+\item Provides sparse solutions and reduce the dimension of the
+predictor
+\item If some features in the predictor are correlated, arbitrarily select
+one from the others.
+\end{itemize}
+\end{alertblock}
 \end{frame}
 
-\begin{frame}{}
-   \bibliography{references.bib}
-\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{In a neural network}
+L2 (Ridge) and L1 (Lasso) regularization are widely use in Neural Network architectures.
+\begin{figure}
+    \centering
+ \begin{tikzpicture}[%
+    node distance = 2.5em,
+    basic/.style={draw,fill=blue!20,text width=1em,text badly centered},
+    input/.style={basic,circle,fill=green!20},
+    output/.style={basic,circle,fill=red!20},
+    weights/.style={basic,rectangle},
+functions/.style={basic,circle,fill=blue!10}
+]
+        \node[] (center) {};
+        \node[right = of center, anchor = west,output] (right) {$\hat{y}$};
+        \node[above of=center,functions] (h1) {$h_1$};
+        \node[below of=center,functions] (h2) {$h_2$};
+        \path[draw,->] (h1) -- node[above,midway]{$w^{1}_1$}(right);
+        
+        \path[draw,->] (h2) --  node[below,midway]{$w^{1}_2$}(right);
+        
+        \node[left = of h1, input] (x1) {$x_1$};
+        \node[left = of h2, input] (x2) {$x_2$};
+        
+        \path [draw,->] (x1) -- node[above,midway]{$w^0_{11}$} (h1);
+        \path [draw,->] (x1) -- node[pos=0.25,above]{$w^0_{12}$} (h2);
+        \path [draw,->] (x2) -- node[pos=0.05,above]{$w^0_{21}$} (h1);
+        \path [draw,->] (x2) -- node[below,midway]{$w^0_{22}$} (h2);
+\end{tikzpicture}
+\end{figure}
+\begin{itemize}
+    \item Non-regularized loss function: $L(\mathbf{w}) = ||\hat{y}(\mathbf{w})-y||^2$.
+    \item L2-regularized loss function: $L(\mathbf{w}) = ||\hat{y}(\mathbf{w})-y||^2 + \alpha \sum_{i=0}^p |w_i|$  .
+    \item L1-regularized loss function: $L(\mathbf{w}) = ||\hat{y}(\mathbf{w})-y||^2 + \alpha \sum_{i=0}^p w_i^2$. 
+\end{itemize}
     
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Wrapping-up}
+\begin{exampleblock}{Advantage}
+L1/L2 regularization prevents overfitting even for large architecture (a big weight vector to optimize)
+\end{exampleblock}
+\vspace{2em}
+\pause
+\begin{alertblock}{But...}
+It comes with extra hyperparameter to tune (using, e.g., cross-validation): $\alpha$
+\end{alertblock}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
@@ -810,3 +621,193 @@ P. V. & $7.332 \pm 0.01$   & $7.339 \pm 0.02$ & $7.159 \pm 0.004 $ & $7.165 \pm 
 
 
 
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Model Selection}
+\begin{alertblock}{The "big" question}
+How to determine some "hyper-parameter" of our model ?
+
+examples: $\alpha$ for regularization, degree of polynomials
+\end{alertblock}
+\pause
+The common approach:
+\begin{enumerate}[<+->]
+\item Split the dataset in two dataset : training and test
+\item Optimize the parameters on the training dataset for a range of models (e.g. several values of $\alpha$)
+\item Select the model with a lowest error on the test dataset
+\end{enumerate}
+\end{frame}
+ 
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Test dataset}
+\begin{columns}
+\column{.5\textwidth}
+\begin{figure}
+The dataset:\\
+\includegraphics[width=\textwidth]{./fig/L1/scatter_test.png}
+\end{figure}
+\pause
+\column{.5\textwidth}
+\begin{figure}
+Error on the training and the test
+with respect with $\alpha$
+\includegraphics[width=\textwidth]{./fig/L1/validation.png}
+\end{figure}
+
+\end{columns}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Introduction to the percpetron}
+  \begin{block}{}
+  Introduced by Frank Rosenblatt ( July 11, 1928 - July 11, 1971) in 1957
+  \end{block}
+  \pause
+  \begin{figure}
+  \begin{tikzpicture}[
+    basic/.style={draw,fill=blue!20,text width=1em,text badly centered},
+    input/.style={basic,circle},
+    weights/.style={basic,rectangle},
+functions/.style={basic,circle,fill=blue!10},
+]
+        \node[functions] (center) {};
+        \node[below of=center,font=\scriptsize,text width=4em] {Activation function};
+        \draw[thick] (0.5em,0.5em) -- (0,0.5em) -- (0,-0.5em) -- (-0.5em,-0.5em);
+      %  \draw (0em,0.75em) -- (0em,-0.75em);
+      %  \draw (0.75em,0em) -- (-0.75em,0em);
+        \node[right of=center, anchor = west] (right) {$y=$ 0 ou 1};
+            \path[draw,->] (center) -- (right);
+        \node[functions,left=3em of center] (left) {$\sum$};
+            \path[draw,->] (left) -- (center);
+%        \node[weights,left=3em of left] (2) {$w_2$} -- (2) 
+            \node[input,left= 4em of left] (l2) {$x_2$};
+%            \path[draw,->] (l2) -- (2);
+            \path[draw,->] (l2) -- node[above,midway]{$w_2$}(left);
+        \node[below of=l2] (dots) {$\vdots$} ;
+%(dots) node[left of=dots] (ldots) {$\vdots$};
+%        \node[weights,below of=dots] (n) {$w_n$} -- (n) 
+\node[input,below of=dots] (ln) {$x_n$};
+%            \path[draw,->] (ln) -- (n);
+            \path[draw,->] (ln) -- node[above,midway]{$w_n$}(left);
+%        \node[weights,above of=2] (1) {$w_1$} -- (1) 
+            \node[input,above of=l2] (l1) {$x_1$};
+%            \path[draw,->] (l1) -- (1);
+            \path[draw,->] (l1) -- node[above,midway]{$w_1$}(left);
+%        \node[weights,above of=1] (0) {$w_0$} -- (0) 
+\node[input,above of=l1] (l0) {$1$};
+%            \path[draw,->] (l0) -- (0);
+            \path[draw,->] (l0) -- node[above,midway]{$w_0$}(left);
+        \node[below of=ln,font=\scriptsize](lin) {inputs};
+        \node[right of=lin,font=\scriptsize] {weights};
+    \end{tikzpicture}
+    \end{figure}
+\begin{block}{}
+If $w_0 + w_1 x_1 + w_2 x_2 +  \dots + w_n\ x_n < 0$, then $y=0$\\
+else $y=1$
+\end{block}
+\end{frame}
+\begin{frame}
+\frametitle{Two different predictions}
+
+\begin{columns}
+\column{0.45\textwidth}
+$w_0=$ \red{1}, $w_1=$ \red{-2},$w_2=$ \red{2}\\
+\vspace{1em}
+
+ \begin{tikzpicture}[
+    basic/.style={draw,fill=blue!20,text width=1em,text badly centered},
+    input/.style={basic,circle, text width=1em, inner sep=0},
+    weights/.style={basic,rectangle},
+functions/.style={basic,circle,fill=blue!10},
+]
+        \node[functions] (center) {};
+        \draw[thick] (0.5em,0.5em) -- (0,0.5em) -- (0,-0.5em) -- (-0.5em,-0.5em);
+        \node[right = 1em of center, anchor = west] (right) {$y=$ \red{1}};
+            \path[draw,->] (center) -- (right);
+        \node[functions,left=1em of center] (left) {$\sum$};
+            \path[draw,->] (left) -- (center);
+            \node[left= 2em of left] (l2) {$x_1=0$};
+            \path[draw,->] (l2) -- node[above,midway]{$w_1$}(left);
+            \node[below of=l2] (ln) {$x_2=1$};
+            \path[draw,->] (ln) -- node[above,midway]{$w_2$}(left);
+            \node[above of=l2] (l1) {$1$};
+            \path[draw,->] (l1) -- node[above,midway]{$w_0$}(left);
+           % \node[input,above of=l1] (l0) {$1$};
+           % \path[draw,->] (l0) -- node[above,midway]{$w_0$}(left);
+%        \node[below of=ln,font=\scriptsize](lin) {inputs};
+%        \node[right of=lin,font=\scriptsize] {weights};
+    \end{tikzpicture}
+
+$$
+w_0 + w_1 x_1 + w_2 x_2 = 3 > 0
+$$
+
+\column{0.45\textwidth}
+$w_0=$ \red{1}, $w_1=$ \red{2},$w_2=$ \red{-2}\\
+\vspace{1em}
+
+ \begin{tikzpicture}[
+    basic/.style={draw,fill=blue!20,text width=1em,text badly centered},
+    input/.style={basic,circle, text width=1em, inner sep=0},
+    weights/.style={basic,rectangle},
+functions/.style={basic,circle,fill=blue!10},
+]
+        \node[functions] (center) {};
+        \draw[thick] (0.5em,0.5em) -- (0,0.5em) -- (0,-0.5em) -- (-0.5em,-0.5em);
+        \node[right = 1em of center, anchor = west] (right) {$y=$ \red{0}};
+            \path[draw,->] (center) -- (right);
+        \node[functions,left=1em of center] (left) {$\sum$};
+            \path[draw,->] (left) -- (center);
+            \node[left= 2em of left] (l2) {$x_1=0$};
+            \path[draw,->] (l2) -- node[above,midway]{$w_1$}(left);
+            \node[below of=l2] (ln) {$x_2=1$};
+            \path[draw,->] (ln) -- node[above,midway]{$w_2$}(left);
+            \node[above of=l2] (l1) {$1$};
+            \path[draw,->] (l1) -- node[above,midway]{$w_0$}(left);
+           % \node[input,above of=l1] (l0) {$1$};
+           % \path[draw,->] (l0) -- node[above,midway]{$w_0$}(left);
+%        \node[below of=ln,font=\scriptsize](lin) {inputs};
+%        \node[right of=lin,font=\scriptsize] {weights};
+    \end{tikzpicture}
+
+$$
+w_0 + w_1 x_1 + w_2 x_2 = -1 < 0
+$$
+
+\end{columns}
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Learning of the weights}
+\framesubtitle{Supervised learning}
+Training set: $\{(x_1,y_1),\ldots,(x_n,y_n)\}$
+
+\begin{block}{Learning algorithm}
+\begin{enumerate}[<+->]
+\item Initialization of the weights $w_i$
+\item We consider the data $(x_j,y_j)$
+\item The perceptron predicts $\hat{y}_j$
+\item Update of the weights:\\
+$w_i=w_i- (\hat{y}_j - y_j)\times x_{ij}$
+\item Back to step 2
+\end{enumerate}
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Link between perceptron and Linear/logistic regression}
+
+\begin{itemize}
+\item weight in a perceptron $\Leftrightarrow$ parameters of a model
+\item Activation function  $\Leftrightarrow$ hypothesis model
+\item If the activation function is linear, perceptron performs a linear regression
+\item If the activation function is a sigmoid, perceptron performs a logistic regression
+\end{itemize}
+
+\end{frame}

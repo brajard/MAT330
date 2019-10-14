@@ -14,7 +14,8 @@
 \usepackage{tikz}
 \usepackage{framed}
 \usepackage{algorithm}
-\usepackage{algorithmic}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{color, colortbl}
@@ -157,9 +158,9 @@
 
 \title[Machine Learning]{Machine learning and physical modelling-2}
 \author[J. Brajard]{julien.brajard@nersc.no}
-\institute[NERSC/SU]{NERSC/Sorbonne University\\
-\url{https://github.com/brajard/Geilo-Winter-school}}
-\date{21-25 January 2018}
+\institute[NERSC]{NERSC\\
+\url{https://github.com/brajard/MAT330}}
+\date{October 2019}
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%% SLIDES DE TITRE
@@ -608,8 +609,8 @@ functions/.style={basic,circle,fill=blue!10}
 \end{tikzpicture}
 \end{figure}
 \begin{block}{Objective}
-Determination of the best set of weights $\mathbf{w}$ to minimize the Loss function $L = ||\hat{y}-y||$.\\
-\alert{Gradient descent algorithms based on $\partial L/\partial w$}
+Determination of the best set of weights $\mathbf{w}$ to minimize the Loss function $L(\mathbf{w}) = ||\hat{y}(\mathbf{w})-y||^2$.\
+\alert{Calculation of $\partial L/\partial w$}
 \end{block}
 \column{.6\textwidth}
 \begin{enumerate}[<+->]
@@ -671,6 +672,41 @@ $\boxed{\color{red}\partial L/\partial \hat{y}}$
    \end{columns}
 \end{frame}
 
+\section{Optimizing a machine learning (gradient method)}
+
+\begin{frame}{Optimizing the loss}
+    Several loss function (depending on the problem) can be defined.
+    
+    For example, Mean Square Error:
+    
+    \begin{alertblock}{Method}
+    Find a minimum of L by adjustig the parameters (weights) $\mathbf{w}$ given the gradient of the loss with respect to the weights $\nabla_\mathbf{w}L$.
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Batch gradient}
+    
+\end{frame}
+
+\begin{frame}{Remarks on batch gradient}
+    
+\end{frame}
+
+\begin{frame}{Scaling the data}
+    
+\end{frame}
+
+\begin{frame}{Pure stochastic gradient}
+    
+\end{frame}
+
+\begin{frame}{Remarks on pure stochastic gradient}
+    
+\end{frame}
+
+\begin{frame}{Mini-batch gradient}
+    
+\end{frame}
 
 \begin{frame}{Batch/Stochastic training}
 Dataset: $(X,y)$ with N samples, $\mathbf{w}$: initial weights\\~\\
@@ -706,6 +742,70 @@ Dataset: $(X,y)$ with N samples, $\mathbf{w}$: initial weights\\~\\
 \end{frame}
 
 \begin{frame}{Batch training}
+Dataset: $(X,Y)$ with N samples denoted $(\mathbf{x_i},y_i)$
+
+\begin{columns}[t]
+\column{.56\textwidth}
+\begin{footnotesize}
+\begin{block}{Batch gradient:}\end{block}
+    \begin{algorithmic}
+    \Require{Learning rate(s): $\nu_k$}
+    \Require{Initial weights: $\mathbf{w}$}
+    \State $k \leftarrow 1$
+    \While {stopping criterion not met}
+   % \Require{NNNN}
+    %\State Sample $m$ examples ($\mathbf{x}_i,y_i)$ from ($X,y$)
+    \State Compute gradient: $\mathbf{g} \leftarrow \frac{1}{N}\sum_i^N\nabla_\mathbf{w}L(f(\mathbf{x}_i,y_i))$
+    \State Update weights: $\mathbf{w} \leftarrow \mathbf{w} - \nu_k\mathbf{g}$
+    \State $k \leftarrow k + 1$
+    \EndWhile 
+    \end{algorithmic}
+    \end{footnotesize}
+    \alert{1 Update / N forwards}
+    \pause
+    \column{.56\textwidth}
+\begin{footnotesize}
+\begin{block}{Stochastic gradient:}\end{block}
+    \begin{algorithmic}
+    \Require{Learning rate(s): $\nu_k$}
+    \Require{Initial weights: $\mathbf{w}$}
+    \State $k \leftarrow 1$
+    \While {stopping criterion not met}
+   % \Require{NNNN}
+    %\State Sample $m$ examples ($\mathbf{x}_i,y_i)$ from ($X,y$)
+    \State Sample an example ($\mathbf{x},y)$ from ($X,Y$)
+    \State Compute gradient: $\mathbf{g} \leftarrow \nabla_\mathbf{w}L(f(\mathbf{x},y))$
+    \State Update weights: $\mathbf{w} \leftarrow \mathbf{w} - \nu_k\mathbf{g}$
+    \State $k \leftarrow k + 1$
+    \EndWhile 
+    \end{algorithmic}
+    \end{footnotesize}
+    \alert{1 Update / 1 forward}
+    
+    
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Mini-Bactch training}
+Dataset: $(X,y)$ with N samples
+\begin{footnotesize}
+    \begin{algorithmic}
+    \Require{Learning rate(s): $\nu_k$}
+    \Require{Initial weights: $\mathbf{w}$}
+    \State $k \leftarrow 1$
+    \While {stopping criterion not met}
+   % \Require{NNNN}
+    \State Sample $m$ examples ($\mathbf{x}_i,y_i)$ from ($X,y$)
+    \State Compute gradient: $\mathbf{g} \leftarrow \frac{1}{m}\sum_i^m\nabla_\mathbf{w}L(f(\mathbf{x}_i,y_i)$
+    \State Update weights: $\mathbf{w} \leftarrow \mathbf{w} - \nu_k\mathbf{g}$
+    \State $k \leftarrow k + 1$
+    \EndWhile 
+    
+    \end{algorithmic}
+    \end{footnotesize}
+\end{frame}
+
+\begin{frame}{Mini-Batch training}
 Dataset: $(X,y)$ with N samples, $\mathbf{w}$: initial weights\\~\\
 \begin{itemize}
     \item for $k$ from $1$ to  $N//B$:
@@ -793,6 +893,11 @@ A convolutional layer is composed of $p$ convolutions (size of layer) extracting
 \end{figure}
 \pause
 \alert{The size of the feature space is generally very big}
+\end{frame}
+
+\begin{frame}{Parameters of a convolutionnal layer}
+padding, filter size, number of feaures, strides
+
 \end{frame}
 
 \begin{frame}{Max-Pooling}
