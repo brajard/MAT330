@@ -830,7 +830,7 @@ Example:
 \alert{Data:} $x_t$: NASDAQ index at the date $t$.\\
 \alert{Objective:} predict $x_t$ given the index in the past ($x_0, \cdots , x_{t-1})$\\
 \alert{A correct model:} $\hat{x}_t = \mathcal{M}(x_0, \cdots , x_{t-1},\theta)$\\
-We can construct a incorrect model: $\hat{x}_t = \textcolor{red}{\mathcal{M^{\rm leak}}}(x_0, \cdots , x_{t-1},\textcolor{red}{x_t},\theta)$\\
+We can construct an incorrect model: $\hat{x}_t = \textcolor{red}{\mathcal{M^{\rm leak}}}(x_0, \cdots , x_{t-1},\textcolor{red}{x_t},\theta)$\\
 $\textcolor{red}{\mathcal{M^{\rm leak}}}$ is perfect on the training set but is completely useless in practice.
 
 
