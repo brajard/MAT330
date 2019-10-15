@@ -29,6 +29,8 @@
 \usepackage{pgfplots}
 \usepackage{caption}
 
+\def\UrlBreaks{\do\/\do-}
+
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{positioning}
 \usetikzlibrary{shapes.arrows, chains}
@@ -382,6 +384,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 rf = RandomForestRegressor(n_estimators=n, max_features=maxf, min_samples_split=min_split,...)
 \end{lstlisting}
+\vspace{-1.5em}
 \begin{itemize}[<+->]
     \item \verb|n_estimators|: number of trees (generally the larger is the better)
     \item   \verb|max_features|: number of features to consider at each split. The default number is the total number of features. A larger value makes provides a smaller bias (accuracy) but a bigger variance (risk of overfitting)
@@ -389,17 +392,6 @@ rf = RandomForestRegressor(n_estimators=n, max_features=maxf, min_samples_split=
 \end{itemize}
 
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Determination of the parameters}
-    \begin{itemize}[<+->]
-        \item Parameters that are not optimized during the training are called \alert{hyper parameters}.
-        \item They can be determined using a score on the \alert{validation dataset} or using a \alert{cross-validation} procedure.
-        \item A convenient (but very costly) procedure in scikit-learn: \alert{gridsearch}.
-    \end{itemize}
-    ~\\
-    \centering {\visible<3->{Example on notebook}}
-\end{frame}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Feature importance}
@@ -408,6 +400,7 @@ rf = RandomForestRegressor(n_estimators=1000,max_features=10,random_state=10)
 rf.fit(X,y)
 importances = rf.feature_importances_
 \end{lstlisting}
+\vspace{-1.5em}
 Indicates the impact of a feature in predicting the target.
 \begin{columns}
 \column{.5\textwidth}
@@ -431,6 +424,97 @@ Indicates the impact of a feature in predicting the target.
 
 \end{columns}
 \end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Determination of the hyperparameters}
+    \begin{itemize}[<+->]
+        \item Parameters that are not optimized during the training are called \alert{hyperparameters}.
+        \item They can be determined using a score on the \alert{validation dataset} or using a \alert{cross-validation} procedure.
+    \end{itemize}
+    \pause
+    \begin{columns}[b]
+    \column{.42\textwidth}
+      \begin{figure}
+       \centering
+       \includegraphics[width=\textwidth]{fig/L2/machine_learning.png}
+   \end{figure}
+   \column{.58\textwidth}
+   \vfill
+   {\footnotesize
+   \url{https://xkcd.com/1838/}}
+    \end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Stir the pile: The gridsearch}
+\begin{enumerate}
+    \item Specify a list of hyperparameters to be tested.
+    \item For each of the parameters, specify a set of values to test
+    \item Train a model for each of the possible combinations of hyperparameters
+    \item Retain the best model (using, e.g., cross-validation)
+\end{enumerate}
+
+\begin{columns}[b]
+\column{.5\textwidth}
+\begin{figure}
+    \centering
+    \includegraphics[trim={0 0 10cm 0},clip,width=\textwidth]{fig/L2/cIDuR.png}
+\end{figure}
+\column{.5\textwidth}
+
+\vfill
+{\footnotesize \url{https://medium.com/@senapati.dipak97/grid-search-vs-random-search-d34c92946318}
+}
+\end{columns}
+
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Remarks on the gridsearch procedure}
+
+\begin{itemize}[<+->]
+    \item It make an \alert{exhaustive} search of the hyperparameters
+    \item The procedure is easy to \alert{parallelized}.
+    \item it is not naturally adapted for quantitative hyperparameters.
+    \item it can become \alert{very costly}. (e.g. 8 hyperparameters with 8 values each to test = $8^8=16,777,216$ trainings.
+\end{itemize}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Random search}
+    \begin{enumerate}
+    \item Specify a list of hyperparameters to be tested.
+    \item For each of the parameters, specify a set of values to test or a law to draw a random value.
+    \item Draw $n$ combinations of the hyperparameters.
+    \item Train a model for each of the combinations.
+    \item Retain the best model (using, e.g., cross-validation)
+\end{enumerate}
+\begin{figure}
+    \centering
+    \includegraphics[width=.9\textwidth]{fig/L2/cIDuR.png}
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Remarks on the random search procedure}
+
+\begin{itemize}
+    \item It \alert{does not make} an \alert{exhaustive} search of the hyperparameters
+    \item The procedure is easy to \alert{parallelized}.
+    \item it is not adapted for quantitative hyperparameters.
+    \item The cost is predictable (number of draw).
+\end{itemize}
+\pause
+Both gridsearch and random search are implemented and easy to use in scikit-learn.
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Neural Networks}
@@ -553,7 +637,7 @@ More complexe models are build by combining several perceptrons
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{More usual activation functions}
+\begin{frame}{Most usual activation functions}
 \begin{columns}
 \column{.5\textwidth}
     \begin{figure}
@@ -569,12 +653,274 @@ More complexe models are build by combining several perceptrons
      \centering
         Hyperbolic tangent\\
         \includegraphics[width=.85\textwidth]{fig/L2/activ-tanh.png}\\
-        Leaky-ReLU\\
-        \includegraphics[width=.85\textwidth]{fig/L2/activ-l-relu.png}\\
+       Sigmoid\\
+        \includegraphics[width=.85\textwidth]{fig/L2/activ-sigmoid.png}\\
 
     \end{figure}
 \end{columns}
 \end{frame}
+
+
+\begin{frame}{New fancy activation functions}
+\begin{columns}
+\column{.5\textwidth}
+    \begin{figure}
+        \centering
+        Leaky-ReLU\\
+        \includegraphics[width=.85\textwidth]{fig/L2/activ-l-relu.png}\\
+      
+
+    \end{figure}
+\column{.5\textwidth}
+    \begin{figure}
+     \centering
+        Swish\\
+        \includegraphics[width=.85\textwidth]{fig/L2/activ-swish.png}\\
+     
+
+    \end{figure}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Classification and regression loss}
+  
+   \begin{columns}
+   \column{.5\textwidth}
+   \alert{Regression}
+   \begin{itemize}
+       \item Last layer:\\
+       linear or hyperbolic tangent
+       \item Loss function:\\
+       $$L(\hat{y},y) = \sum_i (\hat{y}_i-y_i)^2$$
+   \end{itemize}
+   \pause
+\column{.5\textwidth}
+       \alert{Classification}
+   \begin{itemize}
+       \item Last layer:\\
+       Soft-max
+       $$
+       p_j=f_j(\mathbf{h}) = \frac{e^{h_j}}{\sum_k e^{h_k}}
+       $$
+       
+       \item Loss function:\\
+       Negative crossentropy
+       $$L(p,y) = -\sum_i \sum_j y_{i,j}.\log{p_{i,j}}$$
+   \end{itemize}
+   \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Convolutional neural net}
+    \begin{tikzpicture}
+    \draw[step=0.8,color=gray] (0,0) grid (4.8,4.8);
+    \matrix[matrix of nodes,
+    inner sep=0pt,
+    anchor=south west,
+    nodes={inner sep=0pt,text width=.8cm,align=center,minimum height=0.8cm}
+    ]{
+    $x_{11}$ & $x_{12}$ & $x_{13}$& $x_{14}$ & $x_{15}$  & $x_{16}$ \\
+     $x_{21}$ & $x_{22}$ & $x_{23}$& $x_{24}$ & $x_{25}$ &  $x_{26}$ \\
+    $x_{31}$ &$x_{32}$ & $x_{33}$& $x_{34}$ & $x_{35}$  & $x_{36}$ \\
+    $x_{41}$ &$x_{42}$ & $x_{43}$& $x_{44}$ & $x_{45}$ & $x_{46}$  \\
+     $x_{51}$ &$x_{52}$ & $x_{53}$& $x_{54}$ & $x_{55}$&  $x_{56}$  \\
+     $x_{61}$ &$x_{62}$ & $x_{63}$& $x_{64}$ & $x_{65}$&  $x_{66}$  \\
+    };
+    \node (in) at (4.8,2.4) {} ;
+    \node (out) at (8,2.4) {} ;
+    \draw[step=0.8,color=gray] (8,0.8) grid (11.2,4);
+    \matrix[matrix of nodes,
+    xshift=8cm,
+    yshift=0.8cm,
+    inner sep=0pt,
+    anchor=south west,
+    nodes={inner sep=0pt,text width=.8cm,align=center,minimum height=0.8cm}
+    ]{
+    $h_{11}$ & $h_{12}$ & $h_{13}$& $h_{14}$ \\
+     $h_{21}$ & $h_{22}$ & $h_{23}$& $h_{24}$ \\
+    $h_{31}$ &$h_{32}$ & $h_{33}$& $h_{34}$   \\
+    $h_{41}$ &$h_{42}$ & $h_{43}$& $h_{44}$  \\
+    };
+    
+    \draw[step=0.5,color=gray] (5.999,3.499) grid (7.5,5);
+    \matrix[matrix of nodes,
+    xshift=5.999cm,
+    yshift=3.499cm,
+    inner sep=0pt,
+    anchor=south west,
+    nodes={inner sep=0pt,fill=orange!20,font=\footnotesize,text width=.5cm,align=center,minimum height=0.5cm}
+    ]{
+    $w_{11}$ & $w_{12}$ & $w_{13}$ \\
+    $w_{21}$ & $w_{22}$ & $w_{23}$ \\
+    $w_{31}$ & $w_{32}$ & $w_{33}$ \\
+    };
+    
+    \path [draw, very thick, ->] (in) edge[bend left=40] 
+    node [above,midway]{$\mathbf{w}$}(out);
+    \node (xlabel) at (2.4,5) {$X$: an image};
+    \node (hlabel) at (9.6,4.2) {$h$: first feature};
+    \end{tikzpicture}
+    \begin{block}{Perform a standard convolution}
+    $$
+    h_{i,j} = \sum_{k=1}^3\sum_{l=1}^3 x_{i+k-1,j+l-1}.w_{k,l}
+    $$
+    \end{block}
+\end{frame}
+
+
+\begin{frame}[t]{Main parameters of a convolutional layer}
+\begin{itemize}
+    \item <1-> \alert<1> {Size of the filter} $K$ 
+    \item <2-> \alert<2> {Number of filters} $p$
+
+\only<2>{
+A convolutional layer is composed of $p$ convolutions (size of layer) extracting $p$ features from the data.
+\begin{figure}
+\centering
+    \includegraphics[width=.6\textwidth,trim={0 3.5cm 12.5cm 5cm},clip]{fig/L2/Cnn-layer.png}
+\end{figure}
+}
+
+    \item <3-> \alert<3> {Strides} $S$
+    
+    \only<3> {
+{\centering
+\begin{tabular}{cc}
+    $S=1$ & $S=2$ \\
+    \includegraphics[trim={0.5cm 0 2.5cm 0}, clip, width=.5\textwidth]{fig/L2/Stride1.png}&
+    \includegraphics[trim={0 0 2.5cm 0}, clip, width=.5\textwidth]{fig/L2/Stride2.png}\\
+    \end{tabular}
+    }}
+    
+    \item <4-> \alert<4> {Padding} $P$
+    
+    {\only<4>
+    {\centering
+\begin{tabular}{cc}
+    $P=1$ & $P=2$ \\
+    \includegraphics[trim={0 0 1.5cm 0}, clip, width=.45\textwidth]{fig/L2/pad3.png}&
+    \includegraphics[trim={0 0 1.5cm 0}, clip, width=.45\textwidth]{fig/L2/pad5.png}\\
+    \end{tabular}
+    }
+
+}
+    
+\end{itemize}
+    
+    {\footnotesize
+    $O = \frac{W - K +2P}{S} + 1$, where $O$ is the output size and $W$ the input size.
+    }
+\end{frame}
+
+
+\begin{frame}{Max-Pooling}
+    In order to reduce the size of the feature space (en to enhance the gradients), a common operation is to perform a max-pooling.
+    \begin{figure}
+   \centering
+    \includegraphics[width=.6\textwidth]{fig/L2/MaxpoolSample2.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{A traditionnal CNN architecture}
+    \begin{figure}
+\centering
+    \includegraphics[width=.8\textwidth,trim={0 0cm 0cm 3cm},clip]{fig/L2/CNN.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Example of AlexNet}
+    \alert{AlexNet} is the first Deep architecture used on ImageNet challenge in 2012 and achieved an \alert{error of 15.3\%} (10\% better than the previous best classifier). The paper was cited more than 34,000 times.
+     \bibliographystyle{amsalpha}
+
+     \nocite{Krizhevsky2012ImageNetNetworks}
+
+    \bibliography{myref.bib}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.5\textwidth]{fig/L2/AlexNet_Summary_Table.jpg}
+
+    \end{figure}
+\end{frame}
+\section{A quick typology of few neural nets}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Recurrent Neural Networks}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.4\textwidth]{fig/L2/rnn.png}
+
+    \end{figure}
+
+Some popular types of recurrent neural networks:
+\begin{itemize}
+    \item Long short-term memory (LSTM)
+    \item Gated Reccurent Unit (GRU)
+\end{itemize}
+\alert{Used in machine translation and text processing}
+\end{frame}
+
+\begin{frame}{Autoencoders}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.9\textwidth]{fig/L2/AE.png}
+
+    \end{figure}
+\alert{Used in image denoising, compressing, generation,...}
+    
+\end{frame}
+
+\begin{frame}{Generative adversarial networks}
+    \begin{figure}
+        \centering
+    \includegraphics[width=.9\textwidth]{fig/L2/GAN.png}
+  \end{figure}
+    
+\end{frame}
+
+\begin{frame}{Residual Networks}
+    \begin{columns}
+    \column{.5\textwidth}
+        \begin{figure}
+        \centering
+        \includegraphics[width=.9\textwidth]{fig/L2/res_block.png}
+
+    \end{figure}
+    $x$~: input, $y$~: output
+    $$
+    y = x + \mathcal{F}(x) 
+    $$
+    \pause
+    \column{.5\textwidth}
+            \begin{figure}
+        \centering
+        \includegraphics[height=.9\textheight,trim={4cm 0cm 0cm 0cm},clip]{fig/L2/resnet_full.png}
+
+    \end{figure}
+    \end{columns}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Questions addressed in this lecture}
+    \begin{itemize}
+        \item What are the steps of a machine learning process? 
+        \item What is the principle of the Random Forests? \cite[5.8]{VanderPlas-2016}
+        \item How to determine the hyperparamters? \cite[5.3]{VanderPlas-2016}
+        \item What is a artificial neural network? \cite[6]{Goodfellow-et-al-2016}
+        \item What is a convolutive layers \cite[9]{Goodfellow-et-al-2016}
+        \item What are the main types of neural networks? \cite[10, 14, 20]{Goodfellow-et-al-2016}
+    \end{itemize}
+
+\begin{footnotesize}
+\begin{block}{Refs}
+\cite[$n$]{VanderPlas-2016}: Jake VanderPlas, \textit{Python Data Science Handbook}, section $n$\\
+\cite[$n$]{Goodfellow-et-al-2016}: Goodfellow etal., Deep Learning, chapter $n$
+\end{block}
+\end{footnotesize}
+\end{frame}
+
+
+\end{document}
+
 
 \begin{frame}{Training a neural-net: gradient backpropagation}
 
@@ -644,33 +990,7 @@ $\boxed{\color{red}\partial L/\partial \hat{y}}$
 
 \end{frame}
 
-\begin{frame}{Classification and regression loss}
-  
-   \begin{columns}
-   \column{.5\textwidth}
-   \alert{Regression}
-   \begin{itemize}
-       \item Last layer:\\
-       linear or hyperbolic tangent
-       \item Loss function:\\
-       $$L(\hat{y},y) = \sum_i (\hat{y}_i-y_i)^2$$
-   \end{itemize}
-   \pause
-\column{.5\textwidth}
-       \alert{Classification}
-   \begin{itemize}
-       \item Last layer:\\
-       Soft-max
-       $$
-       p_j=f_j(\mathbf{h}) = \frac{e^{h_j}}{\sum_k e^{h_k}}
-       $$
-       
-       \item Loss function:\\
-       Negative crossentropy
-       $$L(p,y) = -\sum_i \sum_j y_{i,j}.\log{p_{i,j}}$$
-   \end{itemize}
-   \end{columns}
-\end{frame}
+
 
 \section{Optimizing a machine learning (gradient method)}
 
@@ -828,164 +1148,6 @@ N//B updates are performed after N forward passes of the neural net\\
 
     
 \end{frame}
-
-\begin{frame}[fragile]{Convolutional neural net}
-    \begin{tikzpicture}
-    \draw[step=0.8,color=gray] (0,0) grid (4.8,4.8);
-    \matrix[matrix of nodes,
-    inner sep=0pt,
-    anchor=south west,
-    nodes={inner sep=0pt,text width=.8cm,align=center,minimum height=0.8cm}
-    ]{
-    $x_{11}$ & $x_{12}$ & $x_{13}$& $x_{14}$ & $x_{15}$  & $x_{16}$ \\
-     $x_{21}$ & $x_{22}$ & $x_{23}$& $x_{24}$ & $x_{25}$ &  $x_{26}$ \\
-    $x_{31}$ &$x_{32}$ & $x_{33}$& $x_{34}$ & $x_{35}$  & $x_{36}$ \\
-    $x_{41}$ &$x_{42}$ & $x_{43}$& $x_{44}$ & $x_{45}$ & $x_{46}$  \\
-     $x_{51}$ &$x_{52}$ & $x_{53}$& $x_{54}$ & $x_{55}$&  $x_{56}$  \\
-     $x_{61}$ &$x_{62}$ & $x_{63}$& $x_{64}$ & $x_{65}$&  $x_{66}$  \\
-    };
-    \node (in) at (4.8,2.4) {} ;
-    \node (out) at (8,2.4) {} ;
-    \draw[step=0.8,color=gray] (8,0.8) grid (11.2,4);
-    \matrix[matrix of nodes,
-    xshift=8cm,
-    yshift=0.8cm,
-    inner sep=0pt,
-    anchor=south west,
-    nodes={inner sep=0pt,text width=.8cm,align=center,minimum height=0.8cm}
-    ]{
-    $h_{11}$ & $h_{12}$ & $h_{13}$& $h_{14}$ \\
-     $h_{21}$ & $h_{22}$ & $h_{23}$& $h_{24}$ \\
-    $h_{31}$ &$h_{32}$ & $h_{33}$& $h_{34}$   \\
-    $h_{41}$ &$h_{42}$ & $h_{43}$& $h_{44}$  \\
-    };
-    
-    \draw[step=0.5,color=gray] (5.999,3.499) grid (7.5,5);
-    \matrix[matrix of nodes,
-    xshift=5.999cm,
-    yshift=3.499cm,
-    inner sep=0pt,
-    anchor=south west,
-    nodes={inner sep=0pt,fill=orange!20,font=\footnotesize,text width=.5cm,align=center,minimum height=0.5cm}
-    ]{
-    $w_{11}$ & $w_{12}$ & $w_{13}$ \\
-    $w_{21}$ & $w_{22}$ & $w_{23}$ \\
-    $w_{31}$ & $w_{32}$ & $w_{33}$ \\
-    };
-    
-    \path [draw, very thick, ->] (in) edge[bend left=40] 
-    node [above,midway]{$\mathbf{w}$}(out);
-    \node (xlabel) at (2.4,5) {$X$: an image};
-    \node (hlabel) at (9.6,4.2) {$h$: first feature};
-    \end{tikzpicture}
-    \begin{block}{Perform a standard convolution}
-    $$
-    h_{i,j} = \sum_{k=1}^3\sum_{l=1}^3 x_{i+k-1,j+l-1}.w_{k,l}
-    $$
-    \end{block}
-\end{frame}
-
-\begin{frame}{Convolutional layer}
-A convolutional layer is composed of $p$ convolutions (size of layer) extracting $p$ features from the data.
-\begin{figure}
-\centering
-    \includegraphics[width=.6\textwidth,trim={0 3.5cm 12.5cm 5cm},clip]{fig/L2/Cnn-layer.png}
-\end{figure}
-\pause
-\alert{The size of the feature space is generally very big}
-\end{frame}
-
-\begin{frame}{Parameters of a convolutionnal layer}
-padding, filter size, number of feaures, strides
-
-\end{frame}
-
-\begin{frame}{Max-Pooling}
-    In order to reduce the size of the feature space, a common operation is to perform a max-pooling.
-    \begin{figure}
-   \centering
-    \includegraphics[width=.6\textwidth]{fig/L2/MaxpoolSample2.png}
-\end{figure}
-\end{frame}
-
-\begin{frame}{A traditionnal CNN architecture}
-    \begin{figure}
-\centering
-    \includegraphics[width=.8\textwidth,trim={0 0cm 0cm 3cm},clip]{fig/L2/CNN.png}
-\end{figure}
-\end{frame}
-
-\begin{frame}{Example of AlexNet}
-    \alert{AlexNet} is the first Deep architecture used on ImageNet challenge in 2012 and achieved an \alert{error of 15.3\%} (10\% better than the previous best classifier). The paper was cited more than 34,000 times.
-     \bibliographystyle{amsalpha}
-
-     \nocite{Krizhevsky2012ImageNetNetworks}
-
-    \bibliography{references.bib}
-    \begin{figure}
-        \centering
-        \includegraphics[width=.5\textwidth]{fig/L2/AlexNet_Summary_Table.jpg}
-
-    \end{figure}
-\end{frame}
-\section{A quick typology of few neural nets}
-%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Recurrent Neural Networks}
-    \begin{figure}
-        \centering
-        \includegraphics[width=.4\textwidth]{fig/L2/rnn.png}
-
-    \end{figure}
-
-Some popular types of recurrent neural networks:
-\begin{itemize}
-    \item Long short-term memory (LSTM)
-    \item Gated Reccurent Unit (GRU)
-\end{itemize}
-\alert{Used in machine translation and text processing}
-\end{frame}
-
-\begin{frame}{Autoencoders}
-    \begin{figure}
-        \centering
-        \includegraphics[width=.9\textwidth]{fig/L2/AE.png}
-
-    \end{figure}
-\alert{Used in image denoising, compressing, generation,...}
-    
-\end{frame}
-
-\begin{frame}{Generative adversarial networks}
-    \begin{figure}
-        \centering
-    \includegraphics[width=.9\textwidth]{fig/L2/GAN.png}
-  \end{figure}
-    
-\end{frame}
-
-\begin{frame}{Residual Networks}
-    \begin{columns}
-    \column{.5\textwidth}
-        \begin{figure}
-        \centering
-        \includegraphics[width=.9\textwidth]{fig/L2/res_block.png}
-
-    \end{figure}
-    $x$~: input, $y$~: output
-    $$
-    y = x + \mathcal{F}(x) 
-    $$
-    \pause
-    \column{.5\textwidth}
-            \begin{figure}
-        \centering
-        \includegraphics[height=.9\textheight,trim={4cm 0cm 0cm 0cm},clip]{fig/L2/resnet_full.png}
-
-    \end{figure}
-    \end{columns}
-\end{frame}
-
-\end{document}
 
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
