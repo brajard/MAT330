@@ -13,6 +13,8 @@
 \usepackage{fancyvrb}
 \usepackage{tikz}
 \usepackage{framed}
+\usepackage{xmpmulti}
+
 \usepackage{algorithm}
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
@@ -813,6 +815,14 @@ A convolutional layer is composed of $p$ convolutions (size of layer) extracting
 \end{frame}
 
 
+\begin{frame}{Summary of Convolutional layer steps}
+    \begin{figure}
+        \centering
+\multiinclude[<+->][format=png,graphics={width=\textwidth}{L2/animated/}       
+        \label{fig:my_label}
+    \end{figure}
+\end{frame}
+
 \begin{frame}{Max-Pooling}
     In order to reduce the size of the feature space (en to enhance the gradients), a common operation is to perform a max-pooling.
     \begin{figure}
@@ -821,7 +831,7 @@ A convolutional layer is composed of $p$ convolutions (size of layer) extracting
 \end{figure}
 \end{frame}
 
-\begin{frame}{A traditionnal CNN architecture}
+\begin{frame}[fragile]{A traditionnal CNN architecture}
     \begin{figure}
 \centering
     \includegraphics[width=.8\textwidth,trim={0 0cm 0cm 3cm},clip]{fig/L2/CNN.png}
@@ -830,11 +840,15 @@ A convolutional layer is composed of $p$ convolutions (size of layer) extracting
 
 \begin{frame}{Example of AlexNet}
     \alert{AlexNet} is the first Deep architecture used on ImageNet challenge in 2012 and achieved an \alert{error of 15.3\%} (10\% better than the previous best classifier). The paper was cited more than 34,000 times.
-     \bibliographystyle{amsalpha}
 
-     \nocite{Krizhevsky2012ImageNetNetworks}
+\begin{thebibliography}{GBC16}
 
-    \bibliography{myref.bib}
+\bibitem[KH12]{Krizhevsky2012ImageNetNetworks}
+Alex Krizhevsky and Geoffrey~E Hinton, \emph{{ImageNet Classification with Deep
+  Convolutional Neural Networks}}, Neural Information Processing Systems
+  (2012), 1--9.
+
+\end{thebibliography}
     \begin{figure}
         \centering
         \includegraphics[width=.5\textwidth]{fig/L2/AlexNet_Summary_Table.jpg}
