@@ -395,37 +395,6 @@ rf = RandomForestRegressor(n_estimators=n, max_features=maxf, min_samples_split=
 
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Feature importance}
-\begin{lstlisting}[language=Python]
-rf = RandomForestRegressor(n_estimators=1000,max_features=10,random_state=10)
-rf.fit(X,y)
-importances = rf.feature_importances_
-\end{lstlisting}
-\vspace{-1.5em}
-Indicates the impact of a feature in predicting the target.
-\begin{columns}
-\column{.5\textwidth}
-    \begin{figure}
-        \centering
-        \includegraphics[width=.9\textwidth]{fig/L2/importance_RF.png}
-    \end{figure}
-\column{.5\textwidth}
-    \begin{table}
-    \centering
-    \footnotesize
-    \begin{tabular}{c|p{4.5cm}}
-       CRIM   &  per capita crime rate by town \\   
-       NOX    &  nitric oxides concentration  \\
-       RM     &  average number of rooms per dwelling \\
-       DIS    &  distance to employment centres \\
-       LSTAT  &  lower status of the population \\
-         
-        \end{tabular}
-        \end{table}
-
-\end{columns}
-\end{frame}
 
 
 
@@ -517,6 +486,107 @@ Indicates the impact of a feature in predicting the target.
 Both gridsearch and random search are implemented and easy to use in scikit-learn.
 \end{frame}
 
+
+\section{Feature processing}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Feature importance}
+\begin{lstlisting}[language=Python]
+rf = RandomForestRegressor(n_estimators=1000,max_features=10,random_state=10)
+rf.fit(X,y)
+importances = rf.feature_importances_
+\end{lstlisting}
+\vspace{-1.5em}
+Indicates the impact of a feature in predicting the target.
+\begin{columns}
+\column{.5\textwidth}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.9\textwidth]{fig/L2/importance_RF.png}
+    \end{figure}
+\column{.5\textwidth}
+    \begin{table}
+    \centering
+    \footnotesize
+    \begin{tabular}{c|p{4.5cm}}
+       CRIM   &  per capita crime rate by town \\   
+       NOX    &  nitric oxides concentration  \\
+       RM     &  average number of rooms per dwelling \\
+       DIS    &  distance to employment centres \\
+       LSTAT  &  lower status of the population \\
+         
+        \end{tabular}
+        \end{table}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}{Type of features}
+    \begin{itemize}[<+->]
+        \item quantitative/continuous features (e.g. distance to employment centres, temperature)
+        \item ordinal/discrete features (e.g. number of rooms, category of an hurricane)
+        \item categorical features (e.g. name of the neighbourhood, name of the ocean)
+    \end{itemize}
+    \pause
+    \begin{alertblock}{Encoding of the features?}
+    
+    \end{alertblock}
+    
+\end{frame}
+
+\begin{frame}{Feature encoding}
+\begin{table}[]
+    \centering
+    \footnotesize
+    \begin{tabular}{|p{.15\textwidth}|p{.1\textwidth}|p{.33\textwidth}|p{.31\textwidth}|}
+         Type  & \multicolumn{2}{c|}{Examples} & Encoding \\
+         \hline
+         Quantitative & distance & $\{1.2, 2.3, 0.1\}$ & $\{1.2, 2.3, 0.1\}$\\
+                  \hline
+         Ordinal & rooms & $\{2,3,4\}$ & $\{2,3,4\}$ \\
+                  \hline
+        Qualitative & Ocean & $\{{\rm Atlantic, Indian, Pacific}\}$ & $\{[1,0,0], [0,1,0], [0,0,1]\} $\\
+        \hline
+    \end{tabular}
+
+\end{table}
+\pause
+Qualitative variable: one-hot encoding.
+\begin{itemize}
+
+    \item You must \alert{not} encode qualitative features with integer $1,2,3$, it would mean that Pacific > Indian > Atlantic.
+    \item In {\rm sklearn} there is a function that makes the one-hot encoding: {\rm OneHotEncoder()}
+
+    \item If the number of modalities (number of different features) is high, encoding qualitative feature produce a big-sized vector.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Embedding}
+    A common way to deal with features with a lot of modalities : \alert{Embedding}
+    
+    \begin{block}{Principle of embedding}
+    Let's consider a qualitative variable with $n$ modalities, represented by the n-dimensional binary vector ${\bf x}$ 
+    
+    Embedding consists in representing this variable by a vector ${\bf v} \in \mathbb{R}^p, p << n$
+    
+    The embedding is represented by a matrix ${\bf M} \in \mathbb{R}^{n\times p}$ such as:
+    $$
+    {\bf v} = {\bf M}\cdot{\bf x}
+    $$
+    \end{block}
+    Coefficients of ${\bf M}$ have to be optimized given an objective criteria (that depends on your problem)
+    
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{one example: word cloud}
+On the introduction of the \textit{Goodfellow et al.} book.\\
+${\rm v}$ is 3-dimensional ($x$,$y$,size)
+\begin{figure}
+    \includegraphics[trim={2cm 5cm 2cm 5cm},clip,width=\textwidth]{fig/L2/wordcloud.png}
+\end{figure}
+{\footnotesize
+\href{https://www.wordclouds.com}{https://www.wordclouds.com}}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Neural Networks}
@@ -946,13 +1016,15 @@ Some popular types of recurrent neural networks:
     \begin{itemize}
         \item What are the steps of a machine learning process? 
         \item What is the principle of the Random Forests? [Van16,5.8]
+        \item How to encode qualitative features? [Van16,5.4]
         \item How to determine the hyperparamters? [Van16,5.3]
         \item What is a artificial neural network? [GBC16,6]
         \item What is a convolutive layers [GBC16,9]
+            {\footnotesize
+\href{https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-learning-1f6f42faee1}{https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-learning-1f6f42faee1}}
         \item What are the main types of neural networks? [GBC16,10, 14, 20]
     \end{itemize}
-    {\footnotesize
-\href{https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-learning-1f6f42faee1}{https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-learning-1f6f42faee1}}
+
 \begin{footnotesize}
 \begin{block}{Refs}
 ~[Van16,$n$]: Jake VanderPlas, \textit{Python Data Science Handbook}, section $n$\\
