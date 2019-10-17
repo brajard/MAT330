@@ -581,7 +581,7 @@ More complexe models are build by combining several perceptrons
 \end{frame}
 
 
-\begin{frame}{Multi-layer perceptron}
+\begin{frame}{Multi-layer perceptron (Densely connected layers)}
     \def\layersep{1.5cm}
 
 \begin{tikzpicture}[
@@ -808,7 +808,7 @@ A convolutional layer is composed of $p$ convolutions (size of layer) extracting
 }
     
 \end{itemize}
-    
+    \pause
     {\footnotesize
     $O = \frac{W - K +2P}{S} + 1$, where $O$ is the output size and $W$ the input size.
     }
@@ -818,11 +818,39 @@ A convolutional layer is composed of $p$ convolutions (size of layer) extracting
 \begin{frame}{Summary of Convolutional layer steps}
     \begin{figure}
         \centering
-\multiinclude[<+->][format=png,graphics={width=\textwidth}{L2/animated/}       
-        \label{fig:my_label}
+        1. Convolution
+\multiinclude[<+->][format=png,graphics={width=\textwidth}]{fig/L2/animated/conv}       
     \end{figure}
+    \pause
+    \vspace{-2em}
+    \begin{columns}[t]
+    \column{.7\textwidth}
+    \begin{figure}
+        \centering
+        2. Addition
+            \multiinclude[<+->][format=png,graphics={width=\textwidth}]{fig/L2/animated/channels}       
+
+    \end{figure}
+    
+       \column{.3\textwidth}
+       \pause
+    \begin{figure}
+        \centering
+        3. Bias\\
+\multiinclude[<+->][format=png,graphics={width=.6\textwidth}]{fig/L2/animated/bias}       
+    \end{figure}
+    \end{columns}
 \end{frame}
 
+\begin{frame}{Remarks on Convolutional layers}
+\begin{itemize}
+    \item Convolutional layers are acting locally on the image (But you can still use large scale information by adding more layers)
+    \item Convolutions are invariant by translation (the weights do not depend on the location on the image).
+    \item They can handle images of different sizes.
+    
+\end{itemize}
+    
+\end{frame}
 \begin{frame}{Max-Pooling}
     In order to reduce the size of the feature space (en to enhance the gradients), a common operation is to perform a max-pooling.
     \begin{figure}
@@ -917,17 +945,18 @@ Some popular types of recurrent neural networks:
 \begin{frame}[fragile]{Questions addressed in this lecture}
     \begin{itemize}
         \item What are the steps of a machine learning process? 
-        \item What is the principle of the Random Forests? \cite[5.8]{VanderPlas-2016}
-        \item How to determine the hyperparamters? \cite[5.3]{VanderPlas-2016}
-        \item What is a artificial neural network? \cite[6]{Goodfellow-et-al-2016}
-        \item What is a convolutive layers \cite[9]{Goodfellow-et-al-2016}
-        \item What are the main types of neural networks? \cite[10, 14, 20]{Goodfellow-et-al-2016}
+        \item What is the principle of the Random Forests? [Van16,5.8]
+        \item How to determine the hyperparamters? [Van16,5.3]
+        \item What is a artificial neural network? [GBC16,6]
+        \item What is a convolutive layers [GBC16,9]
+        \item What are the main types of neural networks? [GBC16,10, 14, 20]
     \end{itemize}
-
+    {\footnotesize
+\href{https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-learning-1f6f42faee1}{https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-learning-1f6f42faee1}}
 \begin{footnotesize}
 \begin{block}{Refs}
-\cite[$n$]{VanderPlas-2016}: Jake VanderPlas, \textit{Python Data Science Handbook}, section $n$\\
-\cite[$n$]{Goodfellow-et-al-2016}: Goodfellow etal., Deep Learning, chapter $n$
+~[Van16,$n$]: Jake VanderPlas, \textit{Python Data Science Handbook}, section $n$\\
+~[GBC16,$n$]: Goodfellow etal., Deep Learning, chapter $n$
 \end{block}
 \end{footnotesize}
 \end{frame}
