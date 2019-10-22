@@ -13,8 +13,11 @@
 \usepackage{fancyvrb}
 \usepackage{tikz}
 \usepackage{framed}
+\usepackage{xmpmulti}
+
 \usepackage{algorithm}
-\usepackage{algorithmic}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{color, colortbl}
@@ -27,6 +30,8 @@
 \usepackage{hhline}
 \usepackage{pgfplots}
 \usepackage{caption}
+
+\def\UrlBreaks{\do\/\do-}
 
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{positioning}
@@ -836,6 +841,15 @@ It comes with extra hyperparameter to tune (using, e.g., cross-validation): $\al
 \end{alertblock}
 \end{frame}
 
+
+\begin{frame}{Dropout}
+ \begin{figure}
+        \centering
+        3. Bias\\
+\multiinclude[<+->][format=png,graphics={width=.6\textwidth}]{fig/L3/dropout}       
+    \end{figure}
+    \end{frame}
+    
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
