@@ -160,11 +160,11 @@
 %Numéro du cours
 \newcommand{\nb}{1}
 
-\title[Machine Learning]{Machine learning and physical modelling-2}
+\title[Machine Learning]{Machine learning and physical modelling-3}
 \author[J. Brajard]{julien.brajard@nersc.no}
-\institute[NERSC/SU]{NERSC/Sorbonne University\\
-\url{https://github.com/brajard/Geilo-Winter-school}}
-\date{21-25 January 2018}
+\institute[NERSC]{NERSC\\
+\url{https://github.com/brajard/MAT330}}
+\date{October 2019}
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%% SLIDES DE TITRE
@@ -172,6 +172,14 @@
 \titlepage
 %\centering{
 %\url{http://australe.upmc.fr} (onglet EPU-C5-IGE Info Gen)}
+\end{frame}
+
+\begin{frame}{Have a look at the Rugby world cup?}
+    
+\end{frame}
+
+\begin{frame}{But if we look at the easiest predictor....}
+    
 \end{frame}
 
 \begin{frame}{Table of contents}
@@ -843,11 +851,19 @@ It comes with extra hyperparameter to tune (using, e.g., cross-validation): $\al
 
 
 \begin{frame}{Dropout}
+During training, randomly remove neurons on a layer with probability $p$.
  \begin{figure}
         \centering
-        3. Bias\\
 \multiinclude[<+->][format=png,graphics={width=.6\textwidth}]{fig/L3/dropout}       
     \end{figure}
+    
+    \begin{alertblock}{Practical remarks:}
+    \begin{itemize}
+        \item Avoid Dropout on convolutive layer
+        \item Avoid Dropout on the last layer.
+    \end{itemize}
+    \end{alertblock}
+    
     \end{frame}
     
 %%%%%%%%%%%%%%%%%%%%%
