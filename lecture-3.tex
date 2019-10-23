@@ -175,11 +175,17 @@
 \end{frame}
 
 \begin{frame}{Have a look at the Rugby world cup?}
-    
+    \begin{figure}
+        \centering
+        \includegraphics[trim={0 0 3.5cm 0}, clip, width=\textwidth]{fig/L3/predicting-rugby.png}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{But if we look at the easiest predictor....}
-    
+        \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{fig/L3/rugby-ranking.png}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Table of contents}
@@ -268,64 +274,9 @@ $\boxed{\color{red}\partial L/\partial \hat{y}}$
     \end{alertblock}
 \end{frame}
 
-\begin{frame}{Batch gradient}
-    
-\end{frame}
 
-\begin{frame}{Remarks on batch gradient}
-    
-\end{frame}
 
-\begin{frame}{Scaling the data}
-    
-\end{frame}
-
-\begin{frame}{Pure stochastic gradient}
-    
-\end{frame}
-
-\begin{frame}{Remarks on pure stochastic gradient}
-    
-\end{frame}
-
-\begin{frame}{Mini-batch gradient}
-    
-\end{frame}
-
-\begin{frame}{Batch/Stochastic training}
-Dataset: $(X,y)$ with N samples, $\mathbf{w}$: initial weights\\~\\
-\begin{columns}[t]
-\column{.5\textwidth}
-\alert{Batch Training:}
-\begin{itemize}
-    \item For $i$ from $1$ to $N$:\\
-    \begin{enumerate}
-    \item    $L = L + L(f(x_i),y_i)$
-     \end{enumerate}
-    \item Calculate $\partial L/\partial w$
-    \item update weights:$\mathbf{w}$
-    
-\end{itemize}
-\alert{1 Update is performed after N forward passes of the neural net.}
-\pause
-\column{.5\textwidth}
-\alert{Stochastic Training:}
-\begin{itemize}
- \item For $i$ from $1$ to $N$:\\
-     \begin{enumerate}
-
-    \item Compute $L(f(x_i),y_i)$\\
-    \item Calculate $\partial L/\partial w$\\
-    \item update weights:$\mathbf{w}$
-    \end{enumerate}
-\end{itemize}
-
-\alert{N Updates are performed after N forward passes of the neural net.}
-\end{columns}
-    
-\end{frame}
-
-\begin{frame}{Batch training}
+\begin{frame}{Batch Vs Stochastic training}
 Dataset: $(X,Y)$ with N samples denoted $(\mathbf{x_i},y_i)$
 
 \begin{columns}[t]
@@ -370,9 +321,11 @@ Dataset: $(X,Y)$ with N samples denoted $(\mathbf{x_i},y_i)$
     \end{columns}
 \end{frame}
 
-\begin{frame}{Mini-Bactch training}
+\begin{frame}{Mini-Batch training}
 Dataset: $(X,y)$ with N samples
 \begin{footnotesize}
+\begin{block}{Mini-Batch gradient:}\end{block}
+
     \begin{algorithmic}
     \Require{Learning rate(s): $\nu_k$}
     \Require{Initial weights: $\mathbf{w}$}
@@ -387,32 +340,12 @@ Dataset: $(X,y)$ with N samples
     
     \end{algorithmic}
     \end{footnotesize}
+    \pause
+        \alert{$m$ Update / 1 forward}\\
+        $m=1$: Pure stochastic gradient.\\
+        $m=N$: Batch gradient
+
 \end{frame}
-
-\begin{frame}{Mini-Batch training}
-Dataset: $(X,y)$ with N samples, $\mathbf{w}$: initial weights\\~\\
-\begin{itemize}
-    \item for $k$ from $1$ to  $N//B$:
-\begin{itemize}
- \item for $i$ from $B(k-1)+1$ to $Bk$:\\
-     \begin{enumerate}
-    \item Compute $L(f(x_i),y_i)$\\
-    \end{enumerate}
-    \item Calculate $\partial L/\partial w$\\
-    \item update weights:$\mathbf{w}$
-    \end{itemize}
-\end{itemize}
-N//B updates are performed after N forward passes of the neural net\\
-\alert{B is the batchsize}
-\begin{itemize}
-    \item \alert{B=1}: stochastic training
-    \item \alert{B=N}: batch training
-    \item Generally B<<N
-\end{itemize} 
-
-    
-\end{frame}
-
 
 \section{L1/L2 regularization}
 
@@ -691,7 +624,7 @@ $\Delta_{lms}$ is the update in case of non-regularized regression
 \begin{block}{}
 Lasso regression is a linear regression with a Lasso regularization:
 $$
-J(\bm{\theta}) = \frac{1}{n} \sum (y_i - h_{\bm{\theta}}(x_i))^2 + \alpha \sum_{i=0}^p |\theta_i
+J(\bm{\theta}) = \frac{1}{n} \sum (y_i - h_{\bm{\theta}}(x_i))^2 + \alpha \sum_{i=0}^p |\theta_i|
 $$
 \end{block}
 \end{frame}
@@ -849,14 +782,39 @@ It comes with extra hyperparameter to tune (using, e.g., cross-validation): $\al
 \end{alertblock}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Let's have a break}
+\url{https://playground.tensorflow.org}
+\end{frame}
 
+\section{Other regularization techniques}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Regularization}
+\begin{block}{Definition:}
+\alert{Regularization} refers to the \alert{set of techniques} that \alert{constraints} the optimization. It is generally used to \alert{avoid overfitting}, but can also be used to inject prior knowledge during the training phase (e.g. set known limits to parameters)
+\end{block}
+\pause
+\begin{itemize}
+    \item Stochastic mini-batch gradient is a regularization technique
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Early Stopping}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{fig/L3/early_stopping.png}
+    \end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Dropout}
 During training, randomly remove neurons on a layer with probability $p$.
  \begin{figure}
         \centering
 \multiinclude[<+->][format=png,graphics={width=.6\textwidth}]{fig/L3/dropout}       
     \end{figure}
-    
+    \pause
     \begin{alertblock}{Practical remarks:}
     \begin{itemize}
         \item Avoid Dropout on convolutive layer
@@ -866,6 +824,53 @@ During training, randomly remove neurons on a layer with probability $p$.
     
     \end{frame}
     
+    
+\begin{frame}{Batch normalization}
+From \textit{Ioffe et al. 2015, Batch normalizaion...}\\
+
+Batch Normalization is a new type of layer.
+
+If we use mini-batch training with a minibatch of size $m$:
+\begin{columns}
+\column{.8\textwidth}
+\begin{footnotesize}
+\begin{block}{Mini Batch Layer:}\end{block}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+    \begin{algorithmic}
+    \Require{Values of $\mathbf{x_{1\dots m}}$}
+    \Require{Initial parameters to be optimized: $\gamma, \beta$}
+    \Ensure {$\mathbf{z_i} = {\rm BN}_{\gamma, \beta}(\mathbf{x}_i)$}
+    \State $\mu \leftarrow \frac{1}{m}\sum_{i=1}^m \mathbf{x}_i$ \Comment{mini-batch mean}
+    \State $\sigma^2 \leftarrow \frac{1}{m}\sum_{i=1}^m \left( \mathbf{x}_i - \mu \right)^2$ \Comment (mini-batch variance)
+    \State $\hat{\mathbf{x}}_i \leftarrow (\mathbf{x}_i - \mu) / \sqrt{\sigma^2 + \epsilon}$ \Comment {normalize}
+    \State $\mathbf{z_i} = \gamma \hat{\mathbf{x}}_i + \beta $ \Comment {Scale and shift}
+    \State \Return $\mathbf{z_i}$
+    \end{algorithmic}
+    \end{footnotesize}
+
+\end{columns}
+
+$\mu$ and $\sigma^2$ are \alert{non-trainable parameters}. They are fixed for inferring new result (in test/validation).
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Questions addressed in this lecture}
+    \begin{itemize}
+        \item What is gradient backpropagation? [GBC16,6]
+        \item What are the different types of gradient descent techniques? [GBC16,8]
+        \item What is L1(Lasso)/L2(Ridge) regularization? [Van16,5.6; GBC16,8]
+        \item What are some other types of regularizations? [GBC16,7]
+        \item Who is going to win the next Rugby world cup? 
+    \end{itemize}
+
+\begin{footnotesize}
+\begin{block}{Refs}
+~[Van16,$n$]: Jake VanderPlas, \textit{Python Data Science Handbook}, section $n$\\
+~[GBC16,$n$]: Goodfellow etal., Deep Learning, chapter $n$
+\end{block}
+\end{footnotesize}
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
