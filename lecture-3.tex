@@ -854,6 +854,57 @@ If we use mini-batch training with a minibatch of size $m$:
 $\mu$ and $\sigma^2$ are \alert{non-trainable parameters}. They are fixed for inferring new result (in test/validation).
 \end{frame}
 
+\section{Link with data assimilation}
+\begin{frame}{Data Assimilation}
+   Example of \textcolor{blue}{BLUE}{: Best Linear Unbiased Estimator}
+    
+    Given a state vector $\mathbf{x}\in \mathbb{R}^n$ and a data vector  $\mathbf{d}\in \mathbb{R}^m$:
+\begin{tabular}{p{.3\textwidth}p{.2\textwidth}p{.2\textwidth}}
+    $\mathbf{x}^{\rm f} = \mathbf{x}^{\rm t} + \mathbf{p},$ & $\overline{\mathbf{p}}=0,$ &$ \overline{\mathbf{p}\mathbf{p}^T} = \mathbf{C}_{xx}.$\\
+    $\mathbf{d} = \mathbf{H}\mathbf{x}^{\rm t} + \boldsymbol{\epsilon},$ & $\overline{\boldsymbol{\epsilon}}=0,$ & $ \overline{\boldsymbol{\epsilon}\boldsymbol{\epsilon}^T} = \mathbf{C}_{\epsilon \epsilon}.$
+    
+    \end{tabular}
+    \pause
+    Estimating $\mathbf{x}^{\rm t}$ by minimizing the estimation error leads to minizing the following function:
+    \begin{equation*}
+        \mathcal{J}(\mathbf{x}) = 
+          (\mathbf{d} - \mathbf{H}\mathbf{x})^T  \mathbf{C}_{\epsilon \epsilon}^{-1}  (\mathbf{d} - \mathbf{H}\mathbf{x}) + (\mathbf{x} - \mathbf{x}^{\rm f})^T \mathbf{C}^{-1}_{xx}(\mathbf{x} - \mathbf{x}^{\rm f})
+    \end{equation*}
+    \pause
+    \begin{alertblock}{This is data assimilation!}
+    We correct a forecast $\mathbf{x}^{\rm f}$ given some observational data $\mathbf{d}$
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Is it machine learning?}
+\begin{footnotesize}
+
+    \begin{itemize}
+        \item Ridge regression: $
+J(\bm{\theta}) =(\mathbf{y} - h_{\bm{\theta}}(\mathbf{x}))^T (\mathbf{y} - h_{\bm{\theta}}(\mathbf{x})) + \alpha  \theta^T \theta
+$
+\item BLUE:  $\mathcal{J}(\mathbf{x}) = 
+          (\mathbf{d} - \mathbf{H}\mathbf{x})^T  \mathbf{C}_{\epsilon \epsilon}^{-1}  (\mathbf{d} - \mathbf{H}\mathbf{x}) + (\mathbf{x} - \mathbf{x}^{\rm f})^T \mathbf{C}^{-1}_{xx}(\mathbf{x} - \mathbf{x}^{\rm f})$
+    \end{itemize}
+    \end{footnotesize}
+    \pause
+    \begin{table}[]
+        \centering
+        \begin{tabular}{c|c}
+            BLUE & Ridge \\
+            \hline
+            data $\mathbf{d}$ & target $\mathbf{y}$  \\
+            Observation operator $\mathbf{H}$ & feature $\mathbf{x}$ \\
+            State $\mathbf{x}$ & parameters $\bm{\theta}$\\
+            $\mathbf{C}_{\epsilon \epsilon} \mathbf{C}^{-1}_{xx}$ & $\alpha$
+        \end{tabular}
+    \end{table}
+    \pause
+    \begin{block}{Further links...}
+    If a numerical model is integrated over several time steps, it can be related to successive layers of a Neural Network.
+    \end{block}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Questions addressed in this lecture}
     \begin{itemize}
@@ -861,6 +912,7 @@ $\mu$ and $\sigma^2$ are \alert{non-trainable parameters}. They are fixed for in
         \item What are the different types of gradient descent techniques? [GBC16,8]
         \item What is L1(Lasso)/L2(Ridge) regularization? [Van16,5.6; GBC16,8]
         \item What are some other types of regularizations? [GBC16,7]
+        \item How machine learning can be related to data assimilation?
         \item Who is going to win the next Rugby world cup? 
     \end{itemize}
 
