@@ -198,7 +198,7 @@
 \section{Introduction}
 
 %%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Scope of the lectures: Machine Learning}
+\begin{frame}{Scope of the lecture: Machine Learning}
 %\centering
 %  \begin{tikzpicture}[scale=0.9]
 %    \draw<3-> {(0,0) ellipse (2 and 1)};
@@ -215,18 +215,16 @@
  \rref[Source: NVidia]
  \end{frame}
  \begin{frame}{A (very) active field}
-\begin{columns}
-\column{.5\textwidth}
-\begin{figure}
-\includegraphics[width=\textwidth]{fig/L1/progress-papers.png}
-\end{figure}
-\column{.5\textwidth}
 
 \begin{figure}
-\includegraphics[width=\textwidth]{fig/L1/progress-ml.png}
+\includegraphics[width=.6\textwidth]{/progress-papers.png}
 \end{figure}
-  \end{columns}
-  \rref[Shoham et al., AI Index 2018 Annual Report]
+
+\begin{figure}
+\includegraphics[width=.6\textwidth]{progress-ml.png}
+\end{figure}
+
+  \rref[Zhang et al., ``The AI Index 2021 Annual Report´´]
 
 \end{frame}
 
@@ -236,7 +234,7 @@
 \begin{frame}
 \frametitle{Example 1: Computer Vision}
 \begin{figure}
-\includegraphics[width=\textwidth]{./fig/L1/compute-vision.png}
+\includegraphics[width=\textwidth]{compute-vision.png}
 \end{figure}
 \rref[Li, Karpathy and Johnson, 2016, Stanford CS231n course]
 
@@ -290,15 +288,19 @@ Deep learning architectures were based on Convolutional Neural Networks (CNN).
 \frametitle{Example 2: Machine Translation}
 Objective : translate a text from a language to another.
 \begin{figure}
-\includegraphics[width=.8\textwidth]{./fig/L1/google-trad.png}
+\includegraphics[width=.5\textwidth]{progress-machine-translation.png}\\
+  \rref[Zhang et al., ``The AI Index 2021 Annual Report´´]
+
 \end{figure}
+
 \begin{itemize}
-\item {\bf Oct. 2013}: Pionneering scientic paper about neural networks in machine translation (Kalchbrenner, N., and Blunsom, P).
-\item {\bf 2016}: Neural machine translation outperform tradiational approaches on public benchmarks
-\item {\bf 2017}: Major systems (Google, Systran, WIPO, Microsoft) switch to
+\item {\bf Oct. 2013}: Pionneering scientic paper  (Kalchbrenner, N., and Blunsom, P).
+\item {\bf 2016}: Neural machine translation outperform traditional approaches on public benchmarks
+\item {\bf 2017}: Major systems  switch to
   neural machine translation  (using deep recurrent neural networks)
 \end{itemize}
 \end{frame}
+
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -315,27 +317,23 @@ Objective : translate a text from a language to another.
 \item {\bf 2017}: DeepStack beats professional human poker players.
 \end{itemize}
 \column{.5\textwidth}
-\includegraphics[width=\textwidth]{./fig/L1/alphago.jpg}
+\includegraphics[width=\textwidth]{alphago.jpg}
 \end{columns}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Predicting sport results?}
-Rugby World Cup 2019
-   \begin{figure}
-\includegraphics[width=.9\textwidth]{fig/L1/predicting-rugby.png} 
-\end{figure}
-Prediction based on XGBoost.
-\begin{scriptsize}
-   \url{https://towardsdatascience.com/predicting-the-winner-of-the-rugby-world-cup-2019-89a27d3f5b8e}
-\end{scriptsize}
-
+\begin{frame}{Example 4: Protein folding}
+  \begin{figure}
+        \centering
+        \includegraphics[width=0.45\textwidth]{AlphaFold-Blog-9c_diagram2.png}
+        \caption*{{\footnotesize \textit {Diagram of Alpha Fold (source: Deepmind)}}}
+        \rref[Senior et al. 2020]
+    \end{figure}
 \end{frame}
 
 \begin{frame}{AI Art?}
     \begin{figure}
         \centering
-        \includegraphics[width=0.5\textwidth]{fig/L3/478px-Edmond_de_Belamy.png}
+        \includegraphics[width=0.5\textwidth]{478px-Edmond_de_Belamy.png}
         \caption*{\textit{Edmond de Bellamy} by Obvious(collective)}
     \end{figure}
     Generated using a Generative Adversarial Network.\\
@@ -349,14 +347,14 @@ Prediction based on XGBoost.
         \item Increasing of the datasets in size and quality
         \only<1> {
         \begin{figure}
-\includegraphics[width=.6\textwidth]{fig/L1/Wikipedia_article_size_in_gigabytes.png}
+\includegraphics[width=.6\textwidth]{Wikipedia_article_size_in_gigabytes.png}
 \end{figure}
 \rref[source: Wikipedia]
 }
         \item <2-> Progress in computing resources.
         \only<2> {
         \begin{figure}
-\includegraphics[width=.7\textwidth]{fig/L1/evolution-gpu.png}
+\includegraphics[width=.6\textwidth]{evolution-gpu.png}
 \end{figure}
 \rref[source: NVDIA]
 }        
@@ -364,30 +362,53 @@ Prediction based on XGBoost.
         \item <3-> Scientific research on new algorithms (e.g adapted to image processing)
                 \only<3> {
         \begin{figure}
-\includegraphics[width=.4\textwidth]{fig/L1/deep-art.jpg}
+\includegraphics[width=.4\textwidth]{deep-art.jpg}
 \end{figure}
 \rref[source: Deep Dream Generator]
 
-}        
+}      
+
+\item<4-> Very efficient software (GPU, cloud computing, automatic differentiation, ...)
+\only<4> {
+\begin{center}
+    \begin{tabular}{ccc}
+        \includegraphics[width=.25\textwidth]{TensorFlowLogo.png} &  
+         \includegraphics[width=.25\textwidth]{keraslogo.png}& 
+         \includegraphics[width=.25\textwidth]{pytorchlogo.png}\\
+    \end{tabular}
+\end{center}
+}
+
+
+\item<5-> Free software and open data culture.
+\only<5> {
+\begin{center}
+    \begin{tabular}{cc}
+        \includegraphics[width=.25\textwidth]{ArXiv_logo.png} &  
+         \includegraphics[width=.25\textwidth]{GitHub-Logo.png}\\
+    \end{tabular}
+\end{center}
+}
+
     \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Apply Machine-Learning to physical modelling?}
+\begin{frame}{Apply Machine-Learning to physical (Earth-system) modelling?}
 \alert{Why is it a good idea?}
     \begin{itemize}
         \item A increasing number of geophysical data (one spatial mission: 24 TB/day)
           \only<1> {
         \begin{figure}
-\includegraphics[width=.55\textwidth]{fig/L1/sat-sst.png}
-\caption*{Satellites providing a semi-global daily coverage of surface temperature}
+\includegraphics[width=.5\textwidth]{sat-eso.jpeg}
+\caption*{Earth System observavtion satellites}
 \end{figure}
-\rref[source: Kuenzer et al. (2014)]
+\rref[source: Tonneau et al. (2020)]
 }
         \item <2->Data with highly significant spatial patterns
                   \only<2> {
         \begin{figure}
-\includegraphics[width=.36\textwidth]{fig/L1/Satellite-image-of-sea-surface-temperature-showing-the-gulf-Stream-and-large-rings-and_W640.jpg}
+\includegraphics[width=.36\textwidth]{Satellite-image-of-sea-surface-temperature-showing-the-gulf-Stream-and-large-rings-and_W640.jpg}
 \caption*{Sea Surface temperature of the gulf stream}
 \end{figure}
 \rref[source: Talley (2000)]
@@ -403,18 +424,35 @@ Prediction based on XGBoost.
 \column{.5\textwidth}
 \begin{figure}
     \caption*{NASDAQ Composite sock market index over the last 10 years}
-    \includegraphics[width=\textwidth]{fig/L1/nasdaq-composite-index-10-year-daily-chart-2019-01-09-macrotrends.png}
+    \includegraphics[width=\textwidth]{nasdaq-composite-index-10-year-daily-chart-2019-01-09-macrotrends.png}
 \end{figure}
 \visible<2->{\alert{Mostly unknown dynamical processes}}
 
 \column{.5\textwidth}
 \begin{figure}
-    \includegraphics[width=\textwidth]{fig/L1/evolution-temperature.png}
+\caption{IPCC, AR6, WG1}
+
+    \includegraphics[width=\textwidth]{IPPC_temp.png}
 \end{figure}
 \visible<2->{\alert{Mostly known dynamical processes (based on physical principles)}}
 
 \end{columns}
     
+\end{frame}
+
+\begin{frame}{What about data assimilation?}
+    \alert{Machine learning and data assimilation are closely linked.}\\
+ { \footnotesize   
+     Some references:
+ \begin{itemize}
+     \item Geer, A.J., 2021. Learning earth system models from observations: machine learning or data assimilation?. {\it Philosophical Transactions of the Royal Society A}, 379(2194)
+     \item  Brajard  et al. 2019. Connections between data assimilation and machine learning to emulate a numerical model. {\it Proceedings of the 9th International Workshop on Climate informatics}
+     \item Bocquet et al. 2019. Data assimilation as a learning tool to infer ordinary differential equation representations of dynamical models. {\it Nonlinear processes in geophysics.} 26(3).
+     \item Abarbanel, H.D., Rozdeba, P.J. and Shirman, S., 2018. Machine learning: Deepest learning as statistical data assimilation problems. {\it Neural computation, 30(8)}.
+ \end{itemize}
+
+}
+
 \end{frame}
 
 \section{Generalities on Machine Learning}
