@@ -168,10 +168,11 @@
 %%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Overview of the next lectures}
     \begin{enumerate}
-        \item Lecture 1 (Tuesday 15 Oct.): Generalities and  principles of Machine Learning
-        \item Lecture 2 (Thursday 17 Oct.): Machine learning process, neural networks, deep learning
-        \item Practical Work (Tuesday 22 Oct.): \alert{In the lecture room}
-        \item Lecture 3 (Thursday 24 Oct.): How to train a machine learning algorithm?
+        \item Lecture 1 (Thursday 14 Oct.): Generalities and  principles of Machine Learning
+        \item Lecture 2 (Tuesday 19 Oct.): Machine learning process, neural networks, deep learning
+        \item Lecture 3 (Thursday 21 Oct.): How to train a machine learning algorithm?
+        \item Practical Work (Tuesday 26 Oct.): Emulate a dynamical model using machine learning
+
     \end{enumerate}
     \vspace{2em}
     \begin{center}
@@ -838,72 +839,164 @@ More on that in next lecture...
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%
-\begin{frame}{Data Leakage}
+\section{Steps of a machine learning process}
 
-\begin{alertblock}{What is it?}
-\alert{Data Leakage} is when information from outside the training dataset is used to create the model.
-\end{alertblock}
-\pause
-Consequence: it can lead to overly optimistic models with no practical predictive skills.\\
-\vspace{1em}
-\pause
-Example:
-\begin{itemize}
-    \item Using the future to make a forecast.
-    \item Splitting between validation/training is not done properly
-    \item Non-relevant features that can be related to the expected results (e.g. name/date of the files in a training dataset)
-\end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%
-\begin{frame}{Example of time series}
-\begin{columns}
-
-\column{.4\textwidth}
+\begin{frame}{Steps}
     \begin{figure}
-    \includegraphics[width=\textwidth]{fig/L1/nasdaq-composite-index-10-year-daily-chart-2019-01-09-macrotrends.png}
-    \end{figure}
-\column{.6\textwidth}
-\alert{Data:} $x_t$: NASDAQ index at the date $t$.\\
-\alert{Objective:} predict $x_t$ given the index in the past ($x_0, \cdots , x_{t-1})$\\
-\alert{A correct model:} $\hat{x}_t = \mathcal{M}(x_0, \cdots , x_{t-1},\theta)$\\
-We can construct an incorrect model: $\hat{x}_t = \textcolor{red}{\mathcal{M^{\rm leak}}}(x_0, \cdots , x_{t-1},\textcolor{red}{x_t},\theta)$\\
-$\textcolor{red}{\mathcal{M^{\rm leak}}}$ is perfect on the training set but is completely useless in practice.
+        \centering
+     \tikzstyle{block} = [rectangle, draw, fill=blue!20, text width=7em, text centered, rounded corners, minimum height=4em]
+     \tikzstyle{line} = [draw, ->]
+    \tikzstyle{back} = [draw, ->, very thick, red]
+     
+     \begin{tikzpicture}[auto, node distance=1cm and 2cm]
+     \node[block] (collect) {Collect data} ;
+     
+     \pause
+     \node [block, below= of collect] (feature) {Preprocess /clean data\\\footnotesize{\textit{feature extractions}}};
+     \path [line] (collect)--(feature);
 
+     \pause
+     \node  [block, right= of collect] (tune) {Design model};
+     
+     \pause
+     \node  [block, right= of feature] (train) {Train model};
+     \path  [line] (feature)-- node[above]{train} (train);
+     \path  [line] (tune)-- (train);
+     
+     \pause
+     \node  [block, below= of train] (evaluate) {Evaluate model};
+     \path  [line] (train)--(evaluate);
+     \path  [line]  (feature) --  node[above,sloped]{(cross-)valid}(evaluate);
 
-\end{columns}
+     \pause
+     \path  [back]  (evaluate) edge[bend right=80] (tune);
+     \path  [back]  (evaluate) edge[bend left] (feature);
+     \path  [back]  (evaluate) edge[bend right] (collect);
+     
+     \pause
+     \node  [block, fill=red!20, left=of evaluate]  (release) {Release model};
+     \path  [line]  (evaluate)--(release);
+     \path  [line]  (feature) -- node[above,sloped]{test} (release);
 
-\end{frame}
-%%%%%%%%%%%%%%%%%
-\begin{frame}{More subtle example: contamination of the validation dataset}
-\begin{columns}
-\column{.6\textwidth}
-\begin{center}
-  \begin{tikzpicture}
-    \node<1> (img1) {\includegraphics[width=\textwidth]{fig/L1/leakage-data.png}};
-    \node<2-3> (img2) {\includegraphics[width=\textwidth]{fig/L1/leakage-interp.png}};
-    \node<4-> (img3) {\includegraphics[width=\textwidth]{fig/L1/leakage-fit.png}};
-  \end{tikzpicture}
-\end{center}
-\column{.4\textwidth}
-\begin{figure}
-    \centering
-    \includegraphics<3->[width=\textwidth]{fig/L1/leakage-cv.png}
-
-\end{figure}
-\end{columns}
-
-\begin{itemize}
-    \item<1-> True polynom: $12x^3 - 48x^2 + 62x - 18$
-    \item<5-> regular fit: $12x^3 - 49x^2 + 38x - 9$
-    \item<5-> interpolated fit: $1143x^6 - 4803x^5 + 8242x^4 - 7446x^3 + 3736x^2 - 986x + 107 $
     
-\end{itemize}
-% raw:   array([-12.13896748,  49.07141924, -38.75248129,   9.86640163])
-% interp: array([[-1143.54181925,  4803.98261307, -8242.31560901,  7446.33939621, -3735.92838024,   986.45002635,  -106.9868713 ]])
 
-        
+     \end{tikzpicture}
+    \end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{In summary}
+    From one dataset, 3 sub-datasets have to be extracted:
+    \begin{itemize}
+        \item A training dataset
+        \item A validation dataset
+    \end{itemize}
+    Can be done iteratively in a cross-validation procedure.\\
+    \alert {Some parameters of the model (e.g. polynomial order in a polynomial regression) were determined from the validation dataset.}
+    \begin{itemize}
+        \item A test dataset (independent from the two other) to estimate the final performance of the model.
+    \end{itemize}
+\end{frame}
+
+\section{Feature processing}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Feature importance}
+\begin{lstlisting}[language=Python]
+rf = RandomForestRegressor(n_estimators=1000,max_features=10,random_state=10)
+rf.fit(X,y)
+importances = rf.feature_importances_
+\end{lstlisting}
+\vspace{-1.5em}
+Indicates the impact of a feature in predicting the target.
+\begin{columns}
+\column{.5\textwidth}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.9\textwidth]{fig/L2/importance_RF.png}
+    \end{figure}
+\column{.5\textwidth}
+    \begin{table}
+    \centering
+    \footnotesize
+    \begin{tabular}{c|p{4.5cm}}
+       CRIM   &  per capita crime rate by town \\   
+       NOX    &  nitric oxides concentration  \\
+       RM     &  average number of rooms per dwelling \\
+       DIS    &  distance to employment centres \\
+       LSTAT  &  lower status of the population \\
+         
+        \end{tabular}
+        \end{table}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}{Type of features}
+    \begin{itemize}[<+->]
+        \item quantitative/continuous features (e.g. distance to employment centres, temperature)
+        \item ordinal/discrete features (e.g. number of rooms, category of an hurricane)
+        \item categorical features (e.g. name of the neighbourhood, name of the ocean)
+    \end{itemize}
+    \pause
+    \begin{alertblock}{Encoding of the features?}
+    
+    \end{alertblock}
+    
+\end{frame}
+
+\begin{frame}{Feature encoding}
+\begin{table}[]
+    \centering
+    \footnotesize
+    \begin{tabular}{|p{.15\textwidth}|p{.1\textwidth}|p{.33\textwidth}|p{.31\textwidth}|}
+         Type  & \multicolumn{2}{c|}{Examples} & Encoding \\
+         \hline
+         Quantitative & distance & $\{1.2, 2.3, 0.1\}$ & $\{1.2, 2.3, 0.1\}$\\
+                  \hline
+         Ordinal & rooms & $\{2,3,4\}$ & $\{2,3,4\}$ \\
+                  \hline
+        Qualitative & Ocean & $\{{\rm Atlantic, Indian, Pacific}\}$ & $\{[1,0,0], [0,1,0], [0,0,1]\} $\\
+        \hline
+    \end{tabular}
+
+\end{table}
+\pause
+Qualitative variable: one-hot encoding.
+\begin{itemize}
+
+    \item You must \alert{not} encode qualitative features with integer $1,2,3$, it would mean that Pacific > Indian > Atlantic.
+    \item In {\rm sklearn} there is a function that makes the one-hot encoding: {\rm OneHotEncoder()}
+
+    \item If the number of modalities (number of different features) is high, encoding qualitative feature produce a big-sized vector.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Embedding}
+    A common way to deal with features with a lot of modalities : \alert{Embedding}
+    
+    \begin{block}{Principle of embedding}
+    Let's consider a qualitative variable with $n$ modalities, represented by the n-dimensional binary vector ${\bf x}$ 
+    
+    Embedding consists in representing this variable by a vector ${\bf v} \in \mathbb{R}^p, p << n$
+    
+    The embedding is represented by a matrix ${\bf M} \in \mathbb{R}^{n\times p}$ such as:
+    $$
+    {\bf v} = {\bf M}\cdot{\bf x}
+    $$
+    \end{block}
+    Coefficients of ${\bf M}$ have to be optimized given an objective criteria (that depends on your problem)
+    
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{one example: word cloud}
+On the introduction of the \textit{Goodfellow et al.} book.\\
+${\rm v}$ is 3-dimensional ($x$,$y$,size)
+\begin{figure}
+    \includegraphics[trim={2cm 5cm 2cm 5cm},clip,width=\textwidth]{fig/L2/wordcloud.png}
+\end{figure}
+{\footnotesize
+\href{https://www.wordclouds.com}{https://www.wordclouds.com}}
 \end{frame}
 
 
@@ -923,10 +1016,8 @@ $\textcolor{red}{\mathcal{M^{\rm leak}}}$ is perfect on the training set but is 
         \item What are the different types of learning (supervised, ...)?  \cite[5.1]{VanderPlas-2016}
         \item How to validate/select a model? \cite[5.3]{VanderPlas-2016}
         \item What is the cross-validation? \cite[5.3]{VanderPlas-2016}
-        \item What is data leakage?
-        {\footnotesize
-        \href{https://machinelearningmastery.com/data-leakage-machine-learning/}{https://machinelearningmastery.com/data-leakage-machine-learning/}
-        \href{https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/discussion/4865\#25839}{https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/discussion/4865\#25839}}
+        \item How to encode qualitative features? \cite[5.4]{VanderPlas-2016}
+
     \end{itemize}
 
 \begin{footnotesize}
