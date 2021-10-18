@@ -5,11 +5,6 @@ You will find here the support pdf for the course **Machine Learning for physica
 
 ### The slides can be found here:
 - Lecture 1: [pdf](lecture-1.pdf)
-- Lecture 2: [pdf](lecture-2.pdf)
-- Lecture 3: [pdf](lecture-3.pdf)
-
-### The pratical work session associated to this course can be found here:
-- <https://github.com/brajard/MAT330-Practical-work>
 
 ### Main references of the course:
 - <https://jakevdp.github.io/PythonDataScienceHandbook/>
