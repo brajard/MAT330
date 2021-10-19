@@ -5,6 +5,7 @@ You will find here the support pdf for the course **Machine Learning for physica
 
 ### The slides can be found here:
 - Lecture 1: [pdf](lecture-1.pdf)
+- Lecture 2: [pdf](lecture-2.pdf)
 
 ### Main references of the course:
 - <https://jakevdp.github.io/PythonDataScienceHandbook/>
