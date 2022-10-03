@@ -726,11 +726,11 @@ Dataset:
         
     \end{tabular}
 \end{table}
-    \item Design a model with \alert{\bf $N$ outputs } ($N$ being the numner of modalities) and use the \alert{\bf soft-max} as output activation function
+    \item Design a model with \alert{\bf $N$ outputs } ($N$ being the number of modalities) and use the \alert{\bf soft-max} as output activation function
     $$
        p_j=f_j(\mathbf{h}) = \frac{e^{h_j}}{\sum_k e^{h_k}}
     $$
-    Rule the class is attributed to the argument of the maximum of ${\bf p}$. Ex ${\bf p} = (0.1, 0,7, 0,2)$ is classified as ''dog''.
+    Rule: the class is attributed to the argument of the maximum of ${\bf p}$. Ex ${\bf p} = (0.1, 0,7, 0,2)$ is classified as ''dog''.
     \alert{\bf $p_j$ is interpreted as the probability of the image x to belong to the class $j$}
     \item Loss function to minimize is negative cross entropy
  $$L = -\sum_i \sum_j y_{i,j}.\log{p_{i,j}}$$
