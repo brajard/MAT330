@@ -164,7 +164,7 @@
 \author[J. Brajard]{julien.brajard@nersc.no}
 \institute[NERSC]{NERSC\\
 \url{https://github.com/brajard/MAT330}}
-\date{October 2021}
+\date{October 2022}
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%% SLIDES DE TITRE
@@ -321,6 +321,39 @@ One extension of Regression Tree:
 
 
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Feature importance}
+\begin{lstlisting}[language=Python]
+rf = RandomForestRegressor(n_estimators=1000,max_features=10,random_state=10)
+rf.fit(X,y)
+importances = rf.feature_importances_
+\end{lstlisting}
+\vspace{-1.5em}
+Indicates the impact of a feature in predicting the target.
+\begin{columns}
+\column{.5\textwidth}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.9\textwidth]{fig/L2/importance_RF.png}
+    \end{figure}
+\column{.5\textwidth}
+    \begin{table}
+    \centering
+    \footnotesize
+    \begin{tabular}{c|p{4.5cm}}
+       CRIM   &  per capita crime rate by town \\   
+       NOX    &  nitric oxides concentration  \\
+       RM     &  average number of rooms per dwelling \\
+       DIS    &  distance to employment centres \\
+       LSTAT  &  lower status of the population \\
+         
+        \end{tabular}
+        \end{table}
+
+\end{columns}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Some key parameters}
 \begin{lstlisting}[language=Python]
@@ -966,12 +999,53 @@ Some popular types of recurrent neural networks:
 \end{frame}
 
 
+\section{Optimization using gradient descent}
+\begin{frame}{What is gradient descent}
+\begin{block}{Objective}
+Minimize the function $L(\boldsymbol{\theta})$ where $\boldsymbol{\theta}$ is a vector of parameters (e.g. weights of a neural net).
+\end{block}
+Example with $\boldsymbol{\theta} = (w, b)$
+\begin{columns}
+
+\column{.5\textwidth}
+\begin{figure}
+    \centering
+    \includegraphics[width=.9\textwidth]{fig/L3/gradient-descent-convex-function.png}
+\end{figure}
+
+\column{.5\textwidth}
+\begin{figure}
+    \centering
+    \includegraphics[width=.8\textwidth]{fig/L3/gradient-descent-range.png}
+\end{figure}
+\end{columns}
+
+\end{frame}
+ \begin{frame}{Iterative algorithm}
+  \begin{enumerate}[<+->]
+      \item We start with a "first guess" of the parameter $\boldsymbol{\theta}_0$
+      \item we iterate over several values of the parameters following the update rule:
+      $$
+      \boldsymbol{\theta}_{k+1} = \boldsymbol{\theta}_{k} - \gamma \nabla L(\boldsymbol{\theta}_{k}),
+      $$
+      $\gamma$ is called the \alert{\bf learning rate}.
+  \end{enumerate}   
+  \pause
+  \begin{figure}
+    \centering
+    \includegraphics[width=.8\textwidth]{fig/L3/gradient-descent-learning-rate.png}
+\end{figure}
+ \end{frame}
+
+\begin{frame}{Few comments}
+\begin{itemize}[<+->]
+\item The learning $\gamma$ is an important \alert{\bf hyperparameter} that needs to be tuned using, e.g random search
+\item The key part of the formula is the computation of the gradient $\nabla L(\boldsymbol{\theta}_{k})$
+\end{itemize}
+\end{frame}
 
 
-
-\end{document}
-
-
+\section{Gradient backpropagation}
 \begin{frame}{Training a neural-net: gradient backpropagation}
 
 \begin{columns}
@@ -1041,7 +1115,6 @@ $\boxed{\color{red}\partial L/\partial \hat{y}}$
 \end{frame}
 
 
-
 \section{Optimizing a machine learning (gradient method)}
 
 \begin{frame}{Optimizing the loss}
@@ -1050,68 +1123,13 @@ $\boxed{\color{red}\partial L/\partial \hat{y}}$
     For example, Mean Square Error:
     
     \begin{alertblock}{Method}
-    Find a minimum of L by adjustig the parameters (weights) $\mathbf{w}$ given the gradient of the loss with respect to the weights $\nabla_\mathbf{w}L$.
+    Find a minimum of L by adjusting the parameters (weights) $\mathbf{w}$ given the gradient of the loss with respect to the weights $\nabla_\mathbf{w}L$.
     \end{alertblock}
 \end{frame}
 
-\begin{frame}{Batch gradient}
-    
-\end{frame}
 
-\begin{frame}{Remarks on batch gradient}
-    
-\end{frame}
 
-\begin{frame}{Scaling the data}
-    
-\end{frame}
-
-\begin{frame}{Pure stochastic gradient}
-    
-\end{frame}
-
-\begin{frame}{Remarks on pure stochastic gradient}
-    
-\end{frame}
-
-\begin{frame}{Mini-batch gradient}
-    
-\end{frame}
-
-\begin{frame}{Batch/Stochastic training}
-Dataset: $(X,y)$ with N samples, $\mathbf{w}$: initial weights\\~\\
-\begin{columns}[t]
-\column{.5\textwidth}
-\alert{Batch Training:}
-\begin{itemize}
-    \item For $i$ from $1$ to $N$:\\
-    \begin{enumerate}
-    \item    $L = L + L(f(x_i),y_i)$
-     \end{enumerate}
-    \item Calculate $\partial L/\partial w$
-    \item update weights:$\mathbf{w}$
-    
-\end{itemize}
-\alert{1 Update is performed after N forward passes of the neural net.}
-\pause
-\column{.5\textwidth}
-\alert{Stochastic Training:}
-\begin{itemize}
- \item For $i$ from $1$ to $N$:\\
-     \begin{enumerate}
-
-    \item Compute $L(f(x_i),y_i)$\\
-    \item Calculate $\partial L/\partial w$\\
-    \item update weights:$\mathbf{w}$
-    \end{enumerate}
-\end{itemize}
-
-\alert{N Updates are performed after N forward passes of the neural net.}
-\end{columns}
-    
-\end{frame}
-
-\begin{frame}{Batch training}
+\begin{frame}{Batch Vs Stochastic training}
 Dataset: $(X,Y)$ with N samples denoted $(\mathbf{x_i},y_i)$
 
 \begin{columns}[t]
@@ -1156,9 +1174,11 @@ Dataset: $(X,Y)$ with N samples denoted $(\mathbf{x_i},y_i)$
     \end{columns}
 \end{frame}
 
-\begin{frame}{Mini-Bactch training}
+\begin{frame}{Mini-Batch training}
 Dataset: $(X,y)$ with N samples
 \begin{footnotesize}
+\begin{block}{Mini-Batch gradient:}\end{block}
+
     \begin{algorithmic}
     \Require{Learning rate(s): $\nu_k$}
     \Require{Initial weights: $\mathbf{w}$}
@@ -1173,41 +1193,288 @@ Dataset: $(X,y)$ with N samples
     
     \end{algorithmic}
     \end{footnotesize}
+    \pause
+        \alert{1 Update / $m$ forward}\\
+        $m=1$: Pure stochastic gradient.\\
+        $m=N$: Batch gradient
+
 \end{frame}
 
-\begin{frame}{Mini-Batch training}
-Dataset: $(X,y)$ with N samples, $\mathbf{w}$: initial weights\\~\\
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Let's have a break}
+\url{https://playground.tensorflow.org}
+\end{frame}
+
+
+
+\section{Other regularization techniques}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Regularization}
+\begin{block}{Definition:}
+\alert{Regularization} refers to the \alert{set of techniques} that \alert{constraints} the optimization. It is generally used to \alert{avoid overfitting}, but can also be used to inject prior knowledge during the training phase (e.g. set known limits to parameters)
+\end{block}
+\pause
 \begin{itemize}
-    \item for $k$ from $1$ to  $N//B$:
-\begin{itemize}
- \item for $i$ from $B(k-1)+1$ to $Bk$:\\
-     \begin{enumerate}
-    \item Compute $L(f(x_i),y_i)$\\
-    \end{enumerate}
-    \item Calculate $\partial L/\partial w$\\
-    \item update weights:$\mathbf{w}$
-    \end{itemize}
+    \item Stochastic mini-batch gradient is a regularization technique
 \end{itemize}
-N//B updates are performed after N forward passes of the neural net\\
-\alert{B is the batchsize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Early Stopping}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{fig/L3/early_stopping.png}
+    \end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Dropout}
+During training, randomly remove neurons on a layer with probability $p$.
+ \begin{figure}
+        \centering
+\multiinclude[<+->][format=png,graphics={width=.6\textwidth}]{fig/L3/dropout}       
+    \end{figure}
+    \pause
+    \begin{alertblock}{Practical remarks:}
+    \begin{itemize}
+        \item Avoid Dropout on convolutive layer
+        \item Avoid Dropout on the last layer.
+    \end{itemize}
+    \end{alertblock}
+    
+    \end{frame}
+    
+    
+\begin{frame}{Batch normalization}
+From \textit{Ioffe et al. 2015, Batch normalizaion...}\\
+
+Batch Normalization is a new type of layer.
+
+If we use mini-batch training with a minibatch of size $m$:
+\begin{columns}
+\column{.8\textwidth}
+\begin{footnotesize}
+\begin{block}{Mini Batch Layer:}\end{block}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+    \begin{algorithmic}
+    \Require{Values of $\mathbf{x_{1\dots m}}$}
+    \Require{Initial parameters to be optimized: $\gamma, \beta$}
+    \Ensure {$\mathbf{z_i} = {\rm BN}_{\gamma, \beta}(\mathbf{x}_i)$}
+    \State $\mu \leftarrow \frac{1}{m}\sum_{i=1}^m \mathbf{x}_i$ \Comment{mini-batch mean}
+    \State $\sigma^2 \leftarrow \frac{1}{m}\sum_{i=1}^m \left( \mathbf{x}_i - \mu \right)^2$ \Comment (mini-batch variance)
+    \State $\hat{\mathbf{x}}_i \leftarrow (\mathbf{x}_i - \mu) / \sqrt{\sigma^2 + \epsilon}$ \Comment {normalize}
+    \State $\mathbf{z_i} = \gamma \hat{\mathbf{x}}_i + \beta $ \Comment {Scale and shift}
+    \State \Return $\mathbf{z_i}$
+    \end{algorithmic}
+    \end{footnotesize}
+
+\end{columns}
+
+$\mu$ and $\sigma^2$ are \alert{non-trainable parameters}. They are fixed for inferring new result (in test/validation).
+\end{frame}
+
+\section{Link with data assimilation}
+\begin{frame}{Data Assimilation}
+   Example of \textcolor{blue}{BLUE}{: Best Linear Unbiased Estimator}
+    
+    Given a state vector $\mathbf{x}\in \mathbb{R}^n$ and a data vector  $\mathbf{d}\in \mathbb{R}^m$:
+\begin{tabular}{p{.3\textwidth}p{.2\textwidth}p{.2\textwidth}}
+    $\mathbf{x}^{\rm f} = \mathbf{x}^{\rm t} + \mathbf{p},$ & $\overline{\mathbf{p}}=0,$ &$ \overline{\mathbf{p}\mathbf{p}^T} = \mathbf{C}_{xx}.$\\
+    $\mathbf{d} = \mathbf{H}\mathbf{x}^{\rm t} + \boldsymbol{\epsilon},$ & $\overline{\boldsymbol{\epsilon}}=0,$ & $ \overline{\boldsymbol{\epsilon}\boldsymbol{\epsilon}^T} = \mathbf{C}_{\epsilon \epsilon}.$
+    
+    \end{tabular}
+    \pause
+    Estimating $\mathbf{x}^{\rm t}$ by minimizing the estimation error leads to minizing the following function:
+    \begin{equation*}
+        \mathcal{J}(\mathbf{x}) = 
+          (\mathbf{d} - \mathbf{H}\mathbf{x})^T  \mathbf{C}_{\epsilon \epsilon}^{-1}  (\mathbf{d} - \mathbf{H}\mathbf{x}) + (\mathbf{x} - \mathbf{x}^{\rm f})^T \mathbf{C}^{-1}_{xx}(\mathbf{x} - \mathbf{x}^{\rm f})
+    \end{equation*}
+    \pause
+    \begin{alertblock}{This is data assimilation!}
+    We correct a forecast $\mathbf{x}^{\rm f}$ given some observational data $\mathbf{d}$
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Is it machine learning?}
+\begin{footnotesize}
+
+    \begin{itemize}
+        \item Ridge regression: $
+J(\bm{\theta}) =(\mathbf{y} - h_{\bm{\theta}}(\mathbf{x}))^T (\mathbf{y} - h_{\bm{\theta}}(\mathbf{x})) + \alpha  \theta^T \theta
+$
+\item BLUE:  $\mathcal{J}(\mathbf{x}) = 
+          (\mathbf{d} - \mathbf{H}\mathbf{x})^T  \mathbf{C}_{\epsilon \epsilon}^{-1}  (\mathbf{d} - \mathbf{H}\mathbf{x}) + (\mathbf{x} - \mathbf{x}^{\rm f})^T \mathbf{C}^{-1}_{xx}(\mathbf{x} - \mathbf{x}^{\rm f})$
+    \end{itemize}
+    \end{footnotesize}
+    \pause
+    \begin{table}[]
+        \centering
+        \begin{tabular}{c|c}
+            BLUE & Ridge \\
+            \hline
+            data $\mathbf{d}$ & target $\mathbf{y}$  \\
+            Observation operator $\mathbf{H}$ & feature $\mathbf{x}$ \\
+            State $\mathbf{x}$ & parameters $\bm{\theta}$\\
+            $\mathbf{C}_{\epsilon \epsilon} \mathbf{C}^{-1}_{xx}$ & $\alpha$
+        \end{tabular}
+    \end{table}
+    \pause
+    \begin{block}{Further links...}
+    If a numerical model is integrated over several time steps, it can be related to successive layers of a Neural Network.
+    \end{block}
+\end{frame}
+
+
+\section{Probabilistic interpretation}
+\begin{frame}{Maximum likelihood estimator and loss}
+    We can assume that the observation $y$ follows a Gaussian law:
+    $$
+p(y/x) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp -\frac{(y - \mu(x))^2}{2\sigma^2},
+    $$
+    where $x$ is observed and $\mu(x)$ is a function of $x$.\\
+    
+    Given a set of samples $(x_k,y_k)_{1:K}$, the negative log-likelihood is defined by
+    
+    $$
+L = \sum_{k=1}^{K} \left(\frac{\log 2\pi\sigma^2}{2} + \frac{(y_k - \mu(x_k))^2}{2\sigma^2}\right)
+$$
+
+\alert{\bf Minimizing $L$ is maximizing the probability of having the observations $y_k$ given $x_k$.}
+\end{frame}
+
+\begin{frame}{Loss function of a neural net}
+   \begin{block}{First case: $\sigma$ is constant}
+   $\mu(x)$ is parametrized by a neural net $ G_\mu(x,{\boldsymbol \theta}_\mu)$\\
+   The Maximum likelihood estimator is found by minizming:
+   $$
+L({\boldsymbol \theta}_\mu) =  \sum_{k=1}^{K} (y_k - G_\mu(x,{\boldsymbol \theta}_\mu))^2
+$$
+which is exactly the regression loss already introduced.
+   \end{block}
+\pause
+{\footnotesize
+\begin{block}{Second case:  $\sigma(x)$ is a function of $x$.}
+In addition to $ G_\mu(x,{\boldsymbol \theta}_\mu)$, $\sigma(x)$ is parametrized by $G_\sigma(x,{\boldsymbol \theta}_\sigma)$.
+The loss to minimize is then:
+$$
+L({\boldsymbol \theta}_\mu, {\boldsymbol \theta}_\sigma) = \sum_{k=1}^{K} \left(\frac{\log 2\pi G_\sigma(x_k,{\boldsymbol \theta}_\sigma)^2}{2} + \frac{(y_k - G_\mu(x_k,{\boldsymbol \theta}_\mu))^2}{2 G_\sigma(x_k,{\boldsymbol \theta}_\sigma)^2}\right)
+$$
+The neural net $G=(G_\mu,  G_\sigma)$ gives  also the uncertainty of its estimation in the form of the standard deviation.
+\end{block}}
+\end{frame}
+\begin{frame}{Illustration}
+\begin{figure}
+    \centering
+    \includegraphics[width=.8\textwidth]{fig/L3/MLE.png}\\
+    \textcolor{red}{In red the estimation of the mean $ G_\mu(x,{\boldsymbol \theta}_\mu)$}\\
+    \textcolor{mygreen}{In green the confidence interval $ G_\mu(x,{\boldsymbol \theta}_\mu) \pm \sigma(x_k,{\boldsymbol \theta}_\sigma) $}
+\end{figure}
+
+\end{frame}
+
+
+\section{A black box?}
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{The black box paradigm}
+
+The machine-learning based model is a \alert{black box}. It gives some results but we don't understand how.
+\begin{figure}
+    \centering
+    \includegraphics[width=.4\textwidth]{fig/L3/blackBox.png}
+
+\end{figure}
+
+\begin{columns}
+\column{.5\textwidth}
+{\bf Do we need to understand the model?}
+
+\pause
+{\it``Every time I fire a linguist, the performance of our speech recognition system goes up.''}
+
+\rref[F. Jelinek, 1988]
+\column{.5\textwidth}
+\begin{figure}
+\includegraphics[width=.4\textwidth]{fig/L3/jelinek.jpeg}\\
+  {\small {\it Frederick Jelinek 1932-2010}}
+\end{figure}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Beyond the black box}
+\begin{block}{Motivation}
 \begin{itemize}
-    \item \alert{B=1}: stochastic training
-    \item \alert{B=N}: batch training
-    \item Generally B<<N
-\end{itemize} 
+    \item Build models that can be trusted
+    \item Use other source of knowledge (e.g. physical properties) when data are not sufficient.
+\end{itemize}
+\end{block}
+
+Two directions:
+\begin{itemize}
+    \item Add physical constraints to ML models
+    \item Explainable/Transparent ML.
+\end{itemize}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Add physical constraints to ML models}
+\begin{itemize}
+    \item \alert{Simple example}: enforce the positivity of some quantities (e.g. concentration)
+    \item \alert{More complex}: enforce conservation laws\\
+    {\small
+Beucler, T., Pritchard, M., Rasp, S., Ott, J., Baldi, P. and Gentine, P., 2021. Enforcing analytic constraints in neural networks emulating physical systems. {\it Physical Review Letters}, 126(9), p.098302.}
+\end{itemize}
+\begin{columns}
+\column{.6\textwidth}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{fig/L3/3-Figure2-1.png}\\
+\rref[Beucler et al.]
+\end{figure}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Explainable/Transparent ML.}
+The objective is to understand how the machine learning makes a prediction (e.g. which feature is important for the prediction).
+
+\begin{columns}
+\column{.4\textwidth}
+
+{\footnotesize
+
+    McGovern et al., 2019, Making the black box more transparent: Understanding the physical implications of machine learning. {\it Bulletin of the American Meteorological Society}\\
+    \vspace{1em}
+
+    Sonnewald  et al.,2021. Bridging observation, theory and numerical simulation of the ocean using Machine Learning. {\it Environ. Res. Lett.} 
+    }
+    
+
+\column{.5\textwidth}
+\begin{figure}
+    \centering
+    \includegraphics[width=.5\textwidth]{fig/L3/full-bams-d-18-0195.1-f3.jpg}\\
+\rref[McGovern et al.]
+\end{figure}
+\end{columns}
+
+\end{frame}
+
 
 
 %%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Questions addressed in this lecture}
     \begin{itemize}
-        \item What is the principle of the Random Forests? [Van16,5.8]
-        \item How to determine the hyperparamters? [Van16,5.3]
-        \item What is a artificial neural network? [GBC16,6]
-        \item What is a convolutive layers [GBC16,9]
-        
-            {\footnotesize
-\href{https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-learning-1f6f42faee1}{https://towardsdatascience.com/intuitively-understanding-convolutions-for-deep-learning-1f6f42faee1}}
-        \item What are the main types of neural networks? [GBC16,10, 14, 20]
+        \item What is gradient backpropagation? [GBC16,6]
+        \item What are the different types of gradient descent techniques? [GBC16,8]
+        \item What are some other types of regularizations? [GBC16,7]
+        \item How machine learning can be related to data assimilation?
     \end{itemize}
 
 \begin{footnotesize}
@@ -1217,10 +1484,6 @@ N//B updates are performed after N forward passes of the neural net\\
 \end{block}
 \end{footnotesize}
 \end{frame}
-
-    
-\end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
@@ -1228,8 +1491,6 @@ N//B updates are performed after N forward passes of the neural net\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \end{document}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
