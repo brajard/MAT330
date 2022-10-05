@@ -951,37 +951,7 @@ More on that in next lecture...
 \end{frame}
 
 \section{Feature processing}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Feature importance}
-\begin{lstlisting}[language=Python]
-rf = RandomForestRegressor(n_estimators=1000,max_features=10,random_state=10)
-rf.fit(X,y)
-importances = rf.feature_importances_
-\end{lstlisting}
-\vspace{-1.5em}
-Indicates the impact of a feature in predicting the target.
-\begin{columns}
-\column{.5\textwidth}
-    \begin{figure}
-        \centering
-        \includegraphics[width=.9\textwidth]{fig/L2/importance_RF.png}
-    \end{figure}
-\column{.5\textwidth}
-    \begin{table}
-    \centering
-    \footnotesize
-    \begin{tabular}{c|p{4.5cm}}
-       CRIM   &  per capita crime rate by town \\   
-       NOX    &  nitric oxides concentration  \\
-       RM     &  average number of rooms per dwelling \\
-       DIS    &  distance to employment centres \\
-       LSTAT  &  lower status of the population \\
-         
-        \end{tabular}
-        \end{table}
 
-\end{columns}
-\end{frame}
 
 \begin{frame}{Type of features}
     \begin{itemize}[<+->]
@@ -1490,7 +1460,7 @@ It comes with extra hyperparameter to tune (using, e.g., cross-validation): $\al
 %%%%%%%%%%%%%%%%%%
 \begin{frame}{An example using scikit-learn}
     \begin{figure}
-    \caption*{Boston House Prices}
+    \caption*{California House Pricing}
     \includegraphics[width=.9\textwidth]{fig/L1/boston-rent.jpg}
     \end{figure}
 \end{frame}
