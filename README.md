@@ -15,3 +15,4 @@ You will find here the support pdf for the course **Machine Learning for physica
 ### Main references of the course:
 - <https://jakevdp.github.io/PythonDataScienceHandbook/>
 - <http://www.deeplearningbook.org>
+- <https://www.manning.com/books/deep-learning-with-python-second-edition?a_aid=keras&a_bid=76564dff>
