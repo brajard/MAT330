@@ -12,6 +12,9 @@ You will find here the support pdf for the course **Machine Learning for physica
 - Lecture 1: [pdf](lecture-1.pdf)
 - Lecture 2: [pdf](lecture-2.pdf)
 
+### Notebooks demonstration in the course:
+- **Regression:** [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/brajard/MAT330/blob/master/notebooks/regression_example.ipynb)
+
 ### Main references of the course:
 - <https://jakevdp.github.io/PythonDataScienceHandbook/>
 - <http://www.deeplearningbook.org>
