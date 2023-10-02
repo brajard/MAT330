@@ -361,7 +361,7 @@ rf = RandomForestRegressor(n_estimators=n, max_features=maxf, min_samples_split=
 \begin{itemize}[<+->]
     \item \verb|n_estimators|: number of trees (generally the larger is the better)
     \item   \verb|max_features|: number of features to consider at each split. The default number is the total number of features. A larger value makes provides a smaller bias (accuracy) but a bigger variance (risk of overfitting)
-      \item \verb|min_samples_fit|: number of features to consider at each split. The minimum value of 2 means that the tree is fully developed (small bias but great variance).
+      \item \verb|min_samples_fit|: minimum number of features to consider at each split. The minimum value of 2 means that the tree is fully developed (small bias but great variance).
 \end{itemize}
 
 \end{frame}
@@ -937,62 +937,6 @@ Alex Krizhevsky and Geoffrey~E Hinton, \emph{{ImageNet Classification with Deep
 
     \end{figure}
 \end{frame}
-\section{A quick typology of few neural nets}
-%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Recurrent Neural Networks}
-    \begin{figure}
-        \centering
-        \includegraphics[width=.4\textwidth]{fig/L2/rnn.png}
-
-    \end{figure}
-
-Some popular types of recurrent neural networks:
-\begin{itemize}
-    \item Long short-term memory (LSTM)
-    \item Gated Reccurent Unit (GRU)
-\end{itemize}
-\alert{Used in machine translation and text processing}
-\end{frame}
-
-\begin{frame}{Autoencoders}
-    \begin{figure}
-        \centering
-        \includegraphics[width=.9\textwidth]{fig/L2/AE.png}
-
-    \end{figure}
-\alert{Used in image denoising, compressing, generation,...}
-    
-\end{frame}
-
-\begin{frame}{Generative adversarial networks}
-    \begin{figure}
-        \centering
-    \includegraphics[width=.9\textwidth]{fig/L2/GAN.png}
-  \end{figure}
-    
-\end{frame}
-
-\begin{frame}{Residual Networks}
-    \begin{columns}
-    \column{.5\textwidth}
-        \begin{figure}
-        \centering
-        \includegraphics[width=.9\textwidth]{fig/L2/res_block.png}
-
-    \end{figure}
-    $x$~: input, $y$~: output
-    $$
-    y = x + \mathcal{F}(x) 
-    $$
-    \pause
-    \column{.5\textwidth}
-            \begin{figure}
-        \centering
-        \includegraphics[height=.9\textheight,trim={4cm 0cm 0cm 0cm},clip]{fig/L2/resnet_full.png}
-
-    \end{figure}
-    \end{columns}
-\end{frame}
 
 
 \section{Optimization using gradient descent}
@@ -1464,22 +1408,6 @@ The objective is to understand how the machine learning makes a prediction (e.g.
 
 
 
-%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Questions addressed in this lecture}
-    \begin{itemize}
-        \item What is gradient backpropagation? [GBC16,6]
-        \item What are the different types of gradient descent techniques? [GBC16,8]
-        \item What are some other types of regularizations? [GBC16,7]
-        \item How machine learning can be related to data assimilation?
-    \end{itemize}
-
-\begin{footnotesize}
-\begin{block}{Refs}
-~[Van16,$n$]: Jake VanderPlas, \textit{Python Data Science Handbook}, section $n$\\
-~[GBC16,$n$]: Goodfellow etal., Deep Learning, chapter $n$
-\end{block}
-\end{footnotesize}
-\end{frame}
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
