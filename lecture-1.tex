@@ -153,11 +153,11 @@
 %Numéro du cours
 \newcommand{\nb}{1}
 
-\title[Machine Learning]{Machine learning and physical modelling-1}
+\title[Machine Learning]{Machine learning and (geo)physical modelling-1}
 \author[J. Brajard]{julien.brajard@nersc.no}
 \institute[NERSC]{NERSC\\
 \url{https://github.com/brajard/MAT330}}
-\date{October 2022}
+\date{October 2023}
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%% SLIDES DE TITRE
@@ -168,9 +168,9 @@
 %%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Overview of the next lectures}
     \begin{enumerate}
-        \item Lecture 1 (Thursday 06 Oct.): Generalities and  principles of Machine Learning
-        \item Lecture 2 (Thursday 20 Oct.): Neural networks, deep learning, training
-        \item Lecture 3 (Thursday 20 Oct.): Practical work
+        \item Lecture 1 (Tuesday 03 Oct. 2023):\\ Generalities and Principles of Machine Learning
+        \item Lecture 2 (Wednesday 04 Oct. 2023):\\ Neural networks, deep learning, training
+        \item Lecture 3 (Tuesday 24 Oct. 2023):\\ Practical work
 
     \end{enumerate}
     \vspace{2em}
@@ -183,7 +183,7 @@
 %%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{References}
     \bibliographystyle{alpha}
-    \nocite{chollet2021deep,VanderPlas-2016}
+    \nocite{chollet2021deep,VanderPlas-2016, Goodfellow-et-al-2016}
 \bibliography{myref.bib}
 \end{frame}
 
@@ -214,18 +214,12 @@
  \end{center}
  \rref[Source: NVidia]
  \end{frame}
- \begin{frame}{A (very) active field}
 
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{A (very) active field}
 \begin{figure}
-\includegraphics[width=.6\textwidth]{fig/L1/progress-papers.png}
+\includegraphics[width=.6\textwidth] {fig/L1/progress-ml.jpeg}
 \end{figure}
-
-\begin{figure}
-\includegraphics[width=.6\textwidth] {fig/L1/progress-ml.png}
-\end{figure}
-
-  \rref[Zhang et al., ``The AI Index 2021 Annual Report´´]
-
 \end{frame}
 
 
@@ -285,27 +279,7 @@ Deep learning architectures were based on Convolutional Neural Networks (CNN).
 
 %%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Example 2: Machine Translation}
-Objective : translate a text from a language to another.
-\begin{figure}
-\includegraphics[width=.5\textwidth]{fig/L1/progress-machine-translation.png}\\
-  \rref[Zhang et al., ``The AI Index 2021 Annual Report´´]
-
-\end{figure}
-
-\begin{itemize}
-\item {\bf Oct. 2013}: Pionneering scientic paper  (Kalchbrenner, N., and Blunsom, P).
-\item {\bf 2016}: Neural machine translation outperform traditional approaches on public benchmarks
-\item {\bf 2017}: Major systems  switch to
-  neural machine translation  (using deep recurrent neural networks)
-\end{itemize}
-\end{frame}
-
-
-
-%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Example 3: Playing Games}
+\frametitle{Example 2: Playing Games}
 \begin{columns}
 \column{.5\textwidth}
 \begin{itemize}
@@ -330,68 +304,69 @@ Objective : translate a text from a language to another.
  %   \end{figure}
 %\end{frame}
 
+
+
 %%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Text to image}
+\frametitle{Example 3: Text to image}
 Objective: Generate an image from a textual description.
 \begin{itemize}
 \item {\bf 2021}: DALL$\cdot$E
+\item {\bf 2022}: Midjourney
+\item {\bf 2022}: Stable diffusion
+
 \end{itemize}
 \pause
     \begin{figure}
         \centering
-        \includegraphics[width=0.9\textwidth]{fig/L1/text2image.png}
-       
+        \includegraphics[width=0.4\textwidth]{fig/L1/text2image.png}\\
+photography style with a 22mm lens of a handsome redheaded biker man with a short beard.\end{figure}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Text to image - Progress in free tools}
+A test on: {\small \url{https://deepai.org/machine-learning-model/text2img}}\\
+\vspace{1em}
+Prompt: \emph{``students attending a machine learning course''}
+    \pause
+\begin{columns}
+    \column{.5\textwidth}
+    \begin{figure}
+        \centering
+        Result in Oct. 2022
+        \includegraphics[width=\textwidth]{fig/L1/person_text2image.jpeg}
     \end{figure}
+
+            \pause
+
+\column{.5\textwidth}
+\begin{figure}
+    \centering
+    Result in Oct. 2023
+    \includegraphics[width=\textwidth]{fig/L1/generated_students_2023.jpeg}
+\end{figure}
+
+
+\end{columns}
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Limits?}
-A test on: \url{https://deepai.org/machine-learning-model/text2img}\\
-\vspace{1em}
-Text: \emph{``students attending a machine learning course''}
-    \pause
+\frametitle{Example 4: Large language models (LLM) }
+Examples: GPT-4 (OpenAI), LLaMA (Meta), PaLM 2 (Google)
+
+
     \begin{figure}
         \centering
-        \includegraphics[width=0.5\textwidth]{fig/L1/person_text2image.jpeg}
-       
-    \end{figure}
+        How I tried to delegate my job\\
+        \includegraphics[width=0.7\textwidth]{fig/L1/chatGPT2.png}\\
+\end{figure}
 \end{frame}
 
-\begin{frame}{AI Art?}
-\begin{columns}[t]
-\column{.5\textwidth}
-\centering
-{\bf 2018}
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.7\textwidth]{fig/L3/478px-Edmond_de_Belamy.png}
-        \caption*{\footnotesize \textit{Edmond de Bellamy} by Obvious(collective)}
-    \end{figure}
-        \begin{footnotesize}
-    Generated using a Generative Adversarial Network.\\
-    Selling prince (Oct. 2018): \$432,000
-        \end{footnotesize}
 
-\pause
-    
-\column{.5\textwidth}
-\centering
-{\bf 2022}
-    \begin{figure}
-        \centering
-        \includegraphics[width=\textwidth]{fig/L1/theatre_opera.png}
-        \caption*{\footnotesize \textit{Theatre D'opera Spatial} by Jason M. Allen}
-    \end{figure}
-    \begin{footnotesize}
-    Generated using diffusion models.\\
-    Won Colorado Sate Fair'a annual art competition (Sept. 2022)    
-    \end{footnotesize}
-
-    \end{columns}
-
-\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -415,9 +390,9 @@ Text: \emph{``students attending a machine learning course''}
         \item <3-> Scientific research on new algorithms (e.g adapted to image processing)
                 \only<3> {
         \begin{figure}
-\includegraphics[width=.4\textwidth]{fig/L1/deep-art.jpg}
+\includegraphics[width=.7\textwidth]{fig/L1/diffusion_model.png}
 \end{figure}
-\rref[source: Deep Dream Generator]
+
 
 }      
 
@@ -469,6 +444,16 @@ Text: \emph{``students attending a machine learning course''}
     \end{itemize}
 \end{frame}
 
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{AI in physical sciences}
+\begin{figure}
+\includegraphics[width=.6\textwidth]{fig/L1/progress-mlinphysics.jpeg}
+\end{figure}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Why is physical modelling specific?}
 
 \begin{columns}
@@ -531,10 +516,30 @@ amount of data ?}
 \pause
 \begin{itemize}
 \item From high dimensional data (thousands to millions dimensions) to reduced dimensional data (less than 100)
-\item From disorganized data to comprehensive information
+\item From disorganized data to organized information
 \item \alert{Can we teach a machine how to do that ?}
 \end{itemize}
 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Two types of settings}
+
+\begin{enumerate}[<+->]
+\item \alert{Supervised learning}: we have a set of labeled data with examples of targets.
+\item \alert{Unsupervised learning}: we only have unlabeled the data, we have no examples of
+what we want to obtain. We want to extract a "useful" representation of these data or
+some coherent categories.
+\begin{itemize}
+\item Determine typical behaviors of clients in a supermarket knowing what they have bought.
+\end{itemize}
+\item \alert{Semi-Supervised Learning}: Only a few subsets of the data are labeled
+\item \alert{Reinforcement Learning}: We can initiate and observe the interaction of an agent with its environment. We want to optimize the behavior of the agent.
+\begin{itemize}
+\item Playing a chess game.
+\end{itemize}
+\end{enumerate}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -556,25 +561,7 @@ amount of data ?}
 \end{itemize}
 \end{enumerate}
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Two types of objectives}
 
-\begin{enumerate}[<+->]
-\item \alert{Supervised learning}: we have a set of labeled data with examples of targets.
-\item \alert{Unsupervised learning}: we only have unlabeled the data, we have no examples of
-what we want to obtain. We want to extract a "useful" representation of these data, or
-some coherent categories.
-\begin{itemize}
-\item Determine typical behaviors of clients in a supermarket knowing what the have bought.
-\end{itemize}
-\item \alert{Semi-Supervised Learning}: Only a few subset of the data are labeled
-\item \alert{Reinforcement Learning}: We can initiate and observe the interaction of an agent with its environment. We want to optimize the behavior of the agent.
-\begin{itemize}
-\item Playing a chess game.
-\end{itemize}
-\end{enumerate}
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -734,7 +721,7 @@ $y=\theta_0 + \theta_1 x + \theta_2 x^2 + \cdots + \theta_d x^d = \sum_{i=0}^d \
 %%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Train/Validation split}
 \begin{block}{The idea}
-Evaluate a score on a independent dataset
+Evaluate a score on an independent dataset
 \end{block}
 \pause
 In our example we can randomly divide $(X,y)$ in two datasets:
@@ -817,8 +804,8 @@ $y=\theta_0 + \theta_1 x + \theta_2 x^2 + \cdots + \theta_d x^d = \sum_{i=0}^d \
 \begin{frame}{Train/Validation split}
      \begin{block}{Drawbacks}
 \begin{itemize}
-    \item drastically reduce the number of samples which can be used for learning the model
-    \item Results  can depend on a particular random choice for the pair of (train, validation) sets.
+    \item drastically reduces the number of samples that can be used for learning the model
+    \item Results can depend on a particular random choice for the pair of (train, validation) sets.
 \end{itemize}
 \end{block}
 
@@ -882,7 +869,7 @@ $y=\theta_0 + \theta_1 x + \theta_2 x^2 + \cdots + \theta_d x^d = \sum_{i=0}^d \
     \item When applying machine learning techniques there are \alert{hyperparameters} to be determined (e.g., degree of the polynomial in polynomial regression).
     \item These \alert{hyperparameters}  can be determined by splitting the data into training/validation or by cross-validation.
     \item But then... the validation set was used to determine the best machine learning process
-    \item To evaluate independanly the performance of our model, we should compute the score on a \alert{third independant dataset: The test dataset}.
+    \item To evaluate independently the performance of our model, we should compute the score on a \alert{third independent dataset: The test dataset}.
     
 \end{enumerate}
 \pause
@@ -946,7 +933,7 @@ More on that in next lecture...
     Can be done iteratively in a cross-validation procedure.\\
     \alert {Some parameters of the model (e.g. polynomial order in a polynomial regression) were determined from the validation dataset.}
     \begin{itemize}
-        \item A test dataset (independent from the two other) to estimate the final performance of the model.
+        \item A test dataset (independent from the two others) to estimate the final performance of the model.
     \end{itemize}
 \end{frame}
 
@@ -955,9 +942,9 @@ More on that in next lecture...
 
 \begin{frame}{Type of features}
     \begin{itemize}[<+->]
-        \item quantitative/continuous features (e.g. distance to employment centres, temperature)
-        \item ordinal/discrete features (e.g. number of rooms, category of an hurricane)
-        \item categorical features (e.g. name of the neighbourhood, name of the ocean)
+        \item quantitative/continuous features (e.g. distance to employment centers, temperature)
+        \item ordinal/discrete features (e.g. number of rooms, category of a hurricane)
+        \item categorical features (e.g. name of the neighborhood, name of the ocean)
     \end{itemize}
     \pause
     \begin{alertblock}{Encoding of the features?}
@@ -989,12 +976,12 @@ Qualitative variable: one-hot encoding.
     \item You must \alert{not} encode qualitative features with integer $1,2,3$, it would mean that Pacific > Indian > Atlantic.
     \item In {\rm sklearn} there is a function that makes the one-hot encoding: {\rm OneHotEncoder()}
 
-    \item If the number of modalities (number of different features) is high, encoding qualitative feature produce a big-sized vector.
+    \item If the number of modalities (number of different features) is high, encoding qualitative feature produces a big-sized vector.
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Embedding}
-    A common way to deal with features with a lot of modalities : \alert{Embedding}
+    A common way to deal with features with a lot of modalities: \alert{Embedding}
     
     \begin{block}{Principle of embedding}
     Let's consider a qualitative variable with $n$ modalities, represented by the n-dimensional binary vector ${\bf x}$ 
@@ -1024,12 +1011,12 @@ ${\rm v}$ is 3-dimensional ($x$,$y$,size)
 \section{L1/L2 regularization}
 
 \begin{frame}
-\frametitle{Example of a non-linear relashonship}
+\frametitle{Example of a non-linear relationship}
 \begin{figure}
 \includegraphics[height=0.55\textheight]{./fig/L1/scatter.png}
 \end{figure}
 \begin{block}{An idea}
-We could take an polynomial hypothesis model:
+We could take a polynomial hypothesis model:
 $$
 h_{\bm{\theta}}(x) = \theta_0 x^0 + \theta_1 x^1 + \ldots + \theta_p x^p
 $$
@@ -1164,7 +1151,7 @@ $p=15$
 \begin{frame}
 \frametitle{Overfitting}
 \begin{block}{}
-When there is to many paramaters to fit, the model can reproduce 
+When there are too many parameters to fit, the model can reproduce 
 a random noise, it is called \alert{overfitting}
 \end{block}
 \pause
@@ -1201,7 +1188,7 @@ We consider two penalty terms:
 \begin{itemize}[<+->]
 \item \alert{Ridge Regularization (L2):} $P(\bm{\theta}) = \sum_{i=0}^p \theta_i^2$
 \item \alert{Lasso Regularization (L1):} $P(\bm{\theta}) = \sum_{i=0}^p |\theta_i|$
-\item Elastic Net combines both regularization
+\item Elastic Net combines both regularizations
 \end{itemize}
 
 \end{frame}
@@ -1392,13 +1379,13 @@ The update rule is:
 \begin{itemize}
 \item Prevents the overfitting
 \item includes all the features (dimensions) of the predictor, 
-so it can be useless for high dimensional predictors
+so it can be useless for high-dimensional predictors
 \end{itemize}
 \end{exampleblock}
 \pause
 \begin{alertblock}{Lasso (L1)}
 \begin{itemize}
-\item Provides sparse solutions and reduce the dimension of the
+\item Provides sparse solutions and reduces the dimension of the
 predictor
 \item If some features in the predictor are correlated, arbitrarily select
 one from the others.
@@ -1408,7 +1395,7 @@ one from the others.
 
 %%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{In a neural network}
-L2 (Ridge) and L1 (Lasso) regularization are widely use in Neural Network architectures.
+L2 (Ridge) and L1 (Lasso) regularization are widely used in Neural Network architectures.
 \begin{figure}
     \centering
  \begin{tikzpicture}[%
@@ -1452,7 +1439,7 @@ L1/L2 regularization prevents overfitting even for large architecture (a big wei
 \vspace{2em}
 \pause
 \begin{alertblock}{But...}
-It comes with extra hyperparameter to tune (using, e.g., cross-validation): $\alpha$
+It comes with an extra hyperparameter to tune (using, e.g., cross-validation): $\alpha$
 \end{alertblock}
 \end{frame}
 
@@ -1468,8 +1455,8 @@ It comes with extra hyperparameter to tune (using, e.g., cross-validation): $\al
 %%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Questions addressed in this lecture}
     \begin{itemize}
-        \item What are the more common area of application of machine learning? \cite[1]{chollet2021deep}
-        \item What are the different class of ML problems? \cite[5.1]{VanderPlas-2016}
+        \item What are the more common areas of application of machine learning? \cite[1]{chollet2021deep}
+        \item What are the different classes of ML problems? \cite[5.1]{VanderPlas-2016}
         \item What are the different types of learning (supervised, ...)?  \cite[5.1]{VanderPlas-2016}
         \item How to validate/select a model? \cite[5.3]{VanderPlas-2016}
         \item What is the cross-validation? \cite[5.3]{VanderPlas-2016}
