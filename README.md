@@ -14,6 +14,8 @@ You will find here the support pdf for the course **Machine Learning for physica
 
 ### Notebooks demonstration in the course:
 - **Regression:** [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/brajard/MAT330/blob/master/notebooks/regression_example.ipynb)
+- **Regression tree:** [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/brajard/MAT330/blob/master/notebooks/Regression_tree_example.ipynb)
+- **Random Forest:** [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/brajard/MAT330/blob/master/notebooks/random_forest_example.ipynb)
 
 ### Main references of the course:
 - <https://jakevdp.github.io/PythonDataScienceHandbook/>
