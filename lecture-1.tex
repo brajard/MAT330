@@ -157,7 +157,7 @@
 \author[J. Brajard]{julien.brajard@nersc.no}
 \institute[NERSC]{NERSC\\
 \url{https://github.com/brajard/MAT330}}
-\date{October 2023}
+\date{October 2025}
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%% SLIDES DE TITRE
@@ -168,9 +168,9 @@
 %%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Overview of the next lectures}
     \begin{enumerate}
-        \item Lecture 1 (Tuesday 03 Oct. 2023):\\ Generalities and Principles of Machine Learning
-        \item Lecture 2 (Wednesday 04 Oct. 2023):\\ Neural networks, deep learning, training
-        \item Lecture 3 (Tuesday 24 Oct. 2023):\\ Practical work
+        \item Lecture 1 (Tuesday 21 Oct. 2023):\\ Generalities and Principles of Machine Learning
+        \item Lecture 2 (Wednesday 23 Oct. 2023):\\ Neural networks, deep learning, training
+        \item Lecture 3 (Tuesday 30 Oct. 2023):\\ Practical work
 
     \end{enumerate}
     \vspace{2em}
@@ -181,10 +181,14 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{References}
+\begin{frame}[shrink=20]{References}
+    \begingroup
+     \fontsize{2}{3}
+
     \bibliographystyle{alpha}
-    \nocite{chollet2021deep,VanderPlas-2016, Goodfellow-et-al-2016}
-\bibliography{myref.bib}
+    \nocite{chollet2021deep,VanderPlas-2016, Goodfellow-et-al-2016, zhang2023dive}
+    \bibliography{myref.bib}
+    \endgroup
 \end{frame}
 
 \begin{frame}{Table of contents}
@@ -218,7 +222,7 @@
 %%%%%%%%%%%%%%%%%%%%
 \begin{frame}{A (very) active field}
 \begin{figure}
-\includegraphics[width=.6\textwidth] {fig/L1/progress-ml.jpeg}
+\includegraphics[width=1.\textwidth] {fig/L1/progress-ml.png}
 \end{figure}
 \end{frame}
 
@@ -241,7 +245,7 @@
 \framesubtitle{Image Net Large Scale Recogonition Challenge (ILSVRC)}
 \begin{figure}
 
-\begin{tikzpicture} [scale=0.8, every node/.style={scale=0.6}]
+\begin{tikzpicture} [scale=0.9, every node/.style={scale=0.6}]
   \begin{axis}[ 
     x tick label style={ 
       /pgf/number format/1000 sep=}, 
@@ -281,18 +285,23 @@ Deep learning architectures were based on Convolutional Neural Networks (CNN).
 \begin{frame}
 \frametitle{Example 2: Playing Games}
 \begin{columns}
-\column{.5\textwidth}
+\column{.65\textwidth}
 \begin{itemize}
 \item {\bf 1997}: Deep Blue defeats Kasparov at Chess.
 \item {\bf 2016}: AlphaGo's victory again Lee Sedol at Go.
+\end{itemize}
+\column{.35\textwidth}
+\includegraphics[width=\textwidth]{fig/L1/alphago.jpg}
+\end{columns}
+\begin{itemize}
+
 \item {\bf 2017}: AphaGo Zero learns how to play Go only by playing against
   itself. It outperformed previous AlphaGo version (Reinforcement
   learning)
 \item {\bf 2017}: DeepStack beats professional human poker players.
+
 \end{itemize}
-\column{.5\textwidth}
-\includegraphics[width=\textwidth]{fig/L1/alphago.jpg}
-\end{columns}
+
 \end{frame}
 
 %\begin{frame}{Example 4: Protein folding}
@@ -312,8 +321,8 @@ Deep learning architectures were based on Convolutional Neural Networks (CNN).
 Objective: Generate an image from a textual description.
 \begin{itemize}
 \item {\bf 2021}: DALL$\cdot$E
-\item {\bf 2022}: Midjourney
-\item {\bf 2022}: Stable diffusion
+\item {\bf 2022}: Midjourney and Stable diffusion
+\item Since {\bf 2022}: all over the place
 
 \end{itemize}
 \pause
@@ -332,7 +341,7 @@ A test on: {\small \url{https://deepai.org/machine-learning-model/text2img}}\\
 Prompt: \emph{``students attending a machine learning course''}
     \pause
 \begin{columns}
-    \column{.5\textwidth}
+    \column{.33\textwidth}
     \begin{figure}
         \centering
         Result in Oct. 2022
@@ -341,11 +350,20 @@ Prompt: \emph{``students attending a machine learning course''}
 
             \pause
 
-\column{.5\textwidth}
+\column{.33\textwidth}
 \begin{figure}
     \centering
     Result in Oct. 2023
     \includegraphics[width=\textwidth]{fig/L1/generated_students_2023.jpeg}
+\end{figure}
+
+            \pause
+
+\column{.33\textwidth}
+\begin{figure}
+    \centering
+    Result in Oct. 2025
+    \includegraphics[width=\textwidth]{fig/L1/text2image_2025.jpeg}
 \end{figure}
 
 
@@ -356,13 +374,13 @@ Prompt: \emph{``students attending a machine learning course''}
 %%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle{Example 4: Large language models (LLM) }
-Examples: GPT-4 (OpenAI), LLaMA (Meta), PaLM 2 (Google)
+Examples: GPT-5 (OpenAI), LLaMA 4(Meta AI), Gemini 2.5 (Google DeepMind), DeepSeek3.2 (DeepSeek).
 
 
     \begin{figure}
         \centering
         How I tried to delegate my job\\
-        \includegraphics[width=0.7\textwidth]{fig/L1/chatGPT2.png}\\
+        \includegraphics[width=0.7\textwidth]{fig/L1/outline_chatbot.png}\\
 \end{figure}
 \end{frame}
 
@@ -375,14 +393,14 @@ Examples: GPT-4 (OpenAI), LLaMA (Meta), PaLM 2 (Google)
         \item Increasing of the datasets in size and quality
         \only<1> {
         \begin{figure}
-\includegraphics[width=.6\textwidth]{fig/L1/Wikipedia_article_size_in_gigabytes.png}
+\includegraphics[width=.8\textwidth]{fig/L1/Wikipedia_article_size_in_gigabytes.png}
 \end{figure}
-\rref[source: Wikipedia]
+\rref[source: wikimedia.org]
 }
         \item <2-> Progress in computing resources.
         \only<2> {
         \begin{figure}
-\includegraphics[width=.6\textwidth]{fig/L1/evolution-gpu.png}
+\includegraphics[width=.4\textwidth]{fig/L1/evolution-gpu.png}
 \end{figure}
 \rref[source: NVDIA]
 }        
@@ -399,10 +417,11 @@ Examples: GPT-4 (OpenAI), LLaMA (Meta), PaLM 2 (Google)
 \item<4-> Very efficient software (GPU, cloud computing, automatic differentiation, ...)
 \only<4> {
 \begin{center}
-    \begin{tabular}{ccc}
-        \includegraphics[width=.25\textwidth]{fig/L1/TensorFlowLogo.png} &  
-         \includegraphics[width=.25\textwidth]{fig/L1/keraslogo.png}& 
-         \includegraphics[width=.25\textwidth]{fig/L1/pytorchlogo.png}\\
+    \begin{tabular}{cccc}
+        \includegraphics[width=.16\textwidth]{fig/L1/TensorFlowLogo.png} &  
+         \includegraphics[width=.18\textwidth]{fig/L1/keraslogo.png}& 
+        \includegraphics[width=.18\textwidth]{fig/L1/pytorchlogo.png}&
+         \includegraphics[width=.24\textwidth]{fig/L1/lightninglogo.png}\\
     \end{tabular}
 \end{center}
 }
@@ -481,8 +500,8 @@ Examples: GPT-4 (OpenAI), LLaMA (Meta), PaLM 2 (Google)
 \begin{frame}{What about data assimilation?}
     \alert{Machine learning and data assimilation are closely linked.}\\
  { \footnotesize   
-     Some references:
  \begin{itemize}
+    \item Cheng, Sibo, et al., 2023. Machine learning with data assimilation and uncertainty quantification for dynamical systems: a review. {\it IEEE/CAA Journal of Automatica Sinica} 10.6:1361-1387.
      \item Geer, A.J., 2021. Learning earth system models from observations: machine learning or data assimilation?. {\it Philosophical Transactions of the Royal Society A}, 379(2194)
      \item  Brajard  et al. 2019. Connections between data assimilation and machine learning to emulate a numerical model. {\it Proceedings of the 9th International Workshop on Climate informatics}
      \item Bocquet et al. 2019. Data assimilation as a learning tool to infer ordinary differential equation representations of dynamical models. {\it Nonlinear processes in geophysics.} 26(3).
@@ -532,9 +551,12 @@ amount of data ?}
 what we want to obtain. We want to extract a "useful" representation of these data or
 some coherent categories.
 \begin{itemize}
-\item Determine typical behaviors of clients in a supermarket knowing what they have bought.
+\item Determine typical behaviours of clients in a supermarket knowing what they have bought.
 \end{itemize}
-\item \alert{Semi-Supervised Learning}: Only a few subsets of the data are labeled
+\item \alert{Semi-Supervised Learning}: The training is supervised by the data itself
+\begin{itemize}
+\item time series forecasting.
+\end{itemize}
 \item \alert{Reinforcement Learning}: We can initiate and observe the interaction of an agent with its environment. We want to optimize the behavior of the agent.
 \begin{itemize}
 \item Playing a chess game.
@@ -544,7 +566,7 @@ some coherent categories.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Two classes of Machine Learning problems}
+\frametitle{Two classes of (self)-supervised learning problems}
 \begin{enumerate}
 \item \alert{Regression}: Determination of a quantitative variable from a set of data
 \begin{itemize}
@@ -601,7 +623,7 @@ What are \alert{the ingredients}?
     \begin{itemize}
         \item $x,y$ : supervised learning
         \item only $x$: unsupervised learning
-        \item $x$ and some subset of $y$: semi-supervised learning
+        \item $y$ is a subset of $x$: self-supervised learning
     \end{itemize}
     
     
@@ -659,7 +681,7 @@ Generally, we have multidimensional data $X$ and a one-dimensional target $y$.
     \end{figure}
 
     \begin{itemize}
-    \item $y$ is known: supervised learning
+    \item some values of $y$ are known: supervised learning
     \item $y$ is quantitative: regression
     \end{itemize}
 \pause
@@ -937,8 +959,94 @@ More on that in next lecture...
     \end{itemize}
 \end{frame}
 
+\begin{frame}{Additional Comments}
+    \begin{figure}
+        \centering
+        \tikzstyle{block} = [rectangle, draw, fill=blue!20, text width=7em, text centered, rounded corners, minimum height=4em]
+        \tikzstyle{line} = [draw, ->]
+        \tikzstyle{back} = [draw, ->, very thick, red]
+
+        \begin{tikzpicture}[auto, node distance=1cm and 2cm]
+            \node [block] (evaluate) {Evaluate model};
+        \end{tikzpicture}
+    \end{figure}
+
+    \alert{Model evaluation is a critical step in the machine learning pipeline. Key considerations include:}
+
+    \begin{itemize}
+        \item Is the dataset and evaluation metric unbiased? Do they accurately reflect the desired model performance?
+        \item Is there a simpler model that performs sufficiently well? Avoid proposing complex machine learning solutions when a simpler approach is more effective.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Adequate metric}
+A typical metric for classification problems is the {\bf accuracy}:
+$$
+\mathrm{acc}=\frac{TP+TN}{T+N}$$\\
+\begin{footnotesize}
+$TP$: True Positive (number of positive results correctly classified)\\
+$TN$: True Negative (number negative results correctly classified)\\
+$P$: Number of positive examples\\
+$N$: Number of negative examples\\
+\end{footnotesize}
+\pause
+\begin{block}{Example of Credit Card Fraud Detection}
+\alert{Objective}: Predict if a credit card operation is fraudulent \\
+In the dataset, frauds (positive class) are  {\bf 0.172\%} of the cases.
+{\tiny \url{https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud}}\\
+\end{block}
+\pause
+Predicting always the negative class: acc={\bf 99.828\%} !!!\\
+\alert{Accuracy is not a adequat metric in this case}\\
+\pause
+Other metric: $$\mathrm{recall}=\frac{TP}{P}$$
+\end{frame}
+
+
+
+\begin{frame}{Always define a baseline}
+\begin{block}{Example: Weather Forecast}
+Imagine we have a model predicting "rain" or "no-rain" the day after with an accuracy of 75\%.\\
+\alert{Is it good?}
+\end{block}
+\pause
+   \begin{figure}
+    \includegraphics[width=.6\textwidth]{fig/L1/yr_snapshot.png}
+    \end{figure}
+\alert{A very simple baseline: the persistence.}\\
+Predict that the day after is the same as the day before\\
+\pause
+Accuracy of persistence: 80\%\\
+\begin{center}
+     \alert{In this case, a ML model should do better than 80\% to be considered.}
+\end{center}
+   
+
+\end{frame}
+
+\begin{frame}
+      \begin{figure}
+    \includegraphics[width=1.\textwidth]{fig/L1/kahoot.jpeg}
+    
+    \end{figure}
+\end{frame}
+
 \section{Feature processing}
 
+\begin{frame}{Structure of the features}
+    \begin{block}{What is a feature?}
+        It is a measurable property of the data.
+    \end{block}
+    Orgnisation of the features:
+    
+    \begin{tabular}{p{.2\textwidth}|p{.22\textwidth}|p{.2\textwidth}|p{.2\textwidth}}
+        \alert{Scalar} & \alert{Image/Tensor} & \alert{Sequence} & \alert{Unstructured}\\
+        {\footnotesize number of room of a house, profession, ...} &
+        {\footnotesize  values of a pixel in a image} &
+        {\footnotesize time series, text} &
+        {\footnotesize available paths in a city map}
+    \end{tabular}
+\end{frame}
 
 \begin{frame}{Type of features}
     \begin{itemize}[<+->]
@@ -998,14 +1106,84 @@ Qualitative variable: one-hot encoding.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{one example: word cloud}
-On the introduction of the \textit{Evensen et al.} book.\\
-${\rm v}$ is 3-dimensional ($x$,$y$,size)
+%\begin{frame}{one example: word cloud}
+%On the introduction of the \textit{Evensen et al.} book.\\
+%${\rm v}$ is 3-dimensional ($x$,$y$,size)
+%\begin{figure}
+%    \includegraphics[trim={2cm 28cm 2cm 28cm},clip,width=.75\textwidth]{fig/L1/wordcloud.png}
+%\end{figure}
+%{\footnotesize
+%\href{https://www.wordclouds.com}{https://www.wordclouds.com}}
+%\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Embedding for Large Language Models (LLM)}
+
 \begin{figure}
-    \includegraphics[trim={2cm 28cm 2cm 28cm},clip,width=.75\textwidth]{fig/L1/wordcloud.png}
+    \centering
+    \includegraphics[width=\linewidth]{fig/L1/embedding_matrix.png}
 \end{figure}
-{\footnotesize
-\href{https://www.wordclouds.com}{https://www.wordclouds.com}}
+\pause
+\begin{columns}
+    \column{.5\textwidth}
+    \begin{figure}
+        \centering
+    \includegraphics[width=1.\linewidth]{fig/L1/embedding_process.png}
+\end{figure}
+\pause
+    \column{.5\textwidth}
+    Embeddings of similar words are close:
+        \begin{figure}
+        \centering
+    \includegraphics[width=1.\linewidth]{fig/L1/tower_trimed.png}
+\end{figure}
+\end{columns}
+\rref[https://www.3blue1brown.com/lessons/gpt]
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{The notion of direction}
+
+\begin{figure}
+\centering
+\only<1>{
+\includegraphics[width=.6\linewidth]{fig/L1/direction1.png}
+}
+\only<2>{
+\includegraphics[width=.6\linewidth]{fig/L1/direction2.png}
+}
+
+
+
+\end{figure}
+
+\rref[https://www.3blue1brown.com/lessons/gpt]
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{The space of embedding encodes some "meaning"}
+
+
+        \begin{figure}
+        \centering
+    \includegraphics[width=.8\linewidth]{fig/L1/queen.png}
+\end{figure}
+
+
+\pause
+
+        \begin{figure}
+        \centering
+    \includegraphics[width=.9\linewidth]{fig/L1/gender.png}
+\end{figure}
+
+\rref[https://www.3blue1brown.com/lessons/gpt]
+\hfill More in the next lesson.
+
 \end{frame}
 
 \section{L1/L2 regularization}
@@ -1453,25 +1631,25 @@ It comes with an extra hyperparameter to tune (using, e.g., cross-validation): $
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Questions addressed in this lecture}
-    \begin{itemize}
-        \item What are the more common areas of application of machine learning? \cite[1]{chollet2021deep}
-        \item What are the different classes of ML problems? \cite[5.1]{VanderPlas-2016}
-        \item What are the different types of learning (supervised, ...)?  \cite[5.1]{VanderPlas-2016}
-        \item How to validate/select a model? \cite[5.3]{VanderPlas-2016}
-        \item What is the cross-validation? \cite[5.3]{VanderPlas-2016}
-        \item How to encode qualitative features? \cite[5.4]{VanderPlas-2016}
-        \item What is L1(Lasso)/L2(Ridge) regularization? \cite[5.6]{VanderPlas-2016};\cite[4.4]{chollet2021deep}
+%\begin{frame}[fragile]{Questions addressed in this lecture}
+  %  \begin{itemize}
+  %      \item What are the more common areas of application of machine learning? \cite[1]{chollet2021deep}
+   %     \item What are the different classes of ML problems? \cite[5.1]{VanderPlas-2016}
+   %     \item What are the different types of learning %(supervised, ...)?  \cite[5.1]{VanderPlas-2016}
+   %     \item How to validate/select a model? \cite[5.3]{VanderPlas-2016}
+  %      \item What is the cross-validation? \cite[5.3]{VanderPlas-2016}
+  %      \item How to encode qualitative features? \cite[5.4]{VanderPlas-2016}
+   %     \item What is L1(Lasso)/L2(Ridge) regularization? \cite[5.6]{VanderPlas-2016};\cite[4.4]{chollet2021deep}
 
-    \end{itemize}
+  %  \end{itemize}
 
-\begin{footnotesize}
-\begin{block}{Refs}
-\cite[$n$]{VanderPlas-2016}: Jake VanderPlas, \textit{Python Data Science Handbook}, section $n$\\
-\cite[$n$]{chollet2021deep}: Chollet, \textit{Deep Learning with Python}, chapter $n$
-\end{block}
-\end{footnotesize}
-\end{frame}
+%\begin{footnotesize}
+%\begin{block}{Refs}
+%\cite[$n$]{VanderPlas-2016}: Jake VanderPlas, \textit{Python Data Science Handbook}, section $n$\\
+%\cite[$n$]{chollet2021deep}: Chollet, \textit{Deep Learning with Python}, chapter $n$
+%\end{block}
+%\end{footnotesize}
+%\end{frame}
 
 
 

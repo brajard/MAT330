@@ -164,7 +164,7 @@
 \author[J. Brajard]{julien.brajard@nersc.no}
 \institute[NERSC]{NERSC\\
 \url{https://github.com/brajard/MAT330}}
-\date{October 2022}
+\date{October 2025}
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%% SLIDES DE TITRE
@@ -476,9 +476,32 @@ Illustration taken from Ryan P. Adams: "A Tutorial on Bayesian Optimization for 
     \end{figure}
     \rref[source: R.P. Adams]
     \end{frame}
+
+
+\begin{frame}{Choice of machine learning model}
+  Several criteria can be taken into account in the choice of the type of neural network:
+  \begin{itemize}
+      \item The \alert{size} of the dataset and \alert{complexity} of the problem
+      \begin{itemize}
+          \item \textbf{Small dataset/simple problem}: simple models like linear, ridge, lasso regression, random forest, ...
+          \item \textbf{Big dataset/complex problem}: Neural network, ...
+      \end{itemize}
+      \item the organization of the input features
+      \begin{itemize}
+          \item \textbf{scalar}: Random Forest, multi-layer perceptron, ...
+          \item \textbf{Image/Tensor}: Convolutional neural network, vision transformer, ...
+          \item \textbf{Sequence}: reccurent neural network, transformer, ...
+          \item \textbf{Unstructured}: graph neural network, ...
+      \end{itemize}
+      
+  \end{itemize}
+    
+  
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Neural Networks}
 
+\subsection{Perceptron}
 \begin{frame}
   \frametitle{The perceptron : an artificial neuron}
   \begin{tikzpicture}[
@@ -742,6 +765,7 @@ Dataset:
 
 \end{frame}
 
+
 \begin{frame}{How to proceed?}
 
 \begin{enumerate}[<+->]
@@ -765,6 +789,10 @@ Dataset:
  $$L = -\sum_i \sum_j y_{i,j}.\log{p_{i,j}}$$
 \end{enumerate}    
 \end{frame}
+
+
+
+
 
 
 \begin{frame}[fragile]{Convolutional neural net}
@@ -938,6 +966,180 @@ Alex Krizhevsky and Geoffrey~E Hinton, \emph{{ImageNet Classification with Deep
     \end{figure}
 \end{frame}
 
+% Frame 1: Initial sentence and first word table
+\begin{frame}[t]
+\frametitle{Large language model concept}
+The LLM constructs the sentence by sampling the next word from a list of words with associated probabilities:
+
+\begin{tikzpicture}[overlay, remember picture]
+  % Sentence
+  \node [text width=5cm, align=right]  (sentence) at (2,-1) {\textbf{As the spaceship was approaching the}};
+\pause
+
+    % Word table manually placed
+
+  \node (w1) [right=2cm of sentence] {
+     \only<1-2> {planet}
+     \only<3> {\textbf{\color{red}planet} (62.2)}
+     };
+  \node (w2) [below=0.2cm of w1] {surface (12.0)};
+  \node (w3) [below=0.2cm of w2] {station (9.0)};
+  \node (w4) [below=0.2cm of w3] {moon (8.5)};
+  \node (w5) [below=0.2cm of w4] {Earth (8.36)};
+  % Arrow from last word to table
+  \draw[->, thick] (sentence.east) -- ++(2,0) node[midway, above] {LLM};
+
+\end{tikzpicture}
+
+\end{frame}
+
+% Frame 2: Initial sentence and first word table
+\begin{frame}[t]
+\frametitle{Large language model concept}
+The LLM constructs the sentence by sampling the next word from a list of words with associated probabilities:
+
+\begin{tikzpicture}[overlay, remember picture]
+  % Sentence
+   \node [text width=5cm, align=right]  (sentence) at (2,-1) {\textbf{As the spaceship was approaching the planet}};
+
+    % Word table manually placed
+
+  \node (w1) [right=2cm of sentence] {\textbf{\color{red},} (74.7)};
+  \node (w2) [below=0.2cm of w1] {'s (16.7)};
+  \node (w3) [below=0.2cm of w2] {Earth (3.9)};
+  \node (w4) [below=0.2cm of w3] {in (2.4)};
+  \node (w5) [below=0.2cm of w4] {and (2.3)};
+  % Arrow from last word to table
+  \draw[->, thick] (sentence.east) -- ++(2,0) node[midway, above] {LLM};
+
+\end{tikzpicture}
+
+\end{frame}
+
+% Frame 3: Initial sentence and first word table
+\begin{frame}[t]
+\frametitle{Large language model concept}
+The LLM constructs the sentence by sampling the next word from a list of words with associated probabilities:
+
+\begin{tikzpicture}[overlay, remember picture]
+  % Sentence
+  \node [text width=5cm, align=right]  (sentence) at (2,-1) {\textbf{As the spaceship was approaching the planet,}};
+
+    % Word table manually placed
+
+  \node (w1) [right=2cm of sentence] {the (57.4)};
+  \node (w2) [below=0.2cm of w1] {\textbf{\color{red}it} (21.2)};
+  \node (w3) [below=0.2cm of w2] {a (14.6)};
+  \node (w4) [below=0.2cm of w3] {he (4.3)};
+  \node (w5) [below=0.2cm of w4] {its (2.5)};
+  % Arrow from last word to table
+  \draw[->, thick] (sentence.east) -- ++(2,0) node[midway, above] {LLM};
+
+\end{tikzpicture}
+
+\end{frame}
+
+% Frame 3: Initial sentence and first word table
+\begin{frame}[t]
+\frametitle{Large language model concept}
+The LLM constructs the sentence by sampling the next word from a list of words with associated probabilities:
+
+\begin{tikzpicture}[overlay, remember picture]
+  % Sentence
+  \node [text width=5cm, align=right]  (sentence) at (2,-1) {\textbf{As the spaceship was approaching the planet, it}};
+
+    % Word table manually placed
+
+  \node (w1) [right=2cm of sentence] {\textbf{\color{red}was}(69.4)};
+  \node (w2) [below=0.2cm of w1] {began (11.4)};
+  \node (w3) [below=0.2cm of w2] {had (8.1)};
+  \node (w4) [below=0.2cm of w3] {suddenly (6.3)};
+  \node (w5) [below=0.2cm of w4] {could (4.8)};
+  % Arrow from last word to table
+  \draw[->, thick] (sentence.east) -- ++(2,0) node[midway, above] {LLM};
+
+\end{tikzpicture}
+
+\end{frame}
+
+% Frame 4: Initial sentence and first word table
+\begin{frame}[t]
+\frametitle{Large language model concept}
+The LLM constructs the sentence by sampling the next word from a list of words with associated probabilities:
+
+\begin{tikzpicture}[overlay, remember picture]
+  % Sentence
+   \node [text width=5cm, align=right]  (sentence) at (2,-1) {\textbf{As the spaceship was approaching the planet, it was}};
+
+    % Word table manually placed
+
+  \node (w1) [right=2cm of sentence] {suddenly(27.0)};
+  \node (w2) [below=0.2cm of w1] {discovered (19.4)};
+  \node (w3) [below=0.2cm of w2] {able (18.6)};
+  \node (w4) [below=0.2cm of w3] {not (18.5)};
+  \node (w5) [below=0.2cm of w4] {\textbf{\color{red}already} (16.4)};
+  % Arrow from last word to table
+  \draw[->, thick] (sentence.east) -- ++(2,0) node[midway, above] {LLM};
+
+\end{tikzpicture}
+
+\end{frame}
+
+% Frame 5: Initial sentence and first word table
+\begin{frame}[t]
+\frametitle{Large language model concept}
+The LLM constructs the sentence by sampling the next word from a list of words with associated probabilities:
+
+\begin{tikzpicture}[overlay, remember picture]
+  % Sentence
+   \node [text width=5cm, align=right]  (sentence) at (2,-1) {\textbf{As the spaceship was approaching the planet, it was already}};
+
+    % Word table manually placed
+  \node (w1) [right=2cm of sentence] {too(46.1)};
+  \node (w2) [below=0.2cm of w1] {dark (16.3)};
+  \node (w3) [below=0.2cm of w2] {in (14.5)};
+  \node (w4) [below=0.2cm of w3] {\textbf{\color{red}a} (11.9)};
+  \node (w5) [below=0.2cm of w4] {approaching (11.3)};
+  % Arrow from last word to table
+  \draw[->, thick] (sentence.east) -- ++(2,0) node[midway, above] {LLM};
+
+\end{tikzpicture}
+
+\end{frame}
+
+% Frame 6: Initial sentence and first word table
+\begin{frame}[t]
+\frametitle{Large language model concept}
+The LLM constructs the sentence by sampling the next word from a list of words with associated probabilities:
+
+\begin{tikzpicture}[overlay, remember picture]
+  % Sentence
+  \node [text width=5cm, align=right]  (sentence) at (2,-1) {\textbf{As the spaceship was approaching the planet, it was already a}};
+
+    % Word table manually placed
+
+  \node (w1) [right=2cm of sentence] {long(39.0)};
+  \node (w2) [below=0.2cm of w1] {very (19.7)};
+  \node (w3) [below=0.2cm of w2] {little (16.6)};
+  \node (w4) [below=0.2cm of w3] {few (15.5)};
+  \node (w5) [below=0.2cm of w4] {bit (9.1)};
+  % Arrow from last word to table
+  \draw[->, thick] (sentence.east) -- ++(2,0) node[midway, above] {LLM};
+
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{How does a LLM process the text?}
+\begin{enumerate}
+    \item Transform the words in an embedded text
+    \item By accounting from other embedded values in the prompt (Attention mechanism), modify the embedding
+    \item repeat the previous steps several times
+    \item Predict the output embedding from the modified embedding corresponding to the last word
+    \item propose a series of corresponding word from the output embedding
+\end{enumerate}
+    
+\end{frame}
 
 \section{Optimization using gradient descent}
 \begin{frame}{What is gradient descent}
